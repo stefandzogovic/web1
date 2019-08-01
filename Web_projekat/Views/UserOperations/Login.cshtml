@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Login</title>
+    <script src="~/Scripts/angular.min.js"></script>
+</head>
+<body  ng-app>
+    <div>
+        <form name="form" novalidate>
+            <input type="text" placeholder="Enter Username" name="username" ng-required="true" ng-model="user.username" />
+            <p ng-show="form.username.$invalid && form.username.$touched">Enter a valid username.</p>
+            <input type="password" placeholder="Enter Password" name="password" ng-required="true" ng-minlength="6" ng-maxlength="20" ng-model="user.paswword" />
+            <p ng-show="form.password.$invalid && form.password.$touched">Required.</p>
+            <p ng-show="form.password.$dirty && form.password.$error.minlength">Too short.</p>
+            <p ng-show="form.password.$invalid && form.password.$error.maxlength">Too long.</p>
+            <input type="submit" value="Register" class="btn btn-primary" ng-disabled="form.$invalid" />
+        </form>
+    </div>
+
+
+  
+
+
+</body>
+</html>

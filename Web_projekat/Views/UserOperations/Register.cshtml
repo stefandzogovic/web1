@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="~/Scripts/angular.min.js"></script>
+
+</head>
+<body ng-app>
+    <div>
+        {{user}}
+        <form name="form" novalidate>
+            <input type="text" placeholder="Enter Name" name="name" ng-required="true" ng-model="user.name" />
+            <p ng-show="form.name.$invalid && form.name.$touched">Enter a valid name.</p>
+            <input type="text" placeholder="Enter Surname" name="surname" ng-required="true" ng-model="user.surname" />
+            <p ng-show="form.surname.$invalid && form.surname.$touched">Enter a valid surname.</p>
+            <input type="text" placeholder="Enter Username" name="username" ng-required="true" ng-model="user.username" />
+            <p ng-show="form.username.$invalid && form.username.$touched">Enter a valid username.</p>
+            <input type="password" placeholder="Enter Password" name="password" ng-required="true" ng-minlength="6" ng-maxlength="20" ng-model="user.paswword" />
+            <p ng-show="form.password.$invalid && form.password.$touched">Required.</p>
+            <p ng-show="form.password.$dirty && form.password.$error.minlength">Too short.</p>
+            <p ng-show="form.password.$invalid && form.password.$error.maxlength">Too long.</p>
+            <input type="email" placeholder="e-mail" name="email" ng-required="true" ng-model="user.email" />
+            <p ng-show="form.email.$invalid && form.email.$dirty">Enter a valid email.</p>
+            <input type="submit" value="Register" class="btn btn-primary" ng-disabled="form.$invalid" />
+        </form>
+
+        <!-- <div ng-controller="CalculatorController">
+                  {{a}} {{b}}
+                  <p> Number 1 <input type="number" ng-change="AddNumbers()" ng-model="a"></p>
+                  <p> Number 2 <input type="number" ng-change="AddNumbers()" ng-model="b"></p>
+                  <p> Addition is {{AddNumbers()}} </p>
+              </div>
+        !-->
+    </div>
+
+    <!--</h1> <script type="text/javascript">
+            angular.module("CalculatorApp", [])
+                .controller("CalculatorController", ['$scope', function ($scope) {
+                    $scope.AddNumbers = function () {
+                        var a = parseInt($scope.a || 0);
+                        var b = parseInt($scope.b || 0);
+                        $scope.sum = a + b;
+                    }
+
+                }]);
+        </script>
+    !-->
+</body>
+</html>

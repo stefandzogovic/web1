@@ -129,7 +129,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\User\Registered_users.cs" />
+    <Compile Include="Models\User\Admini.cs" />
     <Compile Include="Models\User\Role.cs" />
     <Compile Include="Models\User\Sex.cs" />
     <Compile Include="Models\User\User.cs" />
@@ -171,6 +171,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\UserOperations\Register.cshtml" />
     <Content Include="Views\UserOperations\Login.cshtml" />
+    <Content Include="Views\UserOperations\Registerr.cshtml" />
+    <Content Include="Views\Home\Layouts\AdminLayout.cshtml" />
+    <Content Include="Views\Home\Layouts\HostLayout.cshtml" />
+    <Content Include="Views\Home\Layouts\GuestLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

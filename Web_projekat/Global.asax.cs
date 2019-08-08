@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Web_projekat.Models.User;
 
 namespace Web_projekat
 {
@@ -14,6 +15,9 @@ namespace Web_projekat
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            Admini admini = new Admini("~/App_Data/admini.txt");
+            HttpContext.Current.Application["admini"] = admini;
         }
     }
 }

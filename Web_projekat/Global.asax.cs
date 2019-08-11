@@ -18,6 +18,9 @@ namespace Web_projekat
 
             Admini admini = new Admini("~/App_Data/admini.txt");
             HttpContext.Current.Application["admini"] = admini;
+
+            Users users = new Users();
+            HttpContext.Current.Application["users"] = users;
         }
     }
 }

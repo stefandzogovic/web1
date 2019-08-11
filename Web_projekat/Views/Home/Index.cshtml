@@ -1,6 +1,27 @@
-﻿@{
+﻿@using Web_projekat.Models.User;
+
+
+@{
     ViewBag.Title = "Home Page";
+    Layout = null;
 }
+
+@{ 
+        switch(ViewBag.user.role)
+        {
+            case Role.Admin:
+                Layout = "Layouts/AdminLayout.cshtml";
+                break;
+            case Role.Guest:
+                Layout = "Layouts/GuestLayout.cshtml";
+                break;
+            case Role.Host:
+                Layout = "Layouts/HostLayout.cshtml";
+                break;
+        }
+    }
+
+
 
 <html>
 
@@ -11,6 +32,8 @@
 
 <body>
     <h3>
+        @ViewBag.user.name
+        @ViewBag.user.role
         Welcome to the site.
     </h3>
     <br/>

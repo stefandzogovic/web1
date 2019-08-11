@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web_projekat.Models.User;
 
 namespace Web_projekat.Controllers
 {
@@ -10,20 +11,23 @@ namespace Web_projekat.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
+            Admini admini = (Admini)HttpContext.Application["admini"];
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+            User sc = (User)Session["user"];
+            if (sc == null)
+            {
+                sc = new Models.User.User();
+                Session["user"] = sc;
+            }
 
-            return View();
-        }
+            Users users = (Users)Session["users"];
+            if (users == null)
+            {
+                users = new Users();
+                Session["users"] = users;
+            }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
+            ViewBag.user = sc;
             return View();
         }
     }

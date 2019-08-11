@@ -3,6 +3,7 @@
     ViewBag.Title = "Register";
 }
 
+
 <html lang="en">
 <head>
     <meta charset="utf-8" content="width=device-width" />
@@ -13,7 +14,7 @@
 <body ng-app>
     <div>
         {{user}}
-        <form name="form" novalidate>
+        <form name="form" method="post" action="~/UserOperations/Registerr" novalidate>
             <input type="text" placeholder="Enter Name" name="name" ng-required="true" ng-model="user.name" />
             <p ng-show="form.name.$invalid && form.name.$touched">Enter a valid name.</p>
             <input type="text" placeholder="Enter Surname" name="surname" ng-required="true" ng-model="user.surname" />

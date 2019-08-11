@@ -1,0 +1,81 @@
+﻿@using Web_projekat.Models.User;
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body onload="loadImage()">
+
+    <script>
+        function loadImage() {
+            alert("Image is loaded");
+        }
+    </script>
+   
+    <form method="post" action="~/UserOperations/AdminChangeRole">
+
+        <table border="1" class="tabela">
+
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Surname
+                </th>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Role
+                </th>
+            </tr>
+            @foreach (User u in ViewBag.registrovani)
+            {
+
+                <tr>
+                    <td>
+                        <input readonly name="name" value="@u.name" />
+                    </td>
+                    <td>
+                        <input readonly name="surname" value="@u.surname" />
+                    </td>
+                    <td>
+                        <input readonly name="username" value="@u.username" />
+                    </td>
+                    <td>
+                        <input readonly name="email" value="@u.email" />
+                    </td>
+                    <td>
+                        <select id="role" name="role">
+                            @if (u.role == Role.Guest)
+                            {
+                                <option selected value="Guest">Guest</option>
+                                <option value="Host">Host</option>
+                            }
+                            else if (u.role == Role.Host)
+                            {
+                                <option value="Guest">Guest</option>
+                                <option selected value="Host">Host</option>
+                            }
+                        </select>
+                        <input id="ImageHosting" type="submit" value="Change" />
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </form>
+
+
+
+</body>
+</html>   

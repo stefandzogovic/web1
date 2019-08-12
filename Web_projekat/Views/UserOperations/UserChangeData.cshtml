@@ -1,0 +1,55 @@
+﻿@using Web_projekat.Models.User;
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+</head>
+<body>
+    <form method="post" action="~/UserOperations/ChangeProfileData">
+        @{ 
+            User user = (User)Session["user"];
+        }
+        <table border="1" class="tabela">
+
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Surname
+                </th>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Password
+                </th>
+                <th>
+                    Email
+                </th>    
+            </tr>
+            <tr>
+                <td>
+                    <input name="name" value="@user.name" />
+                </td>
+                <td>
+                    <input name="surname" value="@user.surname" />
+                </td>
+                <td>
+                    <input name="username" value="@user.username" />
+                </td>
+                <td>
+                    <input name="password" value="@user.password" />
+                </td>
+                <td>
+                    <input name="email" value="@user.email" />
+                </td>
+            </tr>       
+        </table>
+        <input type="submit" value="Change"/>
+    </form>
+</body>
+</html>
+

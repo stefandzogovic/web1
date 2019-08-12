@@ -28,8 +28,8 @@ namespace Web_projekat.Controllers
 
             User sc = (User)Session["user"];
 
-                sc = user;
-                Session["user"] = user;
+            sc = user;
+            Session["user"] = user;
 
             
             
@@ -87,6 +87,8 @@ namespace Web_projekat.Controllers
 
             ViewBag.users = users.lista_usera.Values;
 
+
+
             if (login)
             {
                 return Redirect(Url.Content("~/"));
@@ -106,6 +108,36 @@ namespace Web_projekat.Controllers
             TempData["notice"] = "Successfully changed";
 
             return RedirectToAction("AdminViewUsers");
+        }
+
+        public ActionResult UserChangeData()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ChangeProfileData(User u)
+        {
+            Users users = (Users)HttpContext.Application["users"];
+            User sc = (User)Session["user"];
+
+            foreach(User user in users.lista_usera.Values)
+            {
+                if(u.username == user.username)
+                {
+                    if(user != u)
+                    {
+                        ViewBag.shit = "Shit";
+                    }
+                }
+            }
+
+            sc = u;
+
+            Session["user"] = sc;
+
+            return View("UserChangeData");
         }
     }
 }

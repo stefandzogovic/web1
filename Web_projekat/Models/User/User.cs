@@ -12,6 +12,7 @@ namespace Web_projekat.Models.User
         public string password { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
+        public string email { get; set; }
         public Sex sex { get; set; }
         public Role role { get; set; }
     }

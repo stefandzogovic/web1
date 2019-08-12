@@ -3,10 +3,14 @@
 
 @{
     ViewBag.Title = "Home Page";
-    Layout = null;
+    Layout = "Layouts/GuestLayout.cshtml";
+
 }
 
-@{ 
+
+
+@if(Session["user"] != null)
+{
         switch(ViewBag.user.role)
         {
             case Role.Admin:
@@ -22,22 +26,26 @@
     }
 
 
-
 <html>
 
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-</head>
-
+    <title>@ViewBag.Title</title></head>
 <body>
-    <h3>
-        @ViewBag.user.name
-        @ViewBag.user.role
-        Welcome to the site.
-    </h3>
-    <br/>
-    <a href="~/UserOperations/Register">Register</a>
-    <a href="~/UserOperations/Login">Log in</a>
-</body>
+
+    @if (Session["user"] != null)
+    {
+        <h3>
+            @ViewBag.user.username
+       
+            Welcome to the site.
+        </h3>
+        <br />
+    }
+    else
+    {
+        <a href="~/UserOperations/Register">Register</a>
+        <a href="~/UserOperations/Login">Log in</a>
+    }
+    </body>
 </html>

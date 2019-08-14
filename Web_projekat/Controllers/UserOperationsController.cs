@@ -10,6 +10,8 @@ namespace Web_projekat.Controllers
     public class UserOperationsController : Controller
     {
 
+        DataAccessLayer dal = new DataAccessLayer();
+
         // GET: UserOperations
         public ActionResult Register()
         {
@@ -24,8 +26,6 @@ namespace Web_projekat.Controllers
         [HttpPost]
         public ActionResult Registerr(User user)
         {
-            Users users = (Users)HttpContext.Application["users"];
-
             User sc = (User)Session["user"];
 
             sc = user;
@@ -34,20 +34,16 @@ namespace Web_projekat.Controllers
             
             
             ViewBag.user = user;
-            users.lista_usera.Add(user.username, user);
+
+            dal.usersdb.Add(user);
+            dal.SaveChanges();
 
             return Redirect(Url.Content("~/"));
         }
 
         public ActionResult AdminViewUsers()
         {
-            Users users = (Users)HttpContext.Application["users"];
-            Users useri = (Users)Session["users"];
-
-            useri = users;
-            Session["users"] = useri;
-
-            ViewBag.registrovani = useri.lista_usera.Values;
+            ViewBag.registrovani = dal.usersdb.ToList();
             return View();
         }
 
@@ -56,11 +52,9 @@ namespace Web_projekat.Controllers
         {
             bool login = false;
 
-            Users users = (Users)HttpContext.Application["users"];
-
 
             User sc = (User)Session["user"];
-            Admini admini = (Admini)HttpContext.Application["admini"];
+            Admins admini = (Admins)HttpContext.Application["admini"];
             foreach(User u in admini.admini.Values)
             {
                 if(u.username == username && u.password == password)
@@ -73,7 +67,7 @@ namespace Web_projekat.Controllers
                 }
             }
 
-            foreach(User u in users.lista_usera.Values)
+            foreach(User u in dal.usersdb.ToList())
             {
                 if (u.username == username && u.password == password)
                 {
@@ -85,7 +79,8 @@ namespace Web_projekat.Controllers
                 }
             }
 
-            ViewBag.users = users.lista_usera.Values;
+            ViewBag.users = dal.usersdb.ToList();
+
 
 
 
@@ -100,11 +95,12 @@ namespace Web_projekat.Controllers
         }
 
         [HttpPost]
-        public ActionResult AdminChangeRole(User user)
+        public ActionResult AdminChangeRole(User user, string role)
         {
-            Users users = (Users)HttpContext.Application["users"]; 
 
-            users.lista_usera[user.username].role = user.role;
+
+            dal.usersdb.ToDictionary(x => x.username, x => x)[user.username].role = user.role;
+            dal.SaveChanges();
             TempData["notice"] = "Successfully changed";
 
             return RedirectToAction("AdminViewUsers");
@@ -119,25 +115,28 @@ namespace Web_projekat.Controllers
         [HttpPost]
         public ActionResult ChangeProfileData(User u)
         {
-            Users users = (Users)HttpContext.Application["users"];
             User sc = (User)Session["user"];
 
-            foreach(User user in users.lista_usera.Values)
-            {
-                if(u.username == user.username)
-                {
-                    if(user != u)
-                    {
-                        ViewBag.shit = "Shit";
-                    }
-                }
-            }
+            dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].name = u.name;
+            dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].surname = u.surname;
+            dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].email = u.email;
+            dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].password = u.password;
+            dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].sex = u.sex;
+            dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].username = u.username;
 
-            sc = u;
+            dal.SaveChanges();
 
-            Session["user"] = sc;
+
+            Session["user"] = u;
 
             return View("UserChangeData");
+        }
+
+        public ActionResult LogOut()
+        {
+            Session.Remove("user");
+            return Redirect(Url.Content("~/"));
+
         }
     }
 }

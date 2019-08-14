@@ -11,7 +11,7 @@ namespace Web_projekat.Controllers
     {
         public ActionResult Index()
         {
-            Admini admini = (Admini)HttpContext.Application["admini"];
+            Admins admini = (Admins)HttpContext.Application["admini"];
             ViewBag.loggedin = false;
             User sc = (User)Session["user"];
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -16,11 +17,15 @@ namespace Web_projekat
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            Admini admini = new Admini("~/App_Data/admini.txt");
-            HttpContext.Current.Application["admini"] = admini;
+            DataAccessLayer dal = new DataAccessLayer();
+            dal.Database.CreateIfNotExists();
 
             Users users = new Users();
-            HttpContext.Current.Application["users"] = users;
+            users.lista_usera = dal.usersdb.ToDictionary(x => x.username, x => x);
+           
+
+            Admins admini = new Admins("~/App_Data/admini.txt");
+            HttpContext.Current.Application["admini"] = admini;
         }
     }
 }

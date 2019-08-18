@@ -42,7 +42,7 @@
             var strr = "list[" + y + "].Value";
 
             $("#btn").click(function () {
-                $('#my-form').append('<div class="dates"> <label> Choose DOB</label> <input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" /> </div>');
+                $('#datesdiv').after('<div class="dates"> <label> Choose DOB</label> <input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" /> </div>');
                 $('.dates #user1').datepicker({
                     'format': 'dd-mm-yyyy',
                     'autoclose': true
@@ -50,20 +50,19 @@
             });
         });
     </script>
-    <form id="my-form" enctype="multipart/form-data" method="post"  action="~/Apartment/AddApartment">
+    <form id="my-form" enctype="multipart/form-data" method="post" action="~/Apartment/AddApartment">
 
         <input type="number" name="number_of_rooms" />
         <input type="number" name="number_of_guests" />
         <input type="number" name="price_per_night" />
-        <div class="dates">
+        <div id="datesdiv" class="dates">
             <label>Choose DOB</label>
             <input type="text" name=@str1 autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
             <input type="text" name=@str2 autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
         </div>
-        <input multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
-        <img id="output" />
+        <input id="choose" multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
+        <br />
         <input type="submit" value="Create" />
-
     </form>
 
     <script>
@@ -89,11 +88,22 @@
     <script>
 
         var loadFile = function (event) {
-            var output = document.getElementById('output');
-            output.src = URL.createObjectURL(event.target.files[0]);
+            var files = event.target.files;
+            for (var i = 0; i < files.length; i++) {
+                $("#choose").after('<img class="img" id="output[' + i + ']"/>');
+                var output = document.getElementById('output[' + i + ']');
+                output.src = URL.createObjectURL(event.target.files[i]);
+            }
+
         };
     </script>
 
+    <style>
+        .img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 
 
 </body>

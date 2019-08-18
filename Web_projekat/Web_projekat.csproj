@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserOperationsController.cs" />
     <Compile Include="DataAccessLayer\DataAccessLayer.cs" />
@@ -140,9 +141,22 @@
     <Compile Include="Migrations\201908140131527_initial.Designer.cs">
       <DependentUpon>201908140131527_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908141717228_apartments.cs" />
+    <Compile Include="Migrations\201908141717228_apartments.Designer.cs">
+      <DependentUpon>201908141717228_apartments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908151312565_nouserduplicates.cs" />
+    <Compile Include="Migrations\201908151312565_nouserduplicates.Designer.cs">
+      <DependentUpon>201908151312565_nouserduplicates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908172359217_photo_class.cs" />
+    <Compile Include="Migrations\201908172359217_photo_class.Designer.cs">
+      <DependentUpon>201908172359217_photo_class.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address\Address.cs" />
     <Compile Include="Models\Apartment\Apartment.cs" />
+    <Compile Include="Models\Apartment\Photo.cs" />
     <Compile Include="Models\Apartment\Type.cs" />
     <Compile Include="Models\ApartmentContent\Apartment_content.cs" />
     <Compile Include="Models\Location\Location.cs" />
@@ -150,10 +164,10 @@
     <Compile Include="Models\User\Role.cs" />
     <Compile Include="Models\User\Sex.cs" />
     <Compile Include="Models\User\User.cs" />
-    <Compile Include="Models\User\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -163,6 +177,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -176,7 +191,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -194,6 +211,8 @@
     <Content Include="Views\Home\Layouts\GuestLayout.cshtml" />
     <Content Include="Views\UserOperations\AdminViewUsers.cshtml" />
     <Content Include="Views\UserOperations\UserChangeData.cshtml" />
+    <Content Include="Views\Apartment\HostViewApartments.cshtml" />
+    <Content Include="Views\Apartment\HostAddApartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -214,6 +233,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908140131527_initial.resx">
       <DependentUpon>201908140131527_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908141717228_apartments.resx">
+      <DependentUpon>201908141717228_apartments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908151312565_nouserduplicates.resx">
+      <DependentUpon>201908151312565_nouserduplicates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908172359217_photo_class.resx">
+      <DependentUpon>201908172359217_photo_class.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

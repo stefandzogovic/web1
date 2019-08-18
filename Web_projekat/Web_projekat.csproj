@@ -155,10 +155,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address\Address.cs" />
+    <Compile Include="Models\ApartmentContent\Apartment_content.cs" />
     <Compile Include="Models\Apartment\Apartment.cs" />
     <Compile Include="Models\Apartment\Photo.cs" />
     <Compile Include="Models\Apartment\Type.cs" />
-    <Compile Include="Models\ApartmentContent\Apartment_content.cs" />
     <Compile Include="Models\Location\Location.cs" />
     <Compile Include="Models\User\Admins.cs" />
     <Compile Include="Models\User\Role.cs" />

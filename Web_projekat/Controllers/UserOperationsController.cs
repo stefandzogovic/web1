@@ -26,21 +26,10 @@ namespace Web_projekat.Controllers
         [HttpPost]
         public ActionResult Registerr(User user)
         {
-            User sc = new User();
-            sc.apartments = new List<Models.Apartment>();
+            User sc = (User)Session["user"];
 
-            int cnt = dal.usersdb.Count();
-
-            sc.UserId = cnt++;
-            sc.email = user.email;
-            sc.name = user.name;
-            sc.username = user.username;
-            sc.password = user.password;
-            sc.surname = user.surname;
-            sc.sex = user.sex;
-            sc.role = user.role;
-
-            Session["user"] = sc;
+            sc = user;
+            Session["user"] = user;
 
             
             

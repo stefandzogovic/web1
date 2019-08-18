@@ -7,11 +7,11 @@ using System.Web.Hosting;
 
 namespace Web_projekat.Models.User
 {
-    public class Admins
+    public class Admini
     {
         public Dictionary<string, User> admini { get; set; }
 
-        public Admins(string path)
+        public Admini(string path)
         {
             path = HostingEnvironment.MapPath(path);
             admini = new Dictionary<string, User>();

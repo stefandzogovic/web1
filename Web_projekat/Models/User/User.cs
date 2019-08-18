@@ -9,6 +9,7 @@ namespace Web_projekat.Models.User
 {
     public class User
     {
+
         public int UserId { get; set; }
         public string username { get; set; }
         public string password { get; set; }
@@ -17,7 +18,6 @@ namespace Web_projekat.Models.User
         public string email { get; set; }
         public Sex sex { get; set; }
         public Role role { get; set; }
-        public List<Apartment> apartments { get; set; }
 
     }
 }

@@ -19,6 +19,9 @@ namespace Web_projekat
 
             DataAccessLayer dal = new DataAccessLayer();
             dal.Database.CreateIfNotExists();
+
+            Users users = new Users();
+            users.lista_usera = dal.usersdb.ToDictionary(x => x.username, x => x);
            
 
             Admins admini = new Admins("~/App_Data/admini.txt");

@@ -15,6 +15,12 @@ namespace Web_projekat.Controllers
             ViewBag.loggedin = false;
             User sc = (User)Session["user"];
 
+            Users users = (Users)Session["users"];
+            if (users == null)
+            {   
+                users = new Users();
+                Session["users"] = users;
+            }
 
             if (Session["user"] != null)
             {

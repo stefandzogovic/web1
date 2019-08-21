@@ -22,6 +22,7 @@
                 @if (Session["user"] != null)
                 {
                     @Html.ActionLink("Your Profile", "UserChangeData", "UserOperations", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Inactive apartments", "AdminInactiveApartments", "Apartment", new { area = "" }, new { @class = "navbar-brand" })
                 }
             </div>
             <div class="navbar-collapse collapse">

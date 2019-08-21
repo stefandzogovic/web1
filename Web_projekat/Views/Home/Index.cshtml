@@ -1,5 +1,5 @@
 ﻿@using Web_projekat.Models.User;
-
+@using Web_projekat.Models;
 
 @{
     ViewBag.Title = "Home Page";
@@ -9,35 +9,37 @@
 
 
 
-@if(Session["user"] != null)
+@if (Session["user"] != null)
 {
-        switch(ViewBag.user.role)
-        {
-            case Role.Admin:
-                Layout = "Layouts/AdminLayout.cshtml";
-                break;
-            case Role.Guest:
-                Layout = "Layouts/GuestLayout.cshtml";
-                break;
-            case Role.Host:
-                Layout = "Layouts/HostLayout.cshtml";
-                break;
-        }
+    switch (ViewBag.user.role)
+    {
+        case Role.Admin:
+            Layout = "Layouts/AdminLayout.cshtml";
+            break;
+        case Role.Guest:
+            Layout = "Layouts/GuestLayout.cshtml";
+            break;
+        case Role.Host:
+            Layout = "Layouts/HostLayout.cshtml";
+            break;
     }
+}
 
 
 <html>
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title></head>
+    <title>@ViewBag.Title</title>
+</head>
 <body>
 
     @if (Session["user"] != null)
     {
         <h3>
             @ViewBag.user.username
-       
+
             Welcome to the site.
         </h3>
         <br />
@@ -47,6 +49,98 @@
     {
         <a href="~/UserOperations/Register">Register</a>
         <a href="~/UserOperations/Login">Log in</a>
+
+        <form id="form">
+            <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+            </select>
+        </form>
+
+
     }
-    </body>
+
+    @foreach (User u in ViewBag.lista)
+    {
+        <ul class="flex-container">
+            @foreach (Apartment ap in u.apartments)
+            {
+                if (ap.active)
+                {
+                    <li class="flex-item">
+                        <div>
+                            @{ var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                <img id="img" src="@imgSrc" />
+                                <div id="object">
+                                    <p>@ap.type for sale.</p>
+                                    <p>@ap.price_per_night $</p>
+                                    <input hidden name="id" value="@ap.ApartmentId" />
+                                </div>
+                            }
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+    }
+
+
+    <style>
+
+        #img {
+            width: 100%;
+            height: 30%;
+        }
+
+
+        .flex-container {
+            padding: 0 15px;
+            margin: 0;
+            list-style: none;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+        }
+
+            .flex-container > * + * {
+                margin-left: 10px;
+            }
+
+        .flex-item {
+            background: tomato;
+            padding: 5px;
+            width: 200px;
+            height: 450px;
+            margin-top: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function mySubmit() {
+            var selectedValue = $("select[name='selectedValue']")[0];
+            $.ajax({ // create an AJAX call...
+                data: { 'selectedValue': $('#selectedvalue').val()},
+                type: 'POST',
+                url: "Home/Index",
+                success: function () { // on success..
+                    alert('Success');
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        }
+        
+    </script>
+</body>
 </html>

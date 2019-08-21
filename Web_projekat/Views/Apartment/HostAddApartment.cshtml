@@ -29,8 +29,6 @@
         int x = 0;
         string str1 = "list[" + x + "].Key";
         string str2 = "list[" + x + "].Value";
-        string str3 = "list[1].Key";
-        string str4 = "list[1].Value";
 
     }
 
@@ -60,7 +58,7 @@
             <input type="text" name=@str1 autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
             <input type="text" name=@str2 autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
         </div>
-        <input id="choose" multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
+        <input multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
         <br />
         <input type="submit" value="Create" />
     </form>
@@ -90,7 +88,7 @@
         var loadFile = function (event) {
             var files = event.target.files;
             for (var i = 0; i < files.length; i++) {
-                $("#choose").after('<img class="img" id="output[' + i + ']"/>');
+                $("#imageUpload").after('<img class="img" id="output[' + i + ']"/>');
                 var output = document.getElementById('output[' + i + ']');
                 output.src = URL.createObjectURL(event.target.files[i]);
             }

@@ -8,7 +8,6 @@ namespace Web_projekat.Models
 {
     public class Apartment
     {
-
         public int ApartmentId { get; set; }
         public Type type { get; set; }
         public int number_of_rooms { get; set; }
@@ -21,8 +20,6 @@ namespace Web_projekat.Models
 
         public User.User User { get; set; }
         public int UserId { get; set; }
-
-
 
     }
 }

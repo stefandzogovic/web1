@@ -213,6 +213,7 @@
     <Content Include="Views\UserOperations\UserChangeData.cshtml" />
     <Content Include="Views\Apartment\HostViewApartments.cshtml" />
     <Content Include="Views\Apartment\HostAddApartment.cshtml" />
+    <Content Include="Views\Apartment\AdminInactiveApartments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,9 +1,85 @@
-﻿<!DOCTYPE html>
+﻿@using Web_projekat.Models.User;
+@using Web_projekat.Models;
+
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
 </head>
 <body>
+    @{
+        User user = (User)Session["user"];
+
+    }
+
+
+    <ul class="flex-container">
+
+        @foreach (Apartment ap in user.apartments)
+        {
+            <li class="flex-item">
+                <div>
+                    @{ var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        <img id="img" src="@imgSrc" />
+                        <div>
+                            <p>@ap.type for sale.</p>
+                            @if (!ap.active)
+                            {
+                                <p>Not active, waiting for administrator to review.</p>
+                            }
+                            else
+                            {
+                                <p>Active</p>
+                            }
+
+                        </div>
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+
+
     <a href="~/Apartment/HostAddApartment">Add apartment</a>
+
+    <style>
+
+
+        #img {
+            width: 100%;
+            height: 30%;
+        }
+
+
+        .flex-container {
+            padding: 0 15px;
+            margin: 0;
+            list-style: none;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+        }
+
+            .flex-container > * + * {
+                margin-left: 10px;
+            }
+
+        .flex-item {
+            background: tomato;
+            padding: 5px;
+            width: 200px;
+            height: 450px;
+            margin-top: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
+        }
+    </style>
+
 </body>
 </html>

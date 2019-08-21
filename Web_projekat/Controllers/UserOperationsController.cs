@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web_projekat.Models;
 using Web_projekat.Models.User;
 
 namespace Web_projekat.Controllers
@@ -20,6 +21,7 @@ namespace Web_projekat.Controllers
 
         public ActionResult Login()
         {
+
             return View();
         }
 
@@ -93,7 +95,27 @@ namespace Web_projekat.Controllers
             ViewBag.users = dal.usersdb.ToList();
 
 
+            List<Apartment> lista = new List<Apartment>();
 
+            foreach (Apartment ap in dal.apartmentsdb.ToDictionary(x => x.ApartmentId, x => x).Values)
+            {
+                foreach (Photo ph in dal.photosdb.ToDictionary(x => x.PhotoId, x => x).Values)
+                {
+                    if (ap.ApartmentId == ph.ApartmentId)
+                    {
+                        ap.images.Add(ph);
+                    }
+                }
+
+                if (ap.UserId == sc.UserId)
+                {
+                    lista.Add(ap);
+                }
+
+            }
+
+
+            sc.apartments = lista;
 
             if (login)
             {
@@ -148,6 +170,6 @@ namespace Web_projekat.Controllers
             Session.Remove("user");
             return Redirect(Url.Content("~/"));
 
-        }
+        } 
     }
 }

@@ -50,42 +50,55 @@
         <a href="~/UserOperations/Register">Register</a>
         <a href="~/UserOperations/Login">Log in</a>
 
-        <form id="form">
+        if ((string)Session["dropdown"] == "sortasc")
+        {
             <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
+                <option selected value="sortasc">Sort Apartments Ascending</option>
+                <option value="sortdesc">Sort Apartments Descending</option>
             </select>
-        </form>
+        }
+        else if ((string)Session["dropdown"] == "sortdesc")
+        {
+            <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
+                <option value="sortasc">Sort Apartments Ascending</option>
+                <option selected value="sortdesc">Sort Apartments Descending</option>
+            </select>
+        }
 
+        else
+        {
+            <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
+                <option value="" disabled selected>Sort</option>
+                <option value="sortasc">Sort Apartments Ascending</option>
+                <option value="sortdesc">Sort Apartments Descending</option>
+            </select>
+        }
 
     }
 
-    @foreach (User u in ViewBag.lista)
-    {
-        <ul class="flex-container">
-            @foreach (Apartment ap in u.apartments)
+
+    <ul class="flex-container">
+        @foreach (Apartment ap in ViewBag.lista)
+        {
+            if (ap.active)
             {
-                if (ap.active)
-                {
-                    <li class="flex-item">
-                        <div>
-                            @{ var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
-                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                <img id="img" src="@imgSrc" />
-                                <div id="object">
-                                    <p>@ap.type for sale.</p>
-                                    <p>@ap.price_per_night $</p>
-                                    <input hidden name="id" value="@ap.ApartmentId" />
-                                </div>
-                            }
-                        </div>
-                    </li>
-                }
+                <li class="flex-item">
+                    <div>
+                        @{ var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            <img id="img" src="@imgSrc" />
+                            <div id="object">
+                                <p>@ap.type for sale.</p>
+                                <p>@ap.price_per_night $</p>
+                                <input hidden name="id" value="@ap.ApartmentId" />
+                            </div>
+                        }
+                    </div>
+                </li>
             }
-        </ul>
-    }
+        }
+    </ul>
+
 
 
     <style>
@@ -129,18 +142,19 @@
         function mySubmit() {
             var selectedValue = $("select[name='selectedValue']")[0];
             $.ajax({ // create an AJAX call...
-                data: { 'selectedValue': $('#selectedvalue').val()},
+                data: { 'selectedValue': $('#selectedvalue').val() },
                 type: 'POST',
                 url: "Home/Index",
-                success: function () { // on success..
-                    alert('Success');
+                success: function (lista) { // on success..
+                    window.location.href = '@Url.Content("~/")';
                 },
                 error: function () {
                     alert('Error');
                 }
             });
         }
-        
+
     </script>
+
 </body>
 </html>

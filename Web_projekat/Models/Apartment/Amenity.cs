@@ -5,12 +5,11 @@ using System.Web;
 
 namespace Web_projekat.Models
 {
-    public class Location
+    public class Amenity
     {
-        public int LocationId { get; set; }
-        public double latitude { get; set; }
-        public double longitude { get; set; }
-        public Address address { get; set; }
+        public int AmenityId { get; set; }
+        public int type { get; set; }
+        public string name { get; set; }
 
         public int ApartmentId { get; set; }
         public Apartment Apartment { get; set; }

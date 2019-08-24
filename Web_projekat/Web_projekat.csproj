@@ -153,9 +153,22 @@
     <Compile Include="Migrations\201908172359217_photo_class.Designer.cs">
       <DependentUpon>201908172359217_photo_class.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908220211507_location+address.cs" />
+    <Compile Include="Migrations\201908220211507_location+address.Designer.cs">
+      <DependentUpon>201908220211507_location+address.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908241934337_migration.cs" />
+    <Compile Include="Migrations\201908241934337_migration.Designer.cs">
+      <DependentUpon>201908241934337_migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908241941070_fix.cs" />
+    <Compile Include="Migrations\201908241941070_fix.Designer.cs">
+      <DependentUpon>201908241941070_fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address\Address.cs" />
     <Compile Include="Models\ApartmentContent\Apartment_content.cs" />
+    <Compile Include="Models\Apartment\Amenity.cs" />
     <Compile Include="Models\Apartment\Apartment.cs" />
     <Compile Include="Models\Apartment\Photo.cs" />
     <Compile Include="Models\Apartment\Type.cs" />
@@ -172,6 +185,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\flexbox.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -243,6 +257,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908172359217_photo_class.resx">
       <DependentUpon>201908172359217_photo_class.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908220211507_location+address.resx">
+      <DependentUpon>201908220211507_location+address.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908241934337_migration.resx">
+      <DependentUpon>201908241934337_migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908241941070_fix.resx">
+      <DependentUpon>201908241941070_fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -27,7 +27,7 @@ namespace Web_projekat.Controllers
 
         // GET: Apartment
         public ActionResult HostViewApartments()
-        {         
+        {
             return View();
         }
 
@@ -36,21 +36,24 @@ namespace Web_projekat.Controllers
             return View();
         }
 
+
         #region Add Apartment
         [HttpPost]
-        public ActionResult AddApartment(Apartment apartment, Dictionary<string, string> list, List<HttpPostedFileBase> imageUpload)
+        public ActionResult AddApartment(Apartment apartment, Dictionary<string, string> list, List<HttpPostedFileBase> imageUpload, List<string> amenitybasic,
+            List<string> amenityfamily, List<string> amenityfacility, List<string> amenitydining)
         {
             User sc = (User)Session["user"];
-          
+
             Apartment ap = new Apartment();
             ap.images = new List<Photo>();
+            ap.amenities = new List<Amenity>();
             ap.User = dal.usersdb.FirstOrDefault(g => g.username == sc.username);
             ap.UserId = dal.usersdb.FirstOrDefault(g => g.username == sc.username).UserId;
             ap.type = Models.Type.Apartment;
             ap.number_of_guests = apartment.number_of_guests;
             ap.number_of_rooms = apartment.number_of_rooms;
             ap.price_per_night = apartment.price_per_night;
-            foreach(HttpPostedFileBase image in imageUpload)
+            foreach (HttpPostedFileBase image in imageUpload)
             {
                 Photo photo = new Photo();
                 photo.ApartmentId = ap.ApartmentId;
@@ -60,10 +63,66 @@ namespace Web_projekat.Controllers
                 ap.images.Add(photo);
             }
 
+            foreach(string basic in amenitybasic)
+            {
+                Amenity amenity = new Amenity();
+                amenity.Apartment = ap;
+                amenity.ApartmentId = ap.ApartmentId;
+                amenity.name = basic;
+                amenity.type = 1;
+                ap.amenities.Add(amenity);
+            }
+            foreach (string basic in amenityfamily)
+            {
+                Amenity amenity = new Amenity();
+                amenity.Apartment = ap;
+                amenity.ApartmentId = ap.ApartmentId;
+                amenity.name = basic;
+                amenity.type = 2;
+                ap.amenities.Add(amenity);
+            }
+            foreach (string basic in amenityfacility)
+            {
+                Amenity amenity = new Amenity();
+                amenity.Apartment = ap;
+                amenity.ApartmentId = ap.ApartmentId;
+                amenity.name = basic;
+                amenity.type = 3;
+                ap.amenities.Add(amenity);
+            }
+            foreach (string basic in amenitydining)
+            {
+                Amenity amenity = new Amenity();
+                amenity.Apartment = ap;
+                amenity.ApartmentId = ap.ApartmentId;
+                amenity.name = basic;
+                amenity.type = 4;
+                ap.amenities.Add(amenity);
+            }
+
             sc.apartments.Add(ap);
             dal.apartmentsdb.Add(ap);
-            dal.SaveChanges();
-
+            try
+            {
+                dal.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
             return RedirectToAction("HostViewApartments");
         }
         #endregion
@@ -123,4 +182,5 @@ namespace Web_projekat.Controllers
         }
 
     }
+
 }

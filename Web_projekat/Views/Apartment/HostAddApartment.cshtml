@@ -9,7 +9,6 @@
     <script src="~/Scripts/angular.min.js"></script>
     <link rel="stylesheet" href="~/Scripts/dropzone/dropzone.css" />
     <script src="~/Scripts/dropzone/dropzone.js"></script>
-
     <script>
         $(function () {
             $('.dates #user1').datepicker({
@@ -29,6 +28,7 @@
         int x = 0;
         string str1 = "list[" + x + "].Key";
         string str2 = "list[" + x + "].Value";
+
 
     }
 
@@ -60,8 +60,210 @@
         </div>
         <input multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
         <br />
+        <div class="form-popup" id="myForm1">
+            <div class="form-container">
+                <h1>Add Basic Amenity</h1>
+
+                <select id="selectedvaluebasic" name="selectedvaluebasic">
+                    <option value="Wifi">Wifi</option>
+                    <option value="Laptop Friendly Workspace">Laptop Friendly Workspace</option>
+                    <option value="Cable TV">Cable TV</option>
+                    <option value="Washer">Washer</option>
+                    <option value="Air Conditioning">Air Conditioning</option>
+                    <option value="TV">TV</option>
+                    <option value="Heating">Heating</option>
+                </select>
+
+                <button type="button" class="btn" id="addbascibtn">Add</button>
+                <button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
+            </div>
+        </div>
+
+        <div class="form-popup" id="myForm2">
+            <div class="form-container">
+                <h1>Add Family Feature Amenity</h1>
+
+                <select id="selectedvaluefamily" name="selectedvaluefamily">
+                    <option value="str">Str</option>
+                    <option value="str1">Str1</option>
+                </select>
+
+                <button type="button" class="btn" id="addfamilybtn">Add</button>
+                <button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
+            </div>
+        </div>
+
+        <div class="form-popup" id="myForm3">
+            <div class="form-container">
+                <h1>Add Facility Amenity</h1>
+
+                <select id="selectedvaluefacility" name="selectedvaluefacility">
+                    <option value="str">Str</option>
+                    <option value="str1">Str1</option>
+                </select>
+
+                <button type="button" class="btn" id="addfacilitybtn">Add</button>
+                <button type="button" class="btn cancel" onclick="closeForm3()">Close</button>
+            </div>
+        </div>
+
+
+        <div class="form-popup" id="myForm4">
+            <div class="form-container">
+                <h1>Add Dining Amenity</h1>
+
+                <select id="selectedvaluedining" name="selectedvaluedining">
+                    <option value="str">Str</option>
+                    <option value="str1">Str1</option>
+                </select>
+
+                <button type="button" class="btn" id="adddiningbtn">Add</button>
+                <button type="button" class="btn cancel" onclick="closeForm4()">Close</button>
+            </div>
+        </div>
+
+        <div>
+            <ul class="flex-container">
+                <li class="flex-item">
+
+                    <div id="basic">
+                        <h3 id="header1">Basic</h3>
+                        <button id="addbutton" type="button" class="open-button" onclick="openForm1()">Add</button>
+                    </div>
+                </li>
+                <li class="flex-item">
+                    <div id="family">
+                        <h3 id="header2">Family features</h3>
+                        <button id="addbutton" type="button" class="open-button" onclick="openForm2()">Add</button>
+                    </div>
+                </li>
+                <li class="flex-item">
+                    <div id="facility">
+                        <h3 id="header3">Facility</h3>
+                        <button id="addbutton" type="button" class="open-button" onclick="openForm3()">Add</button>
+                    </div>
+                </li>
+                <li class="flex-item">
+                    <div id="dining">
+                        <h3 id="header4">Dining</h3>
+                        <button id="addbutton" type="button" class="open-button" onclick="openForm4()">Add</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <input type="submit" value="Create" />
     </form>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Button used to open the contact form - fixed at the bottom of the page */
+        .open-button {
+            background-color: #555;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+            bottom: 23px;
+            right: 28px;
+            width: 95%;
+        }
+
+        /* The popup form - hidden by default */
+        .form-popup {
+            display: none;
+            position: absolute;
+            bottom: 0;
+            right: 15px;
+            z-index: 999;
+            top: 35%;
+            left: 35%;
+            margin-top: -50px;
+            margin-left: -50px;
+        }
+
+        /* Add styles to the form container */
+        .form-container {
+            border: 3px solid #f1f1f1;
+            max-width: 300px;
+            height: 450px;
+            padding: 10px;
+            background-color: white;
+        }
+
+            /* Full-width input fields */
+            .form-container input[type=text], .form-container select {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #f1f1f1;
+            }
+
+                /* When the inputs get focus, do something */
+                .form-container input[type=text]:focus, .form-container input[type=password]:focus, .form-container select:focus {
+                    background-color: #ddd;
+                    outline: none;
+                }
+
+            /* Set a style for the submit/login button */
+            .form-container .btn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                margin-bottom: 10px;
+                opacity: 0.8;
+            }
+
+            /* Add a red background color to the cancel button */
+            .form-container .cancel {
+                background-color: red;
+            }
+
+            /* Add some hover effects to buttons */
+            .form-container .btn:hover, .open-button:hover {
+                opacity: 1;
+            }
+    </style>
+
+    <script>
+        function openForm1() {
+            document.getElementById("myForm1").style.display = "block";
+        }
+
+        function closeForm1() {
+            document.getElementById("myForm1").style.display = "none";
+        }
+
+        function openForm2() {
+            document.getElementById("myForm2").style.display = "block";
+        }
+
+        function closeForm2() {
+            document.getElementById("myForm2").style.display = "none";
+        }
+
+        function openForm3() {
+            document.getElementById("myForm3").style.display = "block";
+        }
+
+        function closeForm3() {
+            document.getElementById("myForm3").style.display = "none";
+        }
+
+        function openForm4() {
+            document.getElementById("myForm4").style.display = "block";
+        }
+
+        function closeForm4() {
+            document.getElementById("myForm4").style.display = "none";
+        }
+    </script>
 
     <script>
         function AjaxPost(formData) {
@@ -92,14 +294,141 @@
                 var output = document.getElementById('output[' + i + ']');
                 output.src = URL.createObjectURL(event.target.files[i]);
             }
-
         };
+    </script>
+    <script>
+        $(document).ready(function () {
+            var x = 0;
+            $('#selectedvalue' + x + '').one('change', function () {
+                var asd = $("#selectedvalue option:selected").text();
+                x++;
+                $('.add').append('<br/><select id = "selectedvalue' + x + '"><option value="Home">' + asd + '</option><option value="Home">' + asd + '</option>select>');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var x = 0;
+            $('#addfamilybtn').click(function () {
+                var str = $("#selectedvaluefamily option:selected").text();
+                $('#header2').parent().after('<div id = "containerfamily' + x + '"><input type="text" value=' + str + ' id = "amenityfamily" readonly class="amenity" name="amenityfamily[' + x + ']"/><button type="button" class = "buttton" id="amenityfamily[' + x + ']btn">Delete</button></div>');
+                $('#selectedvaluefamily option:selected').remove();
+                alert($("input[id='amenityfamily']").length);
+                $('#containerfamily' + x + ' .buttton').on("click", function () {
+                    var o = $(this).find('#amenityfamily').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefamily').append('<option value="' + o + '">' + o + '</option>');
+                });
+                x++;
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var x = 0;
+            $('#addbascibtn').click(function () {
+                var str = $("#selectedvaluebasic option:selected").text();
+                $('#header1').parent().after('<div id = "containerbasic' + x + '"><input type="text" value=' + str + ' id = "amenitybasic" readonly class="amenity" name= "amenitybasic[' + x + ']"/><button type="button" class = "buttton" id="amenitybasic[' + x + ']btn">Delete</button></div>');
+                $('#selectedvaluebasic option:selected').remove();
+                alert($("input[id='amenitybasic']").length);
+                $('#containerbasic' + x + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenitybasic').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluebasic').append('<option value="' + o + '">' + o + '</option>');
+                });
+                x++;
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var x = 0;
+            $('#addfacilitybtn').click(function () {
+                var str = $("#selectedvaluefacility option:selected").text();
+                $('#header3').parent().after('<div id = "containerfacility' + x + '"><input type="text" value=' + str + ' id = "amenityfacility" readonly class="amenity" name= "amenityfacility[' + x + ']"/><button type="button" class = "buttton" id="amenityfacility[' + x + ']btn">Delete</button></div>');
+                $('#selectedvaluefacility option:selected').remove();
+                alert($("input[id='amenityfacility']").length);
+                $('#containerfacility' + x + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenityfacility').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefacility').append('<option value="' + o + '">' + o + '</option>');
+                });
+                x++;
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var x = 0;
+            $('#adddiningbtn').click(function () {
+                var str = $("#selectedvaluedining option:selected").text();
+                $('#header4').parent().after('<div id = "containerdining' + x + '"><input type="text" value=' + str + ' id = "amenitydining" readonly class="amenity" name= "amenitydining[' + x + ']"/><button type="button" class = "buttton" id="amenitydining[' + x + ']btn">Delete</button></div>');
+                $('#selectedvaluedining option:selected').remove();
+                alert($("input[id='amenitydining']").length);
+                $('#containerdining' + x + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenitydining').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluedining').append('<option value="' + o + '">' + o + '</option>');
+                });
+                x++;
+            });
+        });
     </script>
 
     <style>
         .img {
             width: 100px;
             height: 100px;
+        }
+    </style>
+
+    <style>
+
+        .amenity {
+            background: black;
+            border: none;
+            text-align: center;
+            color: blue;
+        }
+
+        #image {
+            width: 100%;
+            height: 30%;
+        }
+
+
+        .flex-container {
+            background: black;
+            padding: 0 15px;
+            margin: 0;
+            list-style: none;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+        }
+
+            .flex-container > * + * {
+                margin-left: 10px;
+            }
+
+        .flex-item {
+            position: relative;
+            flex: 1;
+            background: tomato;
+            padding: 5px;
+            width: 200px;
+            height: 450px;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
         }
     </style>
 

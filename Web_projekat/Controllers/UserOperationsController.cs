@@ -156,11 +156,19 @@ namespace Web_projekat.Controllers
             dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].password = u.password;
             dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].sex = u.sex;
             dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].username = u.username;
+            dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].role = u.role;
 
             dal.SaveChanges();
 
+            User temp = dal.usersdb.Where(x => x.UserId == sc.UserId).Select(x => x).Single();
+            temp.apartments = dal.apartmentsdb.Where(x => x.UserId == sc.UserId).Select(x => x).ToList();
+            foreach (Apartment ap in temp.apartments)
+            {          
+                ap.images = dal.photosdb.Where(x => x.ApartmentId == ap.ApartmentId).Select(x => x).ToList();
+                ap.amenities = dal.amenitiesdb.Where(x => x.ApartmentId == ap.ApartmentId).Select(x => x).ToList();
+            }
 
-            Session["user"] = u;
+            Session["user"] = temp;
 
             return View("UserChangeData");
         }

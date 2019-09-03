@@ -14,6 +14,10 @@ namespace Web_projekat.Controllers
     {
 
         DataAccessLayer dal = new DataAccessLayer();
+        public static List<string> basic = new List<string> { "Wifi", "Laptop_Friendly_Workspace", "Cable_TV", "Washer", "Air_Conditioning", "TV", "Heating" };
+        public static List<string> family = new List<string> { "Crib", "High_Chair", "Travel_Crib", "Room-darkening_Shades", "Window_Guards" };
+        public static List<string> facility = new List<string> { "Elevator", "Paid_Parking_Off_Premices", "Single_Level_Home_(No_Stairs)", "Free_Street_Parking" };
+        public static List<string> dining = new List<string> { "Kitchen", "Coffee_Maker", "Cooking_Basics(Pots,_Pans,_Salt_Pepper", "Dishes_and_Silverware", "Microwave", "Refrigerator" };
 
         #region Convert HttpPostedFileBase to byte array
         public byte[] ConvertToByte(HttpPostedFileBase file)
@@ -33,6 +37,10 @@ namespace Web_projekat.Controllers
 
         public ActionResult HostAddApartment()
         {
+            ViewBag.basic = basic;
+            ViewBag.family = family;
+            ViewBag.facility = facility;
+            ViewBag.dining = dining;
             return View();
         }
 
@@ -179,6 +187,107 @@ namespace Web_projekat.Controllers
             Session["user"] = sc;
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult ChangeApartment(int apartmentid, int userid)
+        {
+            ViewBag.basic = basic;
+            ViewBag.family = family;
+            ViewBag.facility = facility;
+            ViewBag.dining = dining;
+
+            User u = dal.usersdb.ToDictionary(x => x.UserId, x => x)[userid];
+            Apartment ap = dal.apartmentsdb.ToDictionary(x => x.ApartmentId, x => x)[apartmentid];
+            ap.images = new List<Photo>();
+            ap.amenities = new List<Amenity>();
+
+            ap.amenities = dal.amenitiesdb.Where(x => x.ApartmentId == ap.ApartmentId).Select(x => x).ToList();
+            ap.images = dal.photosdb.Where(x => x.ApartmentId == ap.ApartmentId).Select(x => x).ToList();
+
+            ViewBag.ap = ap;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Change(Apartment apartment, Dictionary<string, string> list, List<HttpPostedFileBase> imageUpload, List<string> amenitybasic,
+            List<string> amenityfamily, List<string> amenityfacility, List<string> amenitydining, int apartmentId, List<string> imageUpload1)
+        {
+            User sc = (User)Session["user"];
+
+            sc.apartments = dal.apartmentsdb.Where(x => x.UserId == sc.UserId).Select(x => x).ToList();
+
+            foreach(Apartment temp in sc.apartments)
+            {
+                temp.User = sc;
+                temp.images = dal.photosdb.Where(x => x.ApartmentId == temp.ApartmentId).Select(x => x).ToList();
+                temp.amenities = dal.amenitiesdb.Where(x => x.ApartmentId == temp.ApartmentId).Select(x => x).ToList();
+            }
+
+            sc.apartments = sc.apartments;
+
+            Apartment ap = apartment;
+            ap.images = new List<Photo>();
+            ap.User = sc;
+            ap.UserId = sc.UserId;
+            ap.ApartmentId = apartmentId;
+            ap.amenities = new List<Amenity>();
+            ap.User = dal.usersdb.FirstOrDefault(g => g.username == sc.username);
+            ap.UserId = dal.usersdb.FirstOrDefault(g => g.username == sc.username).UserId;
+            ap.type = Models.Type.Apartment;
+            ap.number_of_guests = apartment.number_of_guests;
+            ap.number_of_rooms = apartment.number_of_rooms;
+            ap.price_per_night = apartment.price_per_night;
+            foreach (HttpPostedFileBase image in imageUpload)
+            {
+                Photo photo = new Photo();
+                photo.ApartmentId = ap.ApartmentId;
+                photo.Apartment = ap;
+                photo.Description = image.FileName;
+                photo.ImageBytes = ConvertToByte(image);
+                ap.images.Add(photo);
+            }
+
+            foreach (string basic in amenitybasic)
+            {
+                Amenity amenity = new Amenity();
+                amenity.Apartment = ap;
+                amenity.ApartmentId = ap.ApartmentId;
+                amenity.name = basic;
+                amenity.type = 1;
+                ap.amenities.Add(amenity);
+            }
+            foreach (string basic in amenityfamily)
+            {
+                Amenity amenity = new Amenity();
+                amenity.Apartment = ap;
+                amenity.ApartmentId = ap.ApartmentId;
+                amenity.name = basic;
+                amenity.type = 2;
+                ap.amenities.Add(amenity);
+            }
+            foreach (string basic in amenityfacility)
+            {
+                Amenity amenity = new Amenity();
+                amenity.Apartment = ap;
+                amenity.ApartmentId = ap.ApartmentId;
+                amenity.name = basic;
+                amenity.type = 3;
+                ap.amenities.Add(amenity);
+            }
+            foreach (string basic in amenitydining)
+            {
+                Amenity amenity = new Amenity();
+                amenity.Apartment = ap;
+                amenity.ApartmentId = ap.ApartmentId;
+                amenity.name = basic;
+                amenity.type = 4;
+                ap.amenities.Add(amenity);
+            }
+
+
+            return View("HostViewApartments");
         }
 
     }

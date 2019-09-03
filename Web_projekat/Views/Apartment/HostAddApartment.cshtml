@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Web_projekat.Models.User;
+@using Web_projekat.Models;
+
+
+<!DOCTYPE html>
+
 
 <html lang="en">
 <head>
@@ -65,13 +70,10 @@
                 <h1>Add Basic Amenity</h1>
 
                 <select id="selectedvaluebasic" name="selectedvaluebasic">
-                    <option value="Wifi">Wifi</option>
-                    <option value="Laptop Friendly Workspace">Laptop Friendly Workspace</option>
-                    <option value="Cable TV">Cable TV</option>
-                    <option value="Washer">Washer</option>
-                    <option value="Air Conditioning">Air Conditioning</option>
-                    <option value="TV">TV</option>
-                    <option value="Heating">Heating</option>
+                    @foreach (string str in ViewBag.basic)
+                    {
+                        <option value=@str>@str.Replace("_", " ")</option>
+                    }
                 </select>
 
                 <button type="button" class="btn" id="addbascibtn">Add</button>
@@ -84,8 +86,10 @@
                 <h1>Add Family Feature Amenity</h1>
 
                 <select id="selectedvaluefamily" name="selectedvaluefamily">
-                    <option value="str">Str</option>
-                    <option value="str1">Str1</option>
+                    @foreach (string str in ViewBag.family)
+                    {
+                        <option value=@str>@str.Replace("_", " ")</option>
+                    }
                 </select>
 
                 <button type="button" class="btn" id="addfamilybtn">Add</button>
@@ -98,8 +102,10 @@
                 <h1>Add Facility Amenity</h1>
 
                 <select id="selectedvaluefacility" name="selectedvaluefacility">
-                    <option value="str">Str</option>
-                    <option value="str1">Str1</option>
+                    @foreach (string str in ViewBag.facility)
+                    {
+                        <option value=@str>@str.Replace("_", " ")</option>
+                    }
                 </select>
 
                 <button type="button" class="btn" id="addfacilitybtn">Add</button>
@@ -113,8 +119,10 @@
                 <h1>Add Dining Amenity</h1>
 
                 <select id="selectedvaluedining" name="selectedvaluedining">
-                    <option value="str">Str</option>
-                    <option value="str1">Str1</option>
+                    @foreach (string str in ViewBag.dining)
+                    {
+                        <option value=@str>@str.Replace("_", " ")</option>
+                    }
                 </select>
 
                 <button type="button" class="btn" id="adddiningbtn">Add</button>
@@ -285,8 +293,8 @@
         }
     </script>
 
-    <script>
 
+    <script>
         var loadFile = function (event) {
             var files = event.target.files;
             for (var i = 0; i < files.length; i++) {
@@ -311,7 +319,7 @@
         $(document).ready(function () {
             var x = 0;
             $('#addfamilybtn').click(function () {
-                var str = $("#selectedvaluefamily option:selected").text();
+                var str = $("#selectedvaluefamily option:selected").val().replace(/\_/g, '\xa0');
                 $('#header2').parent().after('<div id = "containerfamily' + x + '"><input type="text" value=' + str + ' id = "amenityfamily" readonly class="amenity" name="amenityfamily[' + x + ']"/><button type="button" class = "buttton" id="amenityfamily[' + x + ']btn">Delete</button></div>');
                 $('#selectedvaluefamily option:selected').remove();
                 alert($("input[id='amenityfamily']").length);
@@ -329,7 +337,8 @@
         $(document).ready(function () {
             var x = 0;
             $('#addbascibtn').click(function () {
-                var str = $("#selectedvaluebasic option:selected").text();
+                var str = $("#selectedvaluebasic option:selected").val().replace(/\_/g, '\xa0');
+                
                 $('#header1').parent().after('<div id = "containerbasic' + x + '"><input type="text" value=' + str + ' id = "amenitybasic" readonly class="amenity" name= "amenitybasic[' + x + ']"/><button type="button" class = "buttton" id="amenitybasic[' + x + ']btn">Delete</button></div>');
                 $('#selectedvaluebasic option:selected').remove();
                 alert($("input[id='amenitybasic']").length);
@@ -347,7 +356,7 @@
         $(document).ready(function () {
             var x = 0;
             $('#addfacilitybtn').click(function () {
-                var str = $("#selectedvaluefacility option:selected").text();
+                var str = $("#selectedvaluefacility option:selected").val().replace(/\_/g, '\xa0');
                 $('#header3').parent().after('<div id = "containerfacility' + x + '"><input type="text" value=' + str + ' id = "amenityfacility" readonly class="amenity" name= "amenityfacility[' + x + ']"/><button type="button" class = "buttton" id="amenityfacility[' + x + ']btn">Delete</button></div>');
                 $('#selectedvaluefacility option:selected').remove();
                 alert($("input[id='amenityfacility']").length);
@@ -365,7 +374,7 @@
         $(document).ready(function () {
             var x = 0;
             $('#adddiningbtn').click(function () {
-                var str = $("#selectedvaluedining option:selected").text();
+                var str = $("#selectedvaluedining option:selected").val().replace(/\_/g, '\xa0');
                 $('#header4').parent().after('<div id = "containerdining' + x + '"><input type="text" value=' + str + ' id = "amenitydining" readonly class="amenity" name= "amenitydining[' + x + ']"/><button type="button" class = "buttton" id="amenitydining[' + x + ']btn">Delete</button></div>');
                 $('#selectedvaluedining option:selected').remove();
                 alert($("input[id='amenitydining']").length);

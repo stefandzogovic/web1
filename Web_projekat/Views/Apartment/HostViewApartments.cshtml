@@ -17,8 +17,8 @@
 
         @foreach (Apartment ap in user.apartments)
         {
-            <li class="flex-item">
-                <div>
+            <li class="flex-item" id="@ap.ApartmentId" onclick="clickFunc(this.id)">
+                <form action="~/Apartment/ChangeApartment" method="post">
                     @{ var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
                         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                         <img id="img" src="@imgSrc" />
@@ -34,14 +34,23 @@
                             }
 
                         </div>
+                        <input hidden type="number" name="apartmentid" value="@ap.ApartmentId" />
+                        <input hidden type="number" name="userid" value="@user.UserId" />
+                        <input hidden type="submit"  id="submitbtn_@ap.ApartmentId"/>
                     }
-                </div>
+                </form>
             </li>
         }
     </ul>
 
 
     <a href="~/Apartment/HostAddApartment">Add apartment</a>
+
+    <script>
+        function clickFunc(id) {
+            document.getElementById("submitbtn_" + id).click();
+        }
+    </script>
 
     <style>
 

@@ -19,5 +19,8 @@ namespace Web_projekat.Models.User
         public Role role { get; set; }
         public List<Apartment> apartments { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
+
     }
 }

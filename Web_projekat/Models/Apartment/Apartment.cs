@@ -19,6 +19,8 @@ namespace Web_projekat.Models
         public List<Photo> images { get; set; }
         public List<Amenity> amenities { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public User.User User { get; set; }
         public int UserId { get; set; }
 

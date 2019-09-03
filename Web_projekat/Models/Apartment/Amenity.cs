@@ -13,5 +13,8 @@ namespace Web_projekat.Models
 
         public int ApartmentId { get; set; }
         public Apartment Apartment { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

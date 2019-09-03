@@ -165,6 +165,10 @@
     <Compile Include="Migrations\201908241941070_fix.Designer.cs">
       <DependentUpon>201908241941070_fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909030244476_isdeleted.cs" />
+    <Compile Include="Migrations\201909030244476_isdeleted.Designer.cs">
+      <DependentUpon>201909030244476_isdeleted.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address\Address.cs" />
     <Compile Include="Models\ApartmentContent\Apartment_content.cs" />
@@ -267,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908241941070_fix.resx">
       <DependentUpon>201908241941070_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909030244476_isdeleted.resx">
+      <DependentUpon>201909030244476_isdeleted.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -15,5 +15,8 @@ namespace Web_projekat.Models
 
         public int LocationId { get; set; }
         public Location Location { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
+
     }
 }

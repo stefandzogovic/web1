@@ -19,6 +19,7 @@ namespace Web_projekat
         public DbSet<Apartment> apartmentsdb { get; set; }
         public DbSet<Photo> photosdb { get; set; }
         public DbSet<Amenity> amenitiesdb { get; set; }
+        public DbSet<AvailableAmenities> availableamenitiesdb { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

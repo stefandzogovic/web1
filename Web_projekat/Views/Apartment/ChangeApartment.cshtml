@@ -29,6 +29,8 @@
     @{
 
         Apartment apartment = (Apartment)ViewBag.ap;
+        DateTimeCollection dates = apartment.Times;
+        
         int x = 0;
         string str1 = "list[" + x + "].Key";
         string str2 = "list[" + x + "].Value";
@@ -86,8 +88,11 @@
         <input type="number" name="price_per_night" value="@apartment.price_per_night" />
         <div id="datesdiv" class="dates">
             <label>Choose DOB</label>
-            <input type="text" name=@str1 autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
-            <input type="text" name=@str2 autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
+            @for(int cnt = 0, cnt1 = 0; cnt < apartment.Times.Count/2; cnt++, cnt1 += 2) {
+            <input type="text" name="list[@cnt].Key" value=@apartment.Times[cnt1] autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
+               int tempcnt = cnt1 + 1;
+            <input type="text" name="list[@cnt].Value" value=@apartment.Times[tempcnt] autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
+            }
         </div>
         <input class="hidden" multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
         <label for="imageUpload">Select files</label>
@@ -272,7 +277,7 @@
 
                         if (a.type == 1)
                         {
-                            <div id="containerbasic@(z)"><input type="text" value=@a.name id="amenitybasic" readonly class="amenity" name="amenitybasic[@(z)]" /><button type="button" class="buttton" id="amenitybasic@(z)btn">Delete</button></div>
+                            <div id="containerbasic@(z)"><input type="text" value=@a.name id="amenitybasic" readonly class="amenitybasic" name="amenitybasic[@(z)]" /><button type="button" class="buttton" id="amenitybasic@(z)btn">Delete</button></div>
                             z++;
                         }
 
@@ -290,7 +295,7 @@
                     {
                         if (a.type == 2)
                         {
-                            <div id="containerfamily@(z)"><input type="text" value=@a.name id="amenityfamily" readonly class="amenity" name="amenityfamily[@(z)]" /><button type="button" class="buttton" id="amenityfamily@(z)btn">Delete</button></div>
+                            <div id="containerfamily@(z)"><input type="text" value=@a.name id="amenityfamily" readonly class="amenityfamily" name="amenityfamily[@(z)]" /><button type="button" class="buttton" id="amenityfamily@(z)btn">Delete</button></div>
                             z++;
                         }
 
@@ -308,7 +313,7 @@
                     {
                         if (a.type == 3)
                         {
-                            <div id="containerfacility@(z)"><input type="text" value=@a.name id="amenityfacility" readonly class="amenity" name="amenityfacility[@(z)]" /><button type="button" class="buttton" id="amenityfacility@(z)btn">Delete</button></div>
+                            <div id="containerfacility@(z)"><input type="text" value=@a.name id="amenityfacility" readonly class="amenityfacility" name="amenityfacility[@(z)]" /><button type="button" class="buttton" id="amenityfacility@(z)btn">Delete</button></div>
                             z++;
                         }
 
@@ -326,7 +331,7 @@
                     {
                         if (a.type == 4)
                         {
-                            <div id="containerdining@(z)"><input type="text" value=@a.name id="amenitydining" readonly class="amenity" name="amenitydining[@(z)]" /><button type="button" class="buttton" id="amenitydining@(z)btn">Delete</button></div>
+                            <div id="containerdining@(z)"><input type="text" value=@a.name id="amenitydining" readonly class="amenitydining" name="amenitydining[@(z)]" /><button type="button" class="buttton" id="amenitydining@(z)btn">Delete</button></div>
                             z++;
                         }
 
@@ -334,7 +339,7 @@
                 </li>
             </ul>
         </div>
-        <input type="submit" value="Change" />
+        <input type="submit" onclick="Submit()" value="Change" />
     </form>
     <style>
         * {
@@ -581,7 +586,7 @@
                     z = i + 1;
                 }
                 var str = $("#selectedvaluebasic option:selected").val().replace(/\_/g, '\xa0');
-                $('#header1').parent().after('<div id = "containerbasic' + z + '"><input type="text" value=' + str + ' id = "amenitybasic" readonly class="amenity" name= "amenitybasic[' + z + ']"/><button type="button" class = "buttton" id="amenitybasic[' + z + ']btn">Delete</button></div>');
+                $('#header1').parent().after('<div id = "containerbasic' + z + '"><input type="text" value=' + str + ' id = "amenitybasic" readonly class="amenitybasic" name= "amenitybasic[' + z + ']"/><button type="button" class = "buttton" id="amenitybasic[' + z + ']btn">Delete</button></div>');
                 $('#selectedvaluebasic option:selected').remove();
                 $('#containerbasic' + z + ' .buttton').on("click", function () {
                     var o = $(this).parent().find('#amenitybasic').val();
@@ -590,6 +595,28 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function Submit() {
+            var els = document.getElementsByClassName('amenitybasic');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenitybasic[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenityfamily');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenityfamily[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenityfacility');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenityfacility[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenitydining');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenitydining[' + i + ']');
+            }
+            return true;
+        }
     </script>
 
     <script>
@@ -613,7 +640,7 @@
                     z = i + 1;
                 }
                 var str = $("#selectedvaluefamily option:selected").val().replace(/\_/g, '\xa0');
-                $('#header2').parent().after('<div id = "containerfamily' + z + '"><input type="text" value=' + str + ' id = "amenityfamily" readonly class="amenity" name= "amenityfamily[' + z + ']"/><button type="button" class = "buttton" id="amenityfamily[' + z + ']btn">Delete</button></div>');
+                $('#header2').parent().after('<div id = "containerfamily' + z + '"><input type="text" value=' + str + ' id = "amenityfamily" readonly class="amenityfamily" name= "amenityfamily[' + z + ']"/><button type="button" class = "buttton" id="amenityfamily[' + z + ']btn">Delete</button></div>');
                 $('#selectedvaluefamily option:selected').remove();
                 $('#containerfamily' + z + ' .buttton').on("click", function () {
                     var o = $(this).parent().find('#amenityfamily').val();
@@ -645,7 +672,7 @@
                     z = i + 1;
                 }
                 var str = $("#selectedvaluefacility option:selected").val().replace(/\_/g, '\xa0');
-                $('#header3').parent().after('<div id = "containerfacility' + z + '"><input type="text" value=' + str + ' id = "amenityfacility" readonly class="amenity" name= "amenityfacility[' + z + ']"/><button type="button" class = "buttton" id="amenityfacility[' + z + ']btn">Delete</button></div>');
+                $('#header3').parent().after('<div id = "containerfacility' + z + '"><input type="text" value=' + str + ' id = "amenityfacility" readonly class="amenityfacility" name= "amenityfacility[' + z + ']"/><button type="button" class = "buttton" id="amenityfacility[' + z + ']btn">Delete</button></div>');
                 $('#selectedvaluefacility option:selected').remove();
                 $('#containerfacility' + z + ' .buttton').on("click", function () {
                     var o = $(this).parent().find('#amenityfacility').val();
@@ -677,7 +704,7 @@
                     z = i + 1;
                 }
                 var str = $("#selectedvaluedining option:selected").val().replace(/\_/g, '\xa0');
-                $('#header4').parent().after('<div id = "containerdining' + z + '"><input type="text" value=' + str + ' id = "amenitydining" readonly class="amenity" name= "amenitydining[' + z + ']"/><button type="button" class = "buttton" id="amenitydining[' + z + ']btn">Delete</button></div>');
+                $('#header4').parent().after('<div id = "containerdining' + z + '"><input type="text" value=' + str + ' id = "amenitydining" readonly class="amenitydining" name= "amenitydining[' + z + ']"/><button type="button" class = "buttton" id="amenitydining[' + z + ']btn">Delete</button></div>');
                 $('#selectedvaluedining option:selected').remove();
                 $('#containerdining' + z + ' .buttton').on("click", function () {
                     var o = $(this).parent().find('#amenitydining').val();

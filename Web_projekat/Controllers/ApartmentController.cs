@@ -45,12 +45,14 @@ namespace Web_projekat.Controllers
         #region Add Apartment
         [HttpPost]
         public ActionResult AddApartment(Apartment apartment, Dictionary<string, string> list, List<HttpPostedFileBase> imageUpload, List<string> amenitybasic,
-            List<string> amenityfamily, List<string> amenityfacility, List<string> amenitydining)
+            List<string> amenityfamily, List<string> amenityfacility, List<string> amenitydining, Location location, Address address)
         {
             User sc = (User)Session["user"];
 
             Apartment ap = new Apartment();
             ap.images = new List<Photo>();
+            Location loc = new Location();
+            Address ad = new Address();
             ap.amenities = new List<Amenity>();
             ap.User = dal.usersdb.FirstOrDefault(g => g.username == sc.username);
             ap.UserId = dal.usersdb.FirstOrDefault(g => g.username == sc.username).UserId;
@@ -59,6 +61,23 @@ namespace Web_projekat.Controllers
             ap.Times = new DateTimeCollection();
             ap.number_of_rooms = apartment.number_of_rooms;
             ap.price_per_night = apartment.price_per_night;
+
+            loc.Apartment = ap;
+            loc.latitude = location.latitude;
+            loc.longitude = location.longitude;
+
+
+            ad.Location = loc;
+            ad.number = address.number;
+            ad.street = address.street;
+            ad.postal_code = address.postal_code;
+            ad.city = address.city;
+
+            loc.Address = ad;
+
+            ap.Location = loc;
+
+            
 
             List<string> templista = new List<string>();
             foreach(string str in list.Keys)
@@ -221,9 +240,11 @@ namespace Web_projekat.Controllers
             Apartment ap = dal.apartmentsdb.ToDictionary(x => x.ApartmentId, x => x)[apartmentid];
             ap.images = new List<Photo>();
             ap.amenities = new List<Amenity>();
+            
 
             ap.amenities = dal.amenitiesdb.Where(x => x.ApartmentId == ap.ApartmentId).Where(x => x.IsDeleted == false).Select(x => x).ToList();
             ap.images = dal.photosdb.Where(x => x.ApartmentId == ap.ApartmentId).Select(x => x).ToList();
+            
 
             ViewBag.ap = ap;
 

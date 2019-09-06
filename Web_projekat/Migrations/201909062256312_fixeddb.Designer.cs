@@ -7,13 +7,13 @@ namespace Web_projekat.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class photo_class : IMigrationMetadata
+    public sealed partial class fixeddb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(photo_class));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(fixeddb));
         
         string IMigrationMetadata.Id
         {
-            get { return "201908172359217_photo_class"; }
+            get { return "201909062256312_fixeddb"; }
         }
         
         string IMigrationMetadata.Source

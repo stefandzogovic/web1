@@ -15,10 +15,9 @@ namespace Web_projekat.Models
         public Type type { get; set; }
         public int number_of_rooms { get; set; }
         public int number_of_guests { get; set; }
-        // public Location location { get; set; }
+        public virtual Location Location { get; set; }
         public bool active { get; set; }
         public double price_per_night { get; set; }
-        //public List<string> comments { get; set; }
         public List<Photo> images { get; set; }
         public List<Amenity> amenities { get; set; }
         public DateTimeCollection Times { get; set; }

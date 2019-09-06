@@ -20,13 +20,17 @@ namespace Web_projekat
         public DbSet<Photo> photosdb { get; set; }
         public DbSet<Amenity> amenitiesdb { get; set; }
         public DbSet<AvailableAmenities> availableamenitiesdb { get; set; }
+        public DbSet<Location> locationsdb { get; set; }
+        public DbSet<Address> addresses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasMany(c => c.apartments).WithRequired(m => m.User);
             modelBuilder.Entity<Apartment>().HasMany(x => x.images).WithRequired(y => y.Apartment);
-            modelBuilder.Entity<Location>().HasRequired(x => x.address).WithRequiredDependent(y => y.Location);
             modelBuilder.Entity<Apartment>().HasMany(x => x.amenities).WithRequired(y => y.Apartment);
+            modelBuilder.Entity<Apartment>().HasOptional(x => x.Location).WithOptionalPrincipal().Map(x => x.MapKey("ApartmentId"));
+            modelBuilder.Entity<Location>().HasOptional(x => x.Address).WithOptionalPrincipal().Map(x => x.MapKey("LocationId"));
+
         }
     }
 }

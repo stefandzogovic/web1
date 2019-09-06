@@ -131,24 +131,22 @@
                         List<string> lista2 = new List<string>();
                         foreach (string str in lista)
                         {
-                            string temp = str.Replace("_", "\xa0");
+                            string temp = str.Replace(' ', '_');
                             lista2.Add(temp);
                         }
 
                         foreach (Amenity amenity in apartment.amenities)
                         {
-                            if (lista2.Contains(amenity.name))
+                            if (lista2.Contains(amenity.name.Replace('\xa0', '_')))
                             {
 
-                                lista2.Remove(amenity.name);
+                                lista2.Remove(amenity.name.Replace('\xa0', '_'));
                             }
                         }
 
                         foreach (string str in lista2)
                         {
-
-                            <option value=@str.Replace("\xa0", "_")>@str</option>
-
+                            <option value="@str">@str.Replace('_', '\xa0')</option>
                         }
                     }
                 </select>
@@ -168,23 +166,23 @@
                         lista2 = new List<string>();
                         foreach (string str in lista)
                         {
-                            string temp = str.Replace("_", "\xa0");
+                            string temp = str.Replace(' ', '_');
                             lista2.Add(temp);
                         }
 
                         foreach (Amenity amenity in apartment.amenities)
                         {
-                            if (lista2.Contains(amenity.name))
+                            if (lista2.Contains(amenity.name.Replace('\xa0', '_')))
                             {
 
-                                lista2.Remove(amenity.name);
+                                lista2.Remove(amenity.name.Replace('\xa0', '_'));
                             }
                         }
 
                         foreach (string str in lista2)
                         {
 
-                            <option value=@str.Replace("\xa0", "_")>@str</option>
+                            <option value="@str">@str.Replace('_', '\xa0')</option>
 
                         }
                     }
@@ -205,23 +203,23 @@
                         lista2 = new List<string>();
                         foreach (string str in lista)
                         {
-                            string temp = str.Replace("_", "\xa0");
+                            string temp = str.Replace(' ', '_');
                             lista2.Add(temp);
                         }
 
                         foreach (Amenity amenity in apartment.amenities)
                         {
-                            if (lista2.Contains(amenity.name))
+                            if (lista2.Contains(amenity.name.Replace('\xa0', '_')))
                             {
 
-                                lista2.Remove(amenity.name);
+                                lista2.Remove(amenity.name.Replace('\xa0', '_'));
                             }
                         }
 
                         foreach (string str in lista2)
                         {
 
-                            <option value=@str.Replace("\xa0", "_")>@str</option>
+                            <option value="@str">@str.Replace('_', '\xa0')</option>
 
                         }
                     }
@@ -243,23 +241,23 @@
                         lista2 = new List<string>();
                         foreach (string str in lista)
                         {
-                            string temp = str.Replace("_", "\xa0");
+                            string temp = str.Replace(' ', '_');
                             lista2.Add(temp);
                         }
 
                         foreach (Amenity amenity in apartment.amenities)
                         {
-                            if (lista2.Contains(amenity.name))
+                            if (lista2.Contains(amenity.name.Replace('\xa0', '_')))
                             {
 
-                                lista2.Remove(amenity.name);
+                                lista2.Remove(amenity.name.Replace('\xa0', '_'));
                             }
                         }
 
                         foreach (string str in lista2)
                         {
 
-                            <option value=@str.Replace("\xa0", "_")>@str</option>
+                            <option value="@str">@str.Replace('_', '\xa0')</option>
 
                         }
                     }

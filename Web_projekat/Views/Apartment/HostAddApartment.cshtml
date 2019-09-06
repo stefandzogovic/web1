@@ -80,6 +80,14 @@
         </div>
         <input multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
         <br />
+        <input type="number" name="postal_code"/>
+        <input type="text" name="city" />
+        <input type="text" name="street" />
+        <input type="number" name="number" />
+        <input type="number" name="latitude" step="any" />
+        <input type="number" name="longitude" step="any" />
+        <br />
+
         <div class="form-popup" id="myForm1">
             <div class="form-container">
                 <h1>Add Basic Amenity</h1>
@@ -87,7 +95,8 @@
                 <select id="selectedvaluebasic" name="selectedvaluebasic">
                     @foreach (string str in ViewBag.basic)
                     {
-                        <option value=@str>@str.Replace("_", " ")</option>
+                        string temp = str.Replace(' ', '_');
+                        <option value="@temp">@str.Replace(' ', '\xa0')</option>
                     }
                 </select>
 
@@ -103,7 +112,8 @@
                 <select id="selectedvaluefamily" name="selectedvaluefamily">
                     @foreach (string str in ViewBag.family)
                     {
-                        <option value=@str>@str.Replace("_", " ")</option>
+                        string temp = str.Replace(' ', '_');
+                        <option value="@temp">@str.Replace(" ", "\xa0")</option>
                     }
                 </select>
 
@@ -119,7 +129,8 @@
                 <select id="selectedvaluefacility" name="selectedvaluefacility">
                     @foreach (string str in ViewBag.facility)
                     {
-                        <option value=@str>@str.Replace("_", " ")</option>
+                        string temp = str.Replace(' ', '_');
+                        <option value="@temp">@str.Replace(" ", "\xa0")</option>
                     }
                 </select>
 
@@ -136,7 +147,8 @@
                 <select id="selectedvaluedining" name="selectedvaluedining">
                     @foreach (string str in ViewBag.dining)
                     {
-                        <option value=@str>@str.Replace("_", " ")</option>
+                        string temp = str.Replace(' ', '_');
+                        <option value="@temp">@str.Replace(" ", "\xa0")</option>
                     }
                 </select>
 

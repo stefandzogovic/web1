@@ -137,49 +137,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908140131527_initial.cs" />
-    <Compile Include="Migrations\201908140131527_initial.Designer.cs">
-      <DependentUpon>201908140131527_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908141717228_apartments.cs" />
-    <Compile Include="Migrations\201908141717228_apartments.Designer.cs">
-      <DependentUpon>201908141717228_apartments.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908151312565_nouserduplicates.cs" />
-    <Compile Include="Migrations\201908151312565_nouserduplicates.Designer.cs">
-      <DependentUpon>201908151312565_nouserduplicates.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908172359217_photo_class.cs" />
-    <Compile Include="Migrations\201908172359217_photo_class.Designer.cs">
-      <DependentUpon>201908172359217_photo_class.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908220211507_location+address.cs" />
-    <Compile Include="Migrations\201908220211507_location+address.Designer.cs">
-      <DependentUpon>201908220211507_location+address.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908241934337_migration.cs" />
-    <Compile Include="Migrations\201908241934337_migration.Designer.cs">
-      <DependentUpon>201908241934337_migration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908241941070_fix.cs" />
-    <Compile Include="Migrations\201908241941070_fix.Designer.cs">
-      <DependentUpon>201908241941070_fix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909030244476_isdeleted.cs" />
-    <Compile Include="Migrations\201909030244476_isdeleted.Designer.cs">
-      <DependentUpon>201909030244476_isdeleted.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909040230068_jsontimes.cs" />
-    <Compile Include="Migrations\201909040230068_jsontimes.Designer.cs">
-      <DependentUpon>201909040230068_jsontimes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909042125519_availableamenities.cs" />
-    <Compile Include="Migrations\201909042125519_availableamenities.Designer.cs">
-      <DependentUpon>201909042125519_availableamenities.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909042302467_isdeletedavaialableamenities.cs" />
-    <Compile Include="Migrations\201909042302467_isdeletedavaialableamenities.Designer.cs">
-      <DependentUpon>201909042302467_isdeletedavaialableamenities.cs</DependentUpon>
+    <Compile Include="Migrations\201909062256312_fixeddb.cs" />
+    <Compile Include="Migrations\201909062256312_fixeddb.Designer.cs">
+      <DependentUpon>201909062256312_fixeddb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address\Address.cs" />
@@ -266,38 +226,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908140131527_initial.resx">
-      <DependentUpon>201908140131527_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908141717228_apartments.resx">
-      <DependentUpon>201908141717228_apartments.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908151312565_nouserduplicates.resx">
-      <DependentUpon>201908151312565_nouserduplicates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908172359217_photo_class.resx">
-      <DependentUpon>201908172359217_photo_class.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908220211507_location+address.resx">
-      <DependentUpon>201908220211507_location+address.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908241934337_migration.resx">
-      <DependentUpon>201908241934337_migration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908241941070_fix.resx">
-      <DependentUpon>201908241941070_fix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909030244476_isdeleted.resx">
-      <DependentUpon>201909030244476_isdeleted.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909040230068_jsontimes.resx">
-      <DependentUpon>201909040230068_jsontimes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909042125519_availableamenities.resx">
-      <DependentUpon>201909042125519_availableamenities.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909042302467_isdeletedavaialableamenities.resx">
-      <DependentUpon>201909042302467_isdeletedavaialableamenities.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909062256312_fixeddb.resx">
+      <DependentUpon>201909062256312_fixeddb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

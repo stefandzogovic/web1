@@ -30,7 +30,7 @@
 
         Apartment apartment = (Apartment)ViewBag.ap;
         DateTimeCollection dates = apartment.Times;
-        
+
         int x = 0;
         string str1 = "list[" + x + "].Key";
         string str2 = "list[" + x + "].Value";
@@ -38,6 +38,7 @@
         int familycnt = 0;
         int facilitycnt = 0;
         int diningcnt = 0;
+        int datescnt = apartment.Times.Count / 2;
         Dictionary<int, Amenity> dict = new Dictionary<int, Amenity>();
         dict = apartment.amenities.ToDictionary(y => y.AmenityId, y => y);
         foreach (Amenity am in dict.Values)
@@ -63,20 +64,24 @@
         <input id="familycnt" value=@familycnt hidden />
         <input id="facilitycnt" value=@facilitycnt hidden />
         <input id="diningcnt" value=@diningcnt hidden />
+        <input id="datescnt" value=@datescnt hidden/>
     }
 
     <button id="btn" onclick="add_input()">Click me</button>
     <script>
         $(document).ready(function () {
-            var y = 1;
-            var str = "list[" + y + "].Key";
-            var strr = "list[" + y + "].Value";
-
+         
             $("#btn").click(function () {
-                $('#datesdiv').after('<div class="dates"> <label> Choose DOB</label> <input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" /> </div>');
+                var els = document.getElementsByClassName('dates').length;
+                var str = "list[" + els + "].Key";
+                var strr = "list[" + els + "].Value";                                                                                                                                                                                                                                                                                                                              
+                $('#datesmaindiv').append('<div id="datesdiv" class="dates"> <label> Choose DOB</label> <input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <button type="button" id="datedelete' + els + '">Delete</button> </div>');
                 $('.dates #user1').datepicker({
                     'format': 'dd-mm-yyyy',
                     'autoclose': true
+                });
+                $('#datedelete' + els).on("click", function () {
+                    $(this).parent().remove();
                 });
             });
         });
@@ -86,18 +91,23 @@
         <input type="number" name="number_of_rooms" value=@apartment.number_of_rooms />
         <input type="number" name="number_of_guests" value=@apartment.number_of_guests />
         <input type="number" name="price_per_night" value="@apartment.price_per_night" />
-        <div id="datesdiv" class="dates">
-            <label>Choose DOB</label>
-            @for(int cnt = 0, cnt1 = 0; cnt < apartment.Times.Count/2; cnt++, cnt1 += 2) {
-            <input type="text" name="list[@cnt].Key" value=@apartment.Times[cnt1] autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
-               int tempcnt = cnt1 + 1;
-            <input type="text" name="list[@cnt].Value" value=@apartment.Times[tempcnt] autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
+        <div id="datesmaindiv">
+            @for (int cnt = 0, cnt1 = 0; cnt < apartment.Times.Count / 2; cnt++, cnt1 += 2)
+            {
+                <div id="datesdiv" class="dates">
+                    <label>Choose DOB</label>
+                    <input type="text" name="list[@cnt].Key" value=@apartment.Times[cnt1] autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
+                    @{
+                        int tempcnt = cnt1 + 1;
+                    }
+                    <input type="text" name="list[@cnt].Value" value=@apartment.Times[tempcnt] autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
+                    <button type="button" id="datedelete@(cnt)">Delete</button>
+                </div>
             }
         </div>
         <input class="hidden" multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
         <label for="imageUpload">Select files</label>
         <br id="br" />
-
         @{
             int i = 0;
         }
@@ -524,6 +534,18 @@
 
     <script>
         $(document).ready(function () {
+            var cnt = $('#datescnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#datedelete' + i).on("click", function () {
+                    $(this).parent().remove();
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
             var cnt = $('#familycnt').val();
             var i;
             for (i = 0; i <= cnt; i++) {
@@ -614,6 +636,12 @@
             els = document.getElementsByClassName('amenitydining');
             for (var i = 0; i < els.length; i++) {
                 $(els[i]).attr('name', 'amenitydining[' + i + ']');
+            }
+            els = document.getElementsByClassName('inputdate');
+            for (var i = 0, j = 0; j < els.length; i++ , j += 2) {
+                var tempcnt = j + 1;
+                $(els[j]).attr('name', 'list[' + j/2 + '].Key');
+                $(els[tempcnt]).attr('name', 'list[' + j/2 + '].Value');
             }
             return true;
         }

@@ -169,11 +169,24 @@
     <Compile Include="Migrations\201909030244476_isdeleted.Designer.cs">
       <DependentUpon>201909030244476_isdeleted.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909040230068_jsontimes.cs" />
+    <Compile Include="Migrations\201909040230068_jsontimes.Designer.cs">
+      <DependentUpon>201909040230068_jsontimes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909042125519_availableamenities.cs" />
+    <Compile Include="Migrations\201909042125519_availableamenities.Designer.cs">
+      <DependentUpon>201909042125519_availableamenities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909042302467_isdeletedavaialableamenities.cs" />
+    <Compile Include="Migrations\201909042302467_isdeletedavaialableamenities.Designer.cs">
+      <DependentUpon>201909042302467_isdeletedavaialableamenities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address\Address.cs" />
     <Compile Include="Models\ApartmentContent\Apartment_content.cs" />
     <Compile Include="Models\Apartment\Amenity.cs" />
     <Compile Include="Models\Apartment\Apartment.cs" />
+    <Compile Include="Models\Apartment\AvailableAmenities.cs" />
     <Compile Include="Models\Apartment\Photo.cs" />
     <Compile Include="Models\Apartment\Type.cs" />
     <Compile Include="Models\Location\Location.cs" />
@@ -217,6 +230,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -233,6 +247,7 @@
     <Content Include="Views\Apartment\HostAddApartment.cshtml" />
     <Content Include="Views\Apartment\AdminInactiveApartments.cshtml" />
     <Content Include="Views\Apartment\ChangeApartment.cshtml" />
+    <Content Include="Views\Apartment\AdminChangeAmenities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -274,6 +289,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909030244476_isdeleted.resx">
       <DependentUpon>201909030244476_isdeleted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909040230068_jsontimes.resx">
+      <DependentUpon>201909040230068_jsontimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909042125519_availableamenities.resx">
+      <DependentUpon>201909042125519_availableamenities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909042302467_isdeletedavaialableamenities.resx">
+      <DependentUpon>201909042302467_isdeletedavaialableamenities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

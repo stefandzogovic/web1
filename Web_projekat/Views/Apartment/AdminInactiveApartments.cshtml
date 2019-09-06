@@ -10,15 +10,23 @@
 <body>
     @foreach (User u in ViewBag.lista)
     {
-        <ul class="flex-container">
-            @foreach (Apartment ap in u.apartments)
-            {
+    <ul class="flex-container">
+        @foreach (Apartment ap in u.apartments)
+        {
             <li class="flex-item">
                 <div>
-                    @{ var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
-                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                        <img id="img" src="@imgSrc" />
+                    @{
+                        if (ap.images != null)
+                        {
+                            if (ap.images.Count != 0)
+                            {
+                                var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                <img id="img" src="@imgSrc" />
+                            }
+                        }
                         <div id="object">
+
                             <p>@ap.type for sale.</p>
                             <form method="post" action="~/Apartment/AdminInactiveApartments">
                                 <input hidden name="id" value="@ap.ApartmentId" />
@@ -40,8 +48,8 @@
                     }
                 </div>
             </li>
-            }
-        </ul>
+        }
+    </ul>
     }
 
     <style>

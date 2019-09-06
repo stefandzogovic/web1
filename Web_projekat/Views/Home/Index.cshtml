@@ -43,40 +43,37 @@
             Welcome to the site.
         </h3>
         <br />
-        <a href="~/userOperations/Logout">Logout</a>
     }
     else
     {
         <a href="~/UserOperations/Register">Register</a>
         <a href="~/UserOperations/Login">Log in</a>
 
-        if ((string)Session["dropdown"] == "sortasc")
-        {
-            <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
-                <option selected value="sortasc">Sort Apartments Ascending</option>
-                <option value="sortdesc">Sort Apartments Descending</option>
-            </select>
-        }
-        else if ((string)Session["dropdown"] == "sortdesc")
-        {
-            <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
-                <option value="sortasc">Sort Apartments Ascending</option>
-                <option selected value="sortdesc">Sort Apartments Descending</option>
-            </select>
-        }
-
-        else
-        {
-            <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
-                <option value="" disabled selected>Sort</option>
-                <option value="sortasc">Sort Apartments Ascending</option>
-                <option value="sortdesc">Sort Apartments Descending</option>
-            </select>
-        }
-
     }
 
+    @if ((string)Session["dropdown"] == "sortasc")
+    {
+        <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
+            <option selected value="sortasc">Sort Apartments Ascending</option>
+            <option value="sortdesc">Sort Apartments Descending</option>
+        </select>
+    }
+    else if ((string)Session["dropdown"] == "sortdesc")
+    {
+        <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
+            <option value="sortasc">Sort Apartments Ascending</option>
+            <option selected value="sortdesc">Sort Apartments Descending</option>
+        </select>
+    }
 
+    else
+    {
+        <select id="selectedvalue" name="selectedvalue" onchange="mySubmit()">
+            <option value="" disabled selected>Sort</option>
+            <option value="sortasc">Sort Apartments Ascending</option>
+            <option value="sortdesc">Sort Apartments Descending</option>
+        </select>
+    }
     <ul class="flex-container">
         @foreach (Apartment ap in ViewBag.lista)
         {
@@ -98,6 +95,12 @@
             }
         }
     </ul>
+
+
+    @if (Session["user"] != null)
+    {
+        <a href="~/userOperations/Logout">Logout</a>
+    }
 
 
 

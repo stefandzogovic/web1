@@ -243,15 +243,20 @@ namespace Web_projekat.Controllers
                 temp.images = dal.photosdb.Where(x => x.ApartmentId == temp.ApartmentId).Select(x => x).ToList();
                 temp.amenities = dal.amenitiesdb.Where(x => x.ApartmentId == temp.ApartmentId).Select(x => x).ToList();
                 List<string> dates = new List<string>();
-                foreach(KeyValuePair<string, string> tempdates in list)
-                {
-                    dates.Add(tempdates.Key);
-                    dates.Add(tempdates.Value);
-                }
-                temp.Times.Clear();
-                temp.Times.AddRange(dates);
+  
+
                 if (temp.ApartmentId == apartment.ApartmentId)
                 {
+
+                    foreach (KeyValuePair<string, string> tempdates in list)
+                    {
+
+                        dates.Add(tempdates.Key);
+                        dates.Add(tempdates.Value);
+                    }
+
+                    temp.Times.Clear();
+                    temp.Times.AddRange(dates);
                     temp.number_of_guests = apartment.number_of_guests;
 
                     temp.number_of_rooms = apartment.number_of_rooms;
@@ -450,7 +455,7 @@ namespace Web_projekat.Controllers
                     if (!templist.Contains(str) && str != "") //and if string != ""
                     {
                         AvailableAmenities am = new AvailableAmenities();
-                        am.name = str;
+                        am.name = str.Replace(' ', '\xa0');
                         am.type = 1;
                         dal.availableamenitiesdb.Add(am);
 
@@ -478,7 +483,7 @@ namespace Web_projekat.Controllers
                     if (!templist.Contains(str) && str != "")
                     {
                         AvailableAmenities am = new AvailableAmenities();
-                        am.name = str;
+                        am.name = str.Replace(' ', '\xa0');
                         am.type = 2;
                         dal.availableamenitiesdb.Add(am);
                     }
@@ -504,7 +509,7 @@ namespace Web_projekat.Controllers
                     if (!templist.Contains(str) && str != "")
                     {
                         AvailableAmenities am = new AvailableAmenities();
-                        am.name = str;
+                        am.name = str.Replace(' ', '\xa0');
                         am.type = 3;
                         dal.availableamenitiesdb.Add(am);
 
@@ -531,7 +536,7 @@ namespace Web_projekat.Controllers
                     if (!templist.Contains(str) && str != "")
                     {
                         AvailableAmenities am = new AvailableAmenities();
-                        am.name = str;
+                        am.name = str.Replace(' ', '\xa0');
                         am.type = 4;
                         dal.availableamenitiesdb.Add(am);
                     }

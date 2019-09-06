@@ -40,28 +40,43 @@
     <button id="btn" onclick="add_input()">Click me</button>
     <script>
         $(document).ready(function () {
-            var y = 1;
-            var str = "list[" + y + "].Key";
-            var strr = "list[" + y + "].Value";
-
             $("#btn").click(function () {
-                $('#datesdiv').after('<div class="dates"> <label> Choose DOB</label> <input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" /> </div>');
+                var els = document.getElementsByClassName('dates').length;
+                var str = "list[" + els + "].Key";
+                var strr = "list[" + els + "].Value";
+                $('#datesmaindiv').append('<div id="datesdiv" class="dates"> <label> Choose DOB</label> <input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <button type="button" id="datedelete' + els + '">Delete</button> </div>');
                 $('.dates #user1').datepicker({
                     'format': 'dd-mm-yyyy',
                     'autoclose': true
                 });
+                $('#datedelete' + els).on("click", function () {
+                    $(this).parent().remove();
+                });
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#datedelete0').on("click", function () {
+                $(this).parent().remove();
+            });
+        
+        });
+    </script>
+
     <form id="my-form" enctype="multipart/form-data" method="post" action="~/Apartment/AddApartment">
 
         <input type="number" name="number_of_rooms" />
         <input type="number" name="number_of_guests" />
         <input type="number" name="price_per_night" />
-        <div id="datesdiv" class="dates">
-            <label>Choose DOB</label>
-            <input type="text" name=@str1 autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
-            <input type="text" name=@str2 autocomplete="off" style="width:150px" id="user1" class="form-control" placeholder="dd-mm-yyyy" />
+        <div id="datesmaindiv">
+            <div id="datesdiv" class="dates">
+                <label>Choose DOB</label>
+                <input type="text" name=@str1 autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
+                <input type="text" name=@str2 autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
+                <button type="button" id="datedelete0">Delete</button>
+            </div>
         </div>
         <input multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
         <br />
@@ -159,7 +174,8 @@
                 </li>
             </ul>
         </div>
-        <input type="submit" value="Create" />
+
+        <input type="submit" onclick="Submit()" value="Create" />
     </form>
     <style>
         * {
@@ -334,11 +350,39 @@
     </script>
 
     <script>
+        function Submit() {
+            var els = document.getElementsByClassName('amenitybasic');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenitybasic[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenityfamily');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenityfamily[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenityfacility');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenityfacility[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenitydining');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenitydining[' + i + ']');
+            }
+            els = document.getElementsByClassName('inputdate');
+            for (var i = 0, j = 0; j < els.length; i++ , j += 2) {
+                var tempcnt = j + 1;
+                $(els[j]).attr('name', 'list[' + j / 2 + '].Key');
+                $(els[tempcnt]).attr('name', 'list[' + j / 2 + '].Value');
+            }
+            return true;
+        }
+    </script>
+
+    <script>
         $(document).ready(function () {
             var x = 0;
             $('#addbascibtn').click(function () {
                 var str = $("#selectedvaluebasic option:selected").val().replace(/\_/g, '\xa0');
-                
+
                 $('#header1').parent().after('<div id = "containerbasic' + x + '"><input type="text" value=' + str + ' id = "amenitybasic" readonly class="amenity" name= "amenitybasic[' + x + ']"/><button type="button" class = "buttton" id="amenitybasic[' + x + ']btn">Delete</button></div>');
                 $('#selectedvaluebasic option:selected').remove();
                 alert($("input[id='amenitybasic']").length);

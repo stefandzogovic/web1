@@ -61,9 +61,17 @@ namespace Web_projekat.Controllers
 
                 lista.Add(apartment);
 
-
             }
 
+            if((string)Session["filterbytype"] == "room")
+            {
+                ViewBag.lista = lista.Select(x => x).Where(x => x.type == Models.Type.Room);
+            }
+
+            if ((string)Session["filterbytype"] == "apartment")
+            {
+                ViewBag.lista = lista.Select(x => x).Where(x => x.type == Models.Type.Apartment);
+            }
 
             if ((string)Session["dropdown"] == "sortasc")
             {
@@ -82,6 +90,13 @@ namespace Web_projekat.Controllers
 
             return View();
         }
+        
+        [HttpPost]
+        public ActionResult Filterbytype(string filterbytype)
+        {
+            Session["filterbytype"] = filterbytype;
 
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -188,9 +188,19 @@ namespace Web_projekat.Controllers
 
             foreach (User u in dal.usersdb.ToDictionary(x => x.username, x => x).Values)
             {
-                u.apartments = dal.apartmentsdb.Select(x => x).Where(x => x.UserId == u.UserId).ToList();
 
-                foreach(Apartment ap in u.apartments)
+                if ((string)Session["filterbystatus"] == "active")
+                {
+                    u.apartments = dal.apartmentsdb.Select(x => x).Where(x => x.UserId == u.UserId).Where(x => x.active == true).ToList();
+
+                }
+                else if ((string)Session["filterbystatus"] == "inactive")
+                {
+
+                    u.apartments = dal.apartmentsdb.Select(x => x).Where(x => x.UserId == u.UserId).Where(x => x.active == false).ToList();
+                }
+
+                foreach (Apartment ap in u.apartments)
                 {
                     ap.images = dal.photosdb.Select(x => x).Where(x => x.ApartmentId == ap.ApartmentId).ToList();
                     ap.amenities = dal.amenitiesdb.Select(x => x).Where(x => x.ApartmentId == ap.ApartmentId).ToList();
@@ -613,7 +623,20 @@ namespace Web_projekat.Controllers
         [HttpPost]
         public ActionResult ViewApartment(int apartmentid)
         {
+            Apartment ap = dal.apartmentsdb.Select(x => x).Where(x => x.ApartmentId == apartmentid).Where(x => x.IsDeleted == false).Single();
+            ap.images = dal.photosdb.Select(x => x).Where(x => x.ApartmentId == ap.ApartmentId).Where(x => x.IsDeleted == false).ToList();
+            ap.amenities = dal.amenitiesdb.Select(x => x).Where(x => x.ApartmentId == ap.ApartmentId).Where(x => x.IsDeleted == false).ToList();
+            ap.Location = dal.locationsdb.Select(x => x).Where(x => x.IsDeleted == false).Where(x => x.Apartment == ap).Single();
+            ViewBag.ap = ap; 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Filterbystatus(string filterbystatus)
+        {
+            Session["filterbystatus"] = filterbystatus;
+
+            return RedirectToAction("AdminInactiveApartments");
         }
 
 

@@ -37,6 +37,7 @@ else
 
     @if (Session["user"] != null)
     {
+        User userx = (User)Session["user"];
         <h3>
             @ViewBag.user.username
 
@@ -69,7 +70,19 @@ else
             <option value="sortasc">Sort Apartments By Price Ascending</option>
             <option value="sortdesc">Sort Apartments By Price Descending</option>
         </select>
+
+
     }
+
+    <form action="~/Apartment/Filterbytype" method="post">
+        <select id="selectedvalue" name="filterbytype" onchange="mySubmit1()">
+            <option value="" disabled selected>Filter by Type</option>
+            <option value="room">Room </option>
+            <option value="apartment">Apartment</option>
+        </select>
+        <input id="submitara" hidden type="submit" />
+    </form>
+
     <ul class="flex-container">
         @foreach (Apartment ap in ViewBag.lista)
         {
@@ -102,6 +115,11 @@ else
                                     <p>@ap.price_per_night $</p>
                                     <p>@ap.Location.Address.city</p>
                                     <p>@ap.Location.Address.street @ap.Location.Address.number</p>
+                                    <p>@ap.Location.Address.postal_code</p>
+                                    <p>Number of guests: @ap.number_of_guests</p>
+                                    <p>Number of rooms: @ap.number_of_rooms</p>
+                                    <p>Owner: @ap.User.name @ap.User.surname</p>
+
                                     <input hidden name="id" value="@ap.ApartmentId" />
                                 </div>
                                 <input hidden type="number" name="apartmentid" value="@ap.ApartmentId" />
@@ -119,6 +137,12 @@ else
     <script>
         function clickFunc(id) {
             document.getElementById("submitbtn_" + id).click();
+        }
+    </script>
+
+    <script>
+        function mySubmit1(id) {
+            document.getElementById("submitara").click();
         }
     </script>
 
@@ -183,7 +207,23 @@ else
                 }
             });
         }
+    </script>
 
+    <script type="text/javascript">
+        function mySubmit() {
+            var selectedValue = $("select[name='selectedValue']")[0];
+            $.ajax({ // create an AJAX call...
+                data: { 'selectedValue': $('#selectedvalue').val() },
+                type: 'POST',
+                url: "Home/Index",
+                success: function (lista) { // on success..
+                    window.location.href = '@Url.Content("~/")';
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+        }
     </script>
 
 </body>

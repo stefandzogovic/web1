@@ -8,55 +8,103 @@
 
 </head>
 <body>
+
+    <script>
+        function mySubmit1(id) {
+            document.getElementById("submitara").click();
+        }
+    </script>
+
+    @{
+        User userx = (User)Session["user"];
+    }
+    @if (userx.role == Role.Admin || userx.role == Role.Host)
+    {
+        if ((string)Session["filterbystatus"] == "active")
+        {
+            <form action="~/Apartment/Filterbystatus" method="post">
+                <select id="selectedvalue" name="filterbystatus" onchange="mySubmit1()">
+                    <option value="" disabled>Filter by status</option>
+                    <option selected value="active">Active </option>
+                    <option value="inactive">Inactive</option>
+                </select>
+                <input id="submitara" hidden type="submit" />
+            </form>
+        }
+        else if ((string)Session["filterbystatus"] == "inactive")
+        {
+            <form action="~/Apartment/Filterbystatus" method="post">
+                <select id="selectedvalue" name="filterbystatus" onchange="mySubmit1()">
+                    <option value="" disabled>Filter by status</option>
+                    <option value="active">Active </option>
+                    <option selected value="inactive">Inactive</option>
+                </select>
+                <input id="submitara" hidden type="submit" />
+            </form>
+        }
+    }
+    else
+    {
+        <form action="~/Apartment/Filterbystatus" method="post">
+            <select id="selectedvalue" name="filterbystatus" onchange="mySubmit1()">
+                <option selected value="" disabled>Filter by status</option>
+                <option value="active">Active </option>
+                <option  value="inactive">Inactive</option>
+            </select>
+            <input id="submitara" hidden type="submit" />
+        </form>
+    }
+
+    
     @foreach (User u in ViewBag.lista)
     {
-    <ul class="flex-container">
-        @foreach (Apartment ap in u.apartments)
-        {
-            if (!ap.IsDeleted)
+        <ul class="flex-container">
+            @foreach (Apartment ap in u.apartments)
             {
-            <li class="flex-item">
-                <div>
-                    @{
-                        if (ap.images != null)
-                        {
-                            if (ap.images.Count != 0)
-                            {
-                                var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
-                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                <img id="img" src="@imgSrc" />
-                            }
-                        }
-                        <div id="object">
+                if (!ap.IsDeleted)
+                {
+                    <li class="flex-item">
+                        <div>
+                            @{
+                                if (ap.images != null)
+                                {
+                                    if (ap.images.Count != 0)
+                                    {
+                                        var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                        <img id="img" src="@imgSrc" />
+                                    }
+                                }
+                                <div id="object">
 
-                            <p>@ap.type for sale.</p>
-                            <form method="post" action="~/Apartment/AdminInactiveApartments">
-                                <input hidden name="id" value="@ap.ApartmentId" />
-                                <select id="active" name="active">
-                                    @if (ap.active)
-                                    {
-                                        <option selected value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                    }
-                                    else
-                                    {
-                                        <option selected value="Inactive">Inactive</option>
-                                        <option value="Active">Active</option>
-                                    }
-                                </select>
-                                <input class="button" type="submit" value="Change" />
-                            </form>
-                        </div>
-                        <form method="post" action="~/Apartment/AdminDeleteApartment">
-                            <input hidden name="id" value="@ap.ApartmentId" />
-                            <input class="button" type="submit" value="Delete" />
-                        </form>
-                    }
-                </div>
-            </li>
+                                    <p>@ap.type for sale.</p>
+                                    <form method="post" action="~/Apartment/AdminInactiveApartments">
+                                        <input hidden name="id" value="@ap.ApartmentId" />
+                                        <select id="active" name="active">
+                                            @if (ap.active)
+                                            {
+                                                <option selected value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
+                                            }
+                                            else
+                                            {
+                                                <option selected value="Inactive">Inactive</option>
+                                                <option value="Active">Active</option>
+                                            }
+                                        </select>
+                                        <input class="button" type="submit" value="Change" />
+                                    </form>
+                                </div>
+                                <form method="post" action="~/Apartment/AdminDeleteApartment">
+                                    <input hidden name="id" value="@ap.ApartmentId" />
+                                    <input class="button" type="submit" value="Delete" />
+                                </form>
                             }
-                        }
-    </ul>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
     }
 
     <style>

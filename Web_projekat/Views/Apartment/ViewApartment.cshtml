@@ -1,7 +1,1245 @@
-﻿
-@{
-    ViewBag.Title = "ViewApartment";
-}
+﻿@using Web_projekat.Models.User;
+@using Web_projekat.Models;
 
-<h2>ViewApartment</h2>
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,800' rel='stylesheet'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <link rel="stylesheet" href="~/Scripts/dropzone/dropzone.css" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/dropzone/dropzone.js"></script>
+    <script>
+        $(function () {
+            $('.dates #user1').datepicker({
+                'format': 'dd-mm-yyyy',
+                'autoclose': true
+            });
+        });
+
+    </script>
+</head>
+
+
+<body>
+
+    @{
+        Layout = null;
+        Apartment apartment = (Apartment)ViewBag.ap;
+
+        int x = 0;
+        string str1 = "list[" + x + "].Key";
+        string str2 = "list[" + x + "].Value";
+        int basiccnt = 0;
+        int familycnt = 0;
+        int facilitycnt = 0;
+        int diningcnt = 0;
+        int datescnt = apartment.Times.Count / 2;
+        Dictionary<int, Amenity> dict = new Dictionary<int, Amenity>();
+        dict = apartment.amenities.ToDictionary(y => y.AmenityId, y => y);
+        foreach (Amenity am in dict.Values)
+        {
+            if (am.type == 1)
+            {
+                basiccnt++;
+            }
+            else if (am.type == 2)
+            {
+                familycnt++;
+            }
+            else if (am.type == 3)
+            {
+                facilitycnt++;
+            }
+            else
+            {
+                diningcnt++;
+            }
+        }
+        <input id="basiccnt" value=@basiccnt hidden />
+        <input id="familycnt" value=@familycnt hidden />
+        <input id="facilitycnt" value=@facilitycnt hidden />
+        <input id="diningcnt" value=@diningcnt hidden />
+        <input id="datescnt" value=@datescnt hidden />
+    }
+    <div class="header">
+        <div class="innerheader">
+            <div class="logo_container">
+                <h1>@Html.ActionLink("MySite", "Index", "Home")</h1>
+            </div>
+
+            <ul class="navigation">
+                <li><a>@Html.ActionLink("Your Profile", "UserChangeData", "UserOperations")</a></li>
+                <li><a>@Html.ActionLink("Apartments", "HostViewApartments", "Apartment", new { area = "" }, new { @class = "klasa" })</a></li>
+                <li><a>@Html.ActionLink("Log Out", "Logout", "UserOperations")</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="bg-image"></div>
+    <div class="bg-image"></div>
+
+
+    <style>
+        .navigation li .klasa {
+            font-size: x-large;
+            color: red;
+        }
+
+        .disableButton {
+            background: #eee;
+            color: #444;
+        }
+
+        .name {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        .container {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        * {
+            font-family: sans-serif;
+        }
+
+
+        input[type=text], input[type=password], input[type=email] {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            color: wheat;
+            padding: 11px 5px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        span {
+            font-size: 25px;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            color: wheat;
+            padding: 11px 5px;
+        }
+
+
+        input[type=radio] {
+            padding: 12px 5px;
+            margin: 5px;
+            margin-top: 15px;
+            color: wheat;
+            background-color: black;
+        }
+
+        input[type=submit], button, .imageupload {
+            cursor: pointer;
+            width: 150px;
+            border-radius: 18px;
+            font-size: 25px;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            outline: none;
+            color: gray;
+            margin-bottom: 5px;
+            border: none;
+            box-sizing: border-box;
+            left: 15%;
+            transition-duration: 0.4s;
+        }
+
+
+            button:hover, input[type=submit]:hover, .imageupload:hover {
+                background-color: gray;
+                color: wheat;
+                border: 1px solid wheat;
+            }
+
+        .rad {
+            font-weight: 400;
+            text-align: center;
+            margin: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        select {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: solid 1px black;
+            outline: none;
+            font-weight: 100;
+            font-size: 16px;
+            border-bottom: 1px solid white;
+            margin: 5px;
+            color: black;
+            background-color: black;
+            padding: 12px 5px;
+        }
+
+        .selq {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: black;
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 6px;
+            color: gray;
+            padding: 12px 5px;
+        }
+    </style>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat';
+        }
+
+        .numbers {
+            float: left;
+            border: 1px solid wheat;
+            height: 100%;
+            margin-right: 15px;
+            margin-left: 15px;
+            width: 300px;
+            margin-top: 19px;
+        }
+
+        .numberss {
+            float: left;
+            border: 1px solid wheat;
+            margin-right: 15px;
+            width: 300px;
+            height: 100%;
+        }
+
+        .numbersss {
+            float: left;
+            border: 1px solid wheat;
+            width: 300px;
+            height: 100%;
+        }
+
+        #wrapper {
+            width: 960px;
+            border: 1px solid black;
+            overflow: hidden; /* will contain if #first is longer than #second */
+        }
+
+        .bg-image {
+            background-image: url(../Content/1200x-1.jpg);
+            background-size: 100% 100%;
+            /* The image used */
+            /* Add the blur effect */
+            filter: blur(5px);
+            /* Full height */
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .navigation li:last-child {
+            padding-right: 0;
+        }
+
+
+
+        .navigation li a {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            color: wheat;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+
+
+
+            .navigation li a:hover {
+                font-size: x-large;
+                color: red;
+            }
+
+        .navigation li {
+            height: 100%;
+            display: table;
+            float: left;
+            padding: 0px 20px;
+        }
+
+
+        .navigation {
+            float: right;
+            height: 100%;
+        }
+
+        .error {
+            color: red;
+        }
+
+
+        .innerheader {
+            width: 70%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+        }
+
+        .header {
+            width: 100%;
+            height: 80px;
+            display: block;
+            background-color: #101010;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .logo_container {
+            height: 100%;
+            display: table;
+            float: left;
+        }
+
+            .logo_container h1 {
+                height: 100%;
+                display: table-cell;
+                vertical-align: middle;
+                font-size: 32px;
+            }
+    </style>
+    <div class="container">
+        <button id="btn" onclick="add_input()">Add available dates</button>
+        <script>
+            $(document).ready(function () {
+
+                $("#btn").click(function () {
+                    var els = document.getElementsByClassName('dates').length;
+                    var str = "list[" + els + "].Key";
+                    var strr = "list[" + els + "].Value";
+                    $('#datesmaindiv').append('<div id="datesdiv" class="dates"><input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <button type="button" id="datedelete' + els + '">Delete</button> </div>');
+                    $('.dates #user1').datepicker({
+                        'format': 'dd-mm-yyyy',
+                        'autoclose': true
+                    });
+                    $('#datedelete' + els).on("click", function () {
+                        $(this).parent().remove();
+                    });
+                });
+            });
+        </script>
+        <form id="my-form" method="post" enctype="multipart/form-data" action="~/Apartment/Change">
+            <input type="number" name="apartmentId" hidden value=@apartment.ApartmentId>
+            <div id="datesmaindiv">
+                @for (int cnt = 0, cnt1 = 0; cnt < apartment.Times.Count / 2; cnt++, cnt1 += 2)
+                {
+                    <div id="datesdiv" class="dates">
+                        <input type="text" name="list[@cnt].Key" value=@apartment.Times[cnt1] autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
+                        @{
+                            int tempcnt = cnt1 + 1;
+                        }
+                        <input type="text" name="list[@cnt].Value" value=@apartment.Times[tempcnt] autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
+                        <button type="button" id="datedelete@(cnt)">Delete</button>
+                    </div>
+                }
+            </div>
+            <select id="selectedvalue" name="tajp">
+                @if (apartment.type == 0)
+                {
+                    <option selected value="apartment">Apartment</option>
+                }
+                else
+
+                {
+                    <option selected value="room">Room</option>
+                }
+            </select>
+            <br />
+            <div id="wrapper">
+                <div class="numbers">
+                    <span>Number of rooms</span>
+                    <input type="number" name="number_of_rooms" value=@apartment.number_of_rooms />
+                    <br />
+                    <br />
+                    <span>Number of guests</span>
+                    <input type="number" name="number_of_guests" value=@apartment.number_of_guests />
+                    <br />
+                    <br />
+                    <span>Price per night</span>
+                    <input type="number" name="price_per_night" value="@apartment.price_per_night" />
+                </div>
+                <br />
+                <div class="numberss">
+                    <span>Postal code</span>
+                    <input type="number" value=@apartment.Location.Address.postal_code name="postal_code" />
+                    <br />
+                    <br />
+                    <span>City</span>
+                    <input type="text" value=@apartment.Location.Address.city name="city" />
+                    <br />
+                    <br />
+                    <span>Street</span>
+                    <input type="text" value=@apartment.Location.Address.street name="street" />
+                </div>
+                <div class="numbersss">
+                    <span>Street number</span>
+                    <input type="number" value=@apartment.Location.Address.number name="number" />
+                    <br />
+                    <br />
+                    <span>Latitude</span>
+                    <input type="number" value=@apartment.Location.latitude name="latitude" step="any" />
+                    <br />
+                    <br />
+                    <span>Longitude</span>
+                    <input type="number" value=@apartment.Location.longitude name="longitude" step="any" />
+                </div>
+            </div>
+            <br />
+            <br />
+            <input hidden multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
+
+            <label class="imageupload" for="imageUpload">Choose photos</label>
+            <br />
+            <br id="br" />
+            @{
+                int i = 0;
+            }
+            @foreach (Photo ph in apartment.images)
+            {
+                if (!ph.IsDeleted)
+                {
+                    var base64 = Convert.ToBase64String(ph.ImageBytes);
+                    var imgSrc = String.Format("data:{0};base64,{1}", ph.Description, base64);
+                    <input type="image" name="imageUpload1[@i]" class="img" src="@imgSrc" id="output[@i]" />
+                    i++;
+                }
+            }
+            <br />
+            <br id="br" />
+
+            <div class="form-popup" id="myForm1">
+                <div class="form-container">
+                    <h1>Add Basic Amenity</h1>
+
+                    <select id="selectedvaluebasic" name="selectedvaluebasic">
+
+                        @{
+                            List<string> lista = ViewBag.basic;
+                            List<string> lista2 = new List<string>();
+                            foreach (string str in lista)
+                            {
+                                string temp = str.Replace(' ', '_');
+                                lista2.Add(temp);
+                            }
+
+                            foreach (Amenity amenity in apartment.amenities)
+                            {
+                                if (lista2.Contains(amenity.name.Replace('\xa0', '_')))
+                                {
+
+                                    lista2.Remove(amenity.name.Replace('\xa0', '_'));
+                                }
+                            }
+
+                            foreach (string str in lista2)
+                            {
+                                <option value="@str">@str.Replace('_', '\xa0')</option>
+                            }
+                        }
+                    </select>
+
+                    <button type="button" class="btn" id="addbascibtn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
+                </div>
+            </div>
+
+            <div class="form-popup" id="myForm2">
+                <div class="form-container">
+                    <h1>Add Family Feature Amenity</h1>
+
+                    <select id="selectedvaluefamily" name="selectedvaluefamily">
+                        @{
+                            lista = ViewBag.family;
+                            lista2 = new List<string>();
+                            foreach (string str in lista)
+                            {
+                                string temp = str.Replace(' ', '_');
+                                lista2.Add(temp);
+                            }
+
+                            foreach (Amenity amenity in apartment.amenities)
+                            {
+                                if (lista2.Contains(amenity.name.Replace('\xa0', '_')))
+                                {
+
+                                    lista2.Remove(amenity.name.Replace('\xa0', '_'));
+                                }
+                            }
+
+                            foreach (string str in lista2)
+                            {
+
+                                <option value="@str">@str.Replace('_', '\xa0')</option>
+
+                            }
+                        }
+                    </select>
+
+                    <button type="button" class="btn" id="addfamilybtn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
+                </div>
+            </div>
+
+            <div class="form-popup" id="myForm3">
+                <div class="form-container">
+                    <h1>Add Facility Amenity</h1>
+
+                    <select id="selectedvaluefacility" name="selectedvaluefacility">
+                        @{
+                            lista = ViewBag.facility;
+                            lista2 = new List<string>();
+                            foreach (string str in lista)
+                            {
+                                string temp = str.Replace(' ', '_');
+                                lista2.Add(temp);
+                            }
+
+                            foreach (Amenity amenity in apartment.amenities)
+                            {
+                                if (lista2.Contains(amenity.name.Replace('\xa0', '_')))
+                                {
+
+                                    lista2.Remove(amenity.name.Replace('\xa0', '_'));
+                                }
+                            }
+
+                            foreach (string str in lista2)
+                            {
+
+                                <option value="@str">@str.Replace('_', '\xa0')</option>
+
+                            }
+                        }
+                    </select>
+
+                    <button type="button" class="btn" id="addfacilitybtn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm3()">Close</button>
+                </div>
+            </div>
+
+
+            <div class="form-popup" id="myForm4">
+                <div class="form-container">
+                    <h1>Add Dining Amenity</h1>
+
+                    <select id="selectedvaluedining" name="selectedvaluedining">
+                        @{
+                            lista = ViewBag.dining;
+                            lista2 = new List<string>();
+                            foreach (string str in lista)
+                            {
+                                string temp = str.Replace(' ', '_');
+                                lista2.Add(temp);
+                            }
+
+                            foreach (Amenity amenity in apartment.amenities)
+                            {
+                                if (lista2.Contains(amenity.name.Replace('\xa0', '_')))
+                                {
+
+                                    lista2.Remove(amenity.name.Replace('\xa0', '_'));
+                                }
+                            }
+
+                            foreach (string str in lista2)
+                            {
+
+                                <option value="@str">@str.Replace('_', '\xa0')</option>
+
+                            }
+                        }
+                    </select>
+
+                    <button type="button" class="btn" id="adddiningbtn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm4()">Close</button>
+                </div>
+            </div>
+
+            <div>
+                <ul class="flex-container">
+                    <li class="flex-item" id="flexbasic">
+
+                        <div id="basic">
+                            <h3 id="header1">Basic</h3>
+                            <button id="addbutton" type="button" class="open-button" onclick="openForm1()">Add</button>
+                        </div>
+                        @{
+                            int z = 0;
+                        }
+
+                        @foreach (Amenity a in apartment.amenities)
+                        {
+
+                            if (a.type == 1)
+                            {
+                                <div id="containerbasic@(z)"><input type="text" value=@a.name id="amenitybasic" readonly class="amenitybasic" name="amenitybasic[@(z)]" /><button type="button" class="buttton" id="amenitybasic@(z)btn">Del</button></div>
+                                z++;
+                            }
+
+                        }
+                    </li>
+                    <li class="flex-item" id="flexfamily">
+                        <div id="family">
+                            <h3 id="header2">Family features</h3>
+                            <button id="addbutton" type="button" class="open-button" onclick="openForm2()">Add</button>
+                        </div>
+                        @{
+                            z = 0;
+                        }
+                        @foreach (Amenity a in apartment.amenities)
+                        {
+                            if (a.type == 2)
+                            {
+                                <div id="containerfamily@(z)"><input type="text" value=@a.name id="amenityfamily" readonly class="amenityfamily" name="amenityfamily[@(z)]" /><button type="button" class="buttton" id="amenityfamily@(z)btn">Del</button></div>
+                                z++;
+                            }
+
+                        }
+                    </li>
+                    <li class="flex-item" id="flexfacility">
+                        <div id="facility">
+                            <h3 id="header3">Facility</h3>
+                            <button id="addbutton" type="button" class="open-button" onclick="openForm3()">Add</button>
+                        </div>
+                        @{
+                            z = 0;
+                        }
+                        @foreach (Amenity a in apartment.amenities)
+                        {
+                            if (a.type == 3)
+                            {
+                                <div id="containerfacility@(z)"><input type="text" value=@a.name id="amenityfacility" readonly class="amenityfacility" name="amenityfacility[@(z)]" /><button type="button" class="buttton" id="amenityfacility@(z)btn">Del</button></div>
+                                z++;
+                            }
+
+                        }
+                    </li>
+                    <li class="flex-item" id="flexdining">
+                        <div id="dining">
+                            <h3 id="header4">Dining</h3>
+                            <button id="addbutton" type="button" class="open-button" onclick="openForm4()">Add</button>
+                        </div>
+                        @{
+                            z = 0;
+                        }
+                        @foreach (Amenity a in apartment.amenities)
+                        {
+                            if (a.type == 4)
+                            {
+                                <div id="containerdining@(z)"><input type="text" value=@a.name id="amenitydining" readonly class="amenitydining" name="amenitydining[@(z)]" /><button type="button" class="buttton" id="amenitydining@(z)btn">Del</button></div>
+                                z++;
+                            }
+
+                        }
+                    </li>
+                </ul>
+            </div>
+            <br id="br" />
+            <input type="submit" class="submitbtn" onclick="Submit()" value="Change" />
+
+        </form>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#my-form').validate({ // initialize the plugin
+                rules: {
+                    number_of_rooms: {
+                        required: true,
+                    },
+                    number_of_guests: {
+                        required: true,
+                    },
+                    price_per_night: {
+                        required: true,
+                    },
+                    postal_code: {
+                        required: true,
+                    },
+                    city: {
+                        lettersonly: true,
+                        required: true,
+                    },
+                    street: {
+                        required: true,
+                        lettersonly: true,
+                    },
+                    number: {
+                        required: true,
+                    },
+                    latitude: {
+                        required: true,
+                    },
+                    longitude: {
+                        required: true,
+                    }
+                }
+            });
+
+        });
+    </script>
+    <script>
+        jQuery.validator.addMethod("lettersonly", function (value, element) {
+            return this.optional(element) || /^[a-zA-Z\s]*$/i.test(value);
+        }, "Letters only please");
+
+        jQuery.extend(jQuery.validator.messages, {
+            required: "This field is required.",
+            remote: "Please fix this field.",
+            email: "Please enter a valid email address.",
+            url: "Please enter a valid URL.",
+            date: "Please enter a valid date.",
+            dateISO: "Please enter a valid date (ISO).",
+            number: "Please enter a valid number.",
+            digits: "Please enter only digits.",
+            creditcard: "Please enter a valid credit card number.",
+            equalTo: "Please enter the same value again.",
+            accept: "Please enter a value with a valid extension.",
+            maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+            minlength: jQuery.validator.format("Please enter at least {0} characters."),
+            rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+            range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+            max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+            min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+        });
+
+
+
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Button used to open the contact form - fixed at the bottom of the page */
+        .open-button {
+            background-color: #555;
+            color: gray;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            bottom: 23px;
+            right: 28px;
+            width: 95%;
+            margin: 5px 0px;
+        }
+
+        /* The popup form - hidden by default */
+        .form-popup {
+            display: none;
+            position: absolute;
+            bottom: 0;
+            right: 15px;
+            z-index: 999;
+            top: 50%;
+            left: 40%;
+            margin-top: -50px;
+            margin-left: -50px;
+        }
+
+        /* Add styles to the form container */
+        .form-container {
+            border: 3px solid black;
+            max-width: 300px;
+            height: 450px;
+            padding: 10px;
+            background-color: white;
+        }
+
+            /* Full-width input fields */
+            .form-container input[type=text], .form-container select {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #f1f1f1;
+            }
+
+                /* When the inputs get focus, do something */
+                .form-container input[type=text]:focus, .form-container input[type=password]:focus, .form-container select:focus {
+                    background-color: #ddd;
+                    outline: none;
+                }
+
+            /* Set a style for the submit/login button */
+            .form-container .btn {
+                background-color: #4CAF50;
+                color: gray;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+
+
+            /* Add a red background color to the cancel button */
+            .form-container .cancel {
+                background-color: red;
+            }
+
+            /* Add some hover effects to buttons */
+            .form-container .btn:hover, .open-button:hover {
+                color: wheat;
+            }
+    </style>
+
+    <script>
+        function openForm1() {
+            document.getElementById("myForm1").style.display = "block";
+        }
+
+        function closeForm1() {
+            document.getElementById("myForm1").style.display = "none";
+        }
+
+        function openForm2() {
+            document.getElementById("myForm2").style.display = "block";
+        }
+
+        function closeForm2() {
+            document.getElementById("myForm2").style.display = "none";
+        }
+
+        function openForm3() {
+            document.getElementById("myForm3").style.display = "block";
+        }
+
+        function closeForm3() {
+            document.getElementById("myForm3").style.display = "none";
+        }
+
+        function openForm4() {
+            document.getElementById("myForm4").style.display = "block";
+        }
+
+        function closeForm4() {
+            document.getElementById("myForm4").style.display = "none";
+        }
+    </script>
+
+    <script>
+        function AjaxPost(formData) {
+            var ajaxConfig = {
+                type: "POST",
+                url: "/Apartment/AddApartment",
+                data: new FormData(formData),
+                success: function (result) {
+                    alert(result);
+                    window.location.href = "/Apartment/AddApartment";
+                }
+            }
+            if ($(formData).attr('enctype') == "multipart/form-data") {
+                ajaxConfig["contentType"] = false;
+                ajaxConfig["processData"] = false;
+            }
+            $.ajax(ajaxConfig);
+            return false;
+        }
+    </script>
+
+    <script>
+        var loadFile = function (event) {
+            $('.img').remove();
+            var files = event.target.files;
+            for (var i = 0; i < files.length; i++) {
+                $("#br").after('<img class="img" id="output[' + i + ']"/>');
+                var output = document.getElementById('output[' + i + ']');
+                output.src = URL.createObjectURL(event.target.files[i]);
+            }
+        };
+    </script>
+
+    <script>
+
+        function loadImage(path, target) {
+
+            $('<img src="' + path + '">').load(function () {
+                $(this).appendTo(target);
+            });
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('input[class="img"]').prop('disabled', true);
+            var x = 0;
+            $('#selectedvalue' + x + '').one('change', function () {
+                var asd = $("#selectedvalue option:selected").val().replace(/\_/g, '\xa0');
+                x++;
+                $('.add').append('<br/><select id = "selectedvalue' + x + '"><option value="Home">' + asd + '</option><option value="Home">' + asd + '</option>select>');
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#basiccnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#amenitybasic' + i + 'btn').on("click", function () {
+                    var o = $(this).parent().find('#amenitybasic').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluebasic').append('<option value="' + o + '">' + o + '</option>');
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#datescnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#datedelete' + i).on("click", function () {
+                    $(this).parent().remove();
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#familycnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#amenityfamily' + i + 'btn').on("click", function () {
+                    var o = $(this).parent().find('#amenityfamily').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefamily').append('<option value="' + o + '">' + o + '</option>');
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#facilitycnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#amenityfacility' + i + 'btn').on("click", function () {
+                    var o = $(this).parent().find('#amenityfacility').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefacility').append('<option value="' + o + '">' + o + '</option>');
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#diningcnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#amenitydining' + i + 'btn').on("click", function () {
+                    var o = $(this).parent().find('#amenitydining').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluedining').append('<option value="' + o + '">' + o + '</option>');
+                });
+            }
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#addbascibtn').click(function () {
+                var lista = [];
+                $('#flexbasic > div').each(function () {
+                    lista[lista.length] = $(this).attr('id');
+                });
+                alert(lista);
+                var i = 0;
+                var z;
+                var bul = 1;
+                for (i; i < lista.length; i++) {
+                    if (jQuery.inArray("containerbasic" + i + "", lista) !== -1) {
+                    }
+                    else {
+                        z = i;
+                        break;
+                    }
+                    z = i + 1;
+                }
+                var str = $("#selectedvaluebasic option:selected").val().replace(/\_/g, '\xa0');
+                $('#header1').parent().after('<div id = "containerbasic' + z + '"><input type="text" value=' + str + ' id = "amenitybasic" readonly class="amenitybasic" name= "amenitybasic[' + z + ']"/><button type="button" class = "buttton" id="amenitybasic[' + z + ']btn">Del</button></div>');
+                $('#selectedvaluebasic option:selected').remove();
+                $('#containerbasic' + z + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenitybasic').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluebasic').append('<option value="' + o + '">' + o + '</option>');
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function Submit() {
+            var els = document.getElementsByClassName('amenitybasic');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenitybasic[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenityfamily');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenityfamily[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenityfacility');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenityfacility[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenitydining');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenitydining[' + i + ']');
+            }
+            els = document.getElementsByClassName('inputdate');
+            for (var i = 0, j = 0; j < els.length; i++ , j += 2) {
+                var tempcnt = j + 1;
+                $(els[j]).attr('name', 'list[' + j / 2 + '].Key');
+                $(els[tempcnt]).attr('name', 'list[' + j / 2 + '].Value');
+            }
+            return true;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#addfamilybtn').click(function () {
+                var lista = [];
+                $('#flexfamily > div').each(function () {
+                    lista[lista.length] = $(this).attr('id');
+                });
+                alert(lista);
+                var i = 0;
+                var z;
+                var bul = 1;
+                for (i; i < lista.length; i++) {
+                    if (jQuery.inArray("containerfamily" + i + "", lista) !== -1) {
+                    }
+                    else {
+                        z = i;
+                        break;
+                    }
+                    z = i + 1;
+                }
+                var str = $("#selectedvaluefamily option:selected").val().replace(/\_/g, '\xa0');
+                $('#header2').parent().after('<div id = "containerfamily' + z + '"><input type="text" value=' + str + ' id = "amenityfamily" readonly class="amenityfamily" name= "amenityfamily[' + z + ']"/><button type="button" class = "buttton" id="amenityfamily[' + z + ']btn">Del</button></div>');
+                $('#selectedvaluefamily option:selected').remove();
+                $('#containerfamily' + z + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenityfamily').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefamily').append('<option value="' + o + '">' + o + '</option>');
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#addfacilitybtn').click(function () {
+                var lista = [];
+                $('#flexfacility > div').each(function () {
+                    lista[lista.length] = $(this).attr('id');
+                });
+                alert(lista);
+                var i = 0;
+                var z;
+                var bul = 1;
+                for (i; i < lista.length; i++) {
+                    if (jQuery.inArray("containerfacility" + i + "", lista) !== -1) {
+                    }
+                    else {
+                        z = i;
+                        break;
+                    }
+                    z = i + 1;
+                }
+                var str = $("#selectedvaluefacility option:selected").val().replace(/\_/g, '\xa0');
+                $('#header3').parent().after('<div id = "containerfacility' + z + '"><input type="text" value=' + str + ' id = "amenityfacility" readonly class="amenityfacility" name= "amenityfacility[' + z + ']"/><button type="button" class = "buttton" id="amenityfacility[' + z + ']btn">Del</button></div>');
+                $('#selectedvaluefacility option:selected').remove();
+                $('#containerfacility' + z + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenityfacility').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefacility').append('<option value="' + o + '">' + o + '</option>');
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#adddiningbtn').click(function () {
+                var lista = [];
+                $('#flexdining > div').each(function () {
+                    lista[lista.length] = $(this).attr('id');
+                });
+                alert(lista);
+                var i = 0;
+                var z;
+                var bul = 1;
+                for (i; i < lista.length; i++) {
+                    if (jQuery.inArray("containerdining" + i + "", lista) !== -1) {
+                    }
+                    else {
+                        z = i;
+                        break;
+                    }
+                    z = i + 1;
+                }
+                var str = $("#selectedvaluedining option:selected").val().replace(/\_/g, '\xa0');
+                $('#header4').parent().after('<div id = "containerdining' + z + '"><input type="text" value=' + str + ' id = "amenitydining" readonly class="amenitydining" name= "amenitydining[' + z + ']"/><button type="button" class = "buttton" id="amenitydining[' + z + ']btn">Del</button></div>');
+                $('#selectedvaluedining option:selected').remove();
+                $('#containerdining' + z + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenitydining').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluedining').append('<option value="' + o + '">' + o + '</option>');
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .img {
+            width: 150px;
+            height: 150px;
+            border: solid 2px;
+            margin: 0px 5px;
+        }
+    </style>
+
+    <style>
+
+        #datesmaindiv {
+            margin: 15px 0px;
+            border: 1px solid wheat;
+            padding: 5px 5px;
+            width: 480px;
+        }
+
+        .amenity {
+            background: black;
+            border: none;
+            text-align: center;
+            color: blue;
+        }
+
+        #image {
+            width: 100%;
+            height: 30%;
+        }
+
+
+        .flex-container {
+            background: linear-gradient(90deg, rgba(16,16,16,0.5) 14%, rgba(40,36,110,0.5) 50%, rgba(16,16,16,0.5) 82%);
+            padding: 0 15px;
+            padding-bottom: 15px;
+            padding-top: 3px;
+            height: auto;
+            list-style: none;
+            border: solid 2px;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+        }
+
+            .flex-container > * + * {
+                margin-left: 10px;
+            }
+
+        .flex-item {
+            position: relative;
+            flex: 1;
+            background: wheat;
+            padding: 5px;
+            border: solid 2px;
+            width: 200px;
+            height: auto;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
+        }
+    </style>
+
+
+</body>
+</html>

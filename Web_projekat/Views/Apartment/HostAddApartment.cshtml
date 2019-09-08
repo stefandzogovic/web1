@@ -1,9 +1,7 @@
 ﻿@using Web_projekat.Models.User;
 @using Web_projekat.Models;
 
-
 <!DOCTYPE html>
-
 
 <html lang="en">
 <head>
@@ -11,11 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,800' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <link rel="stylesheet" href="~/Scripts/dropzone/dropzone.css" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/dropzone/dropzone.js"></script>
     <script>
         $(function () {
@@ -32,166 +31,587 @@
 <body>
 
     @{
-
+        Layout = null;
         int x = 0;
         string str1 = "list[" + x + "].Key";
         string str2 = "list[" + x + "].Value";
 
-
     }
+    <div class="header">
+        <div class="innerheader">
+            <div class="logo_container">
+                <h1>@Html.ActionLink("MySite", "Index", "Home", new { area = "" }, new { @class = "klasa1" })</h1>
+            </div>
 
-    <button id="btn" onclick="add_input()">Click me</button>
-    <script>
-        $(document).ready(function () {
-            $("#btn").click(function () {
-                var els = document.getElementsByClassName('dates').length;
-                var str = "list[" + els + "].Key";
-                var strr = "list[" + els + "].Value";
-                $('#datesmaindiv').append('<div id="datesdiv" class="dates"> <label> Choose DOB</label> <input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <button type="button" id="datedelete' + els + '">Delete</button> </div>');
-                $('.dates #user1').datepicker({
-                    'format': 'dd-mm-yyyy',
-                    'autoclose': true
+            <ul class="navigation">
+                <li><a>@Html.ActionLink("Your Profile", "UserChangeData", "UserOperations")</a></li>
+                <li><a>@Html.ActionLink("Apartments", "HostViewApartments", "Apartment", new { area = "" }, new { @class = "klasa" })</a></li>
+                <li><a>@Html.ActionLink("Log Out", "Logout", "UserOperations")</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="bg-image"></div>
+    <div class="bg-image"></div>
+
+
+    <style>
+        .navigation li .klasa {
+            font-size: x-large;
+            color: red;
+        }
+
+        .klasa1
+        {
+            color: wheat;
+            transition: 0.4s;
+        }
+        .klasa1:hover
+        {
+            color:red;
+            font-size: 40px;
+        }
+
+        .disableButton {
+            background: #eee;
+            color: #444;
+        }
+
+        .name {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        .container {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        * {
+            font-family: sans-serif;
+        }
+
+
+        input[type=text], input[type=password], input[type=email] {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            color: wheat;
+            padding: 11px 5px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        span {
+            font-size: 25px;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            color: wheat;
+            padding: 11px 5px;
+        }
+
+
+        input[type=radio] {
+            padding: 12px 5px;
+            margin: 5px;
+            margin-top: 15px;
+            color: wheat;
+            background-color: black;
+        }
+
+        input[type=submit], button, .imageupload {
+            cursor: pointer;
+            width: 150px;
+            border-radius: 18px;
+            font-size: 25px;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            outline: none;
+            color: gray;
+            margin-bottom: 5px;
+            border: none;
+            box-sizing: border-box;
+            left: 15%;
+            transition-duration: 0.4s;
+        }
+
+
+            button:hover, input[type=submit]:hover, .imageupload:hover {
+                background-color: gray;
+                color: wheat;
+                border: 1px solid wheat;
+            }
+
+        .rad {
+            font-weight: 400;
+            text-align: center;
+            margin: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        select {
+            width: 25%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: solid 1px black;
+            outline: none;
+            font-weight: 100;
+            font-size: 16px;
+            border-bottom: 1px solid white;
+            margin: 5px;
+            color: black;
+ background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            padding: 12px 5px;
+        }
+
+        .selq {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: black;
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 6px;
+            color: gray;
+            padding: 12px 5px;
+        }
+    </style>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat';
+        }
+
+        .numbers {
+            float: left;
+            border: 1px solid wheat;
+            height: 100%;
+            margin-right: 15px;
+            margin-left: 15px;
+            width: 300px;
+            margin-top: 19px;
+        }
+
+        .numberss {
+            float: left;
+            border: 1px solid wheat;
+            margin-right: 15px;
+            width: 300px;
+            height: 100%;
+        }
+
+        .numbersss {
+            float: left;
+            border: 1px solid wheat;
+            width: 300px;
+            height: 100%;
+        }
+
+        #wrapper {
+            width: 960px;
+            border: 1px solid black;
+            overflow: hidden; /* will contain if #first is longer than #second */
+        }
+
+        .bg-image {
+            background-image: url(https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ixPdSl7.SV8A/v1/1200x-1.jpg);
+            background-size: 100% 100%;
+            /* The image used */
+            /* Add the blur effect */
+            filter: blur(5px);
+            /* Full height */
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .navigation li:last-child {
+            padding-right: 0;
+        }
+
+
+
+        .navigation li a {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            color: wheat;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+
+
+
+            .navigation li a:hover {
+                font-size: x-large;
+                color: red;
+            }
+
+        .navigation li {
+            height: 100%;
+            display: table;
+            float: left;
+            padding: 0px 20px;
+        }
+
+
+        .navigation {
+            float: right;
+            height: 100%;
+        }
+
+        .error {
+            color: red;
+        }
+
+
+        .innerheader {
+            width: 70%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+        }
+
+        .header {
+            width: 100%;
+            height: 80px;
+            display: block;
+            background-color: #101010;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .logo_container {
+            height: 100%;
+            display: table;
+            float: left;
+        }
+
+            .logo_container h1 {
+                height: 100%;
+                display: table-cell;
+                vertical-align: middle;
+                font-size: 32px;
+            }
+    </style>
+    <div class="container">
+        <button id="btn" onclick="add_input()">Add dates range</button>
+        <script>
+            $(document).ready(function () {
+                $("#btn").click(function () {
+                    var els = document.getElementsByClassName('dates').length;
+                    var str = "list[" + els + "].Key";
+                    var strr = "list[" + els + "].Value";
+                    $('#datesmaindiv').append('<div id="datesdiv" class="dates"> <input type="text" name=' + str + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <input type="text" name=' + strr + ' autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" /> <button type="button" id="datedelete' + els + '">Delete</button> </div>');
+                    $('.dates #user1').datepicker({
+                        'format': 'dd-mm-yyyy',
+                        'autoclose': true
+                    });
+                    $('#datedelete' + els).on("click", function () {
+                        $(this).parent().remove();
+                    });
                 });
-                $('#datedelete' + els).on("click", function () {
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('#datedelete0').on("click", function () {
                     $(this).parent().remove();
                 });
             });
-        });
-    </script>
+        </script>
+        <form id="my-form" method="post" enctype="multipart/form-data" action="~/Apartment/AddApartment">
+            <div id="datesmaindiv">
+                <div id="datesdiv" class="dates">
+
+                    <input type="text" name=@str1 autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
+                    <input type="text" name=@str2 autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
+                    <button type="button" id="datedelete0">Delete</button>
+                </div>
+            </div>
+            <br />
+            <select id="selectedvalue" name="tajp" >
+                <option value="" disabled selected>Type</option>
+                <option value="apartment">Apartment</option>
+                <option value="room">Room</option>
+            </select>
+            <div id="wrapper">
+                <div class="numbers">
+                    <span>Number of rooms</span>
+                    <input type="number" name="number_of_rooms" />
+                    <br />
+                    <br />
+                    <span>Number of guests</span>
+                    <input type="number" name="number_of_guests" />
+                    <br />
+                    <br />
+                    <span>Price per night</span>
+                    <input type="number" name="price_per_night" />
+                </div>
+                <br />
+                <div class="numberss">
+                    <span>Postal code</span>
+                    <input type="number" name="postal_code" />
+                    <br />
+                    <br />
+                    <span>City</span>
+                    <input type="text" name="city" />
+                    <br />
+                    <br />
+                    <span>Street</span>
+                    <input type="text" name="street" />
+                </div>
+                <div class="numbersss">
+                    <span>Street number</span>
+                    <input type="number" name="number" />
+                    <br />
+                    <br />
+                    <span>Latitude</span>
+                    <input type="number" name="latitude" step="any" />
+                    <br />
+                    <br />
+                    <span>Longitude</span>
+                    <input type="number" name="longitude" step="any" />
+                </div>
+            </div>
+            <br />
+            <br />
+            <input hidden multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
+            <label class="imageupload" for="imageUpload">Choose photos</label>
+            <br />
+            <br id="br" />
+
+
+            <div class="form-popup" id="myForm1">
+                <div class="form-container">
+                    <h1>Add Basic Amenity</h1>
+
+                    <select id="selectedvaluebasic" name="selectedvaluebasic">
+                        @foreach (string str in ViewBag.basic)
+                        {
+                            string temp = str.Replace(' ', '_');
+                            <option value="@temp">@str.Replace(' ', '\xa0')</option>
+                        }
+                    </select>
+
+                    <button type="button" class="btn" id="addbascibtn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
+                </div>
+            </div>
+
+            <div class="form-popup" id="myForm2">
+                <div class="form-container">
+                    <h1>Add Family Feature Amenity</h1>
+
+                    <select id="selectedvaluefamily" name="selectedvaluefamily">
+                        @foreach (string str in ViewBag.family)
+                        {
+                            string temp = str.Replace(' ', '_');
+                            <option value="@temp">@str.Replace(" ", "\xa0")</option>
+                        }
+                    </select>
+
+                    <button type="button" class="btn" id="addfamilybtn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
+                </div>
+            </div>
+
+            <div class="form-popup" id="myForm3">
+                <div class="form-container">
+                    <h1>Add Facility Amenity</h1>
+
+                    <select id="selectedvaluefacility" name="selectedvaluefacility">
+                        @foreach (string str in ViewBag.facility)
+                        {
+                            string temp = str.Replace(' ', '_');
+                            <option value="@temp">@str.Replace(" ", "\xa0")</option>
+                        }
+                    </select>
+
+                    <button type="button" class="btn" id="addfacilitybtn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm3()">Close</button>
+                </div>
+            </div>
+
+
+            <div class="form-popup" id="myForm4">
+                <div class="form-container">
+                    <h1>Add Dining Amenity</h1>
+
+                    <select id="selectedvaluedining" name="selectedvaluedining">
+                        @foreach (string str in ViewBag.dining)
+                        {
+                            string temp = str.Replace(' ', '_');
+                            <option value="@temp">@str.Replace(" ", "\xa0")</option>
+                        }
+                    </select>
+
+                    <button type="button" class="btn" id="adddiningbtn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm4()">Close</button>
+                </div>
+            </div>
+
+            <div>
+                <ul class="flex-container">
+                    <li class="flex-item">
+
+                        <div id="basic">
+                            <h3 id="header1">Basic</h3>
+                            <button id="addbutton" type="button" class="open-button" onclick="openForm1()">Add</button>
+                        </div>
+                    </li>
+                    <li class="flex-item">
+                        <div id="family">
+                            <h3 id="header2">Family features</h3>
+                            <button id="addbutton" type="button" class="open-button" onclick="openForm2()">Add</button>
+                        </div>
+                    </li>
+                    <li class="flex-item">
+                        <div id="facility">
+                            <h3 id="header3">Facility</h3>
+                            <button id="addbutton" type="button" class="open-button" onclick="openForm3()">Add</button>
+                        </div>
+                    </li>
+                    <li class="flex-item">
+                        <div id="dining">
+                            <h3 id="header4">Dining</h3>
+                            <button id="addbutton" type="button" class="open-button" onclick="openForm4()">Add</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <input type="submit" onclick="Submit()" value="Create" />
+
+        </form>
+    </div>
+
 
     <script>
         $(document).ready(function () {
-            $('#datedelete0').on("click", function () {
-                $(this).parent().remove();
+            $('#my-form').validate({ // initialize the plugin
+                rules: {
+                    number_of_rooms: {
+                        required: true,
+                    },
+                    number_of_guests: {
+                        required: true,
+                    },
+                    price_per_night: {
+                        required: true,
+                    },
+                    postal_code: {
+                        required: true,
+                    },
+                    city: {
+                        lettersonly: true,
+                        required: true,
+                    },
+                    street: {
+                        required: true,
+                        lettersonly: true,
+                    },
+                    number: {
+                        required: true,
+                    },
+                    latitude: {
+                        required: true,
+                    },
+                    longitude: {
+                        required: true,
+                    }
+                }
             });
-        
+
         });
     </script>
+    <script>
+        jQuery.validator.addMethod("lettersonly", function (value, element) {
+            return this.optional(element) ||  /^[a-zA-Z\s]*$/i.test(value);
+        }, "Letters only please");
 
-    <form id="my-form" enctype="multipart/form-data" method="post" action="~/Apartment/AddApartment">
-
-        <input type="number" name="number_of_rooms" />
-        <input type="number" name="number_of_guests" />
-        <input type="number" name="price_per_night" />
-        <div id="datesmaindiv">
-            <div id="datesdiv" class="dates">
-                <label>Choose DOB</label>
-                <input type="text" name=@str1 autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
-                <input type="text" name=@str2 autocomplete="off" style="width:150px" id="user1" class="inputdate" placeholder="dd-mm-yyyy" />
-                <button type="button" id="datedelete0">Delete</button>
-            </div>
-        </div>
-        <input multiple type='file' name='imageUpload' id='imageUpload' onchange="loadFile(event)" />
-        <br />
-        <input type="number" name="postal_code"/>
-        <input type="text" name="city" />
-        <input type="text" name="street" />
-        <input type="number" name="number" />
-        <input type="number" name="latitude" step="any" />
-        <input type="number" name="longitude" step="any" />
-        <br />
-
-        <div class="form-popup" id="myForm1">
-            <div class="form-container">
-                <h1>Add Basic Amenity</h1>
-
-                <select id="selectedvaluebasic" name="selectedvaluebasic">
-                    @foreach (string str in ViewBag.basic)
-                    {
-                        string temp = str.Replace(' ', '_');
-                        <option value="@temp">@str.Replace(' ', '\xa0')</option>
-                    }
-                </select>
-
-                <button type="button" class="btn" id="addbascibtn">Add</button>
-                <button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
-            </div>
-        </div>
-
-        <div class="form-popup" id="myForm2">
-            <div class="form-container">
-                <h1>Add Family Feature Amenity</h1>
-
-                <select id="selectedvaluefamily" name="selectedvaluefamily">
-                    @foreach (string str in ViewBag.family)
-                    {
-                        string temp = str.Replace(' ', '_');
-                        <option value="@temp">@str.Replace(" ", "\xa0")</option>
-                    }
-                </select>
-
-                <button type="button" class="btn" id="addfamilybtn">Add</button>
-                <button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
-            </div>
-        </div>
-
-        <div class="form-popup" id="myForm3">
-            <div class="form-container">
-                <h1>Add Facility Amenity</h1>
-
-                <select id="selectedvaluefacility" name="selectedvaluefacility">
-                    @foreach (string str in ViewBag.facility)
-                    {
-                        string temp = str.Replace(' ', '_');
-                        <option value="@temp">@str.Replace(" ", "\xa0")</option>
-                    }
-                </select>
-
-                <button type="button" class="btn" id="addfacilitybtn">Add</button>
-                <button type="button" class="btn cancel" onclick="closeForm3()">Close</button>
-            </div>
-        </div>
+        jQuery.extend(jQuery.validator.messages, {
+            required: "This field is required.",
+            remote: "Please fix this field.",
+            email: "Please enter a valid email address.",
+            url: "Please enter a valid URL.",
+            date: "Please enter a valid date.",
+            dateISO: "Please enter a valid date (ISO).",
+            number: "Please enter a valid number.",
+            digits: "Please enter only digits.",
+            creditcard: "Please enter a valid credit card number.",
+            equalTo: "Please enter the same value again.",
+            accept: "Please enter a value with a valid extension.",
+            maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+            minlength: jQuery.validator.format("Please enter at least {0} characters."),
+            rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+            range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+            max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+            min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+        });
 
 
-        <div class="form-popup" id="myForm4">
-            <div class="form-container">
-                <h1>Add Dining Amenity</h1>
 
-                <select id="selectedvaluedining" name="selectedvaluedining">
-                    @foreach (string str in ViewBag.dining)
-                    {
-                        string temp = str.Replace(' ', '_');
-                        <option value="@temp">@str.Replace(" ", "\xa0")</option>
-                    }
-                </select>
+    </script>
 
-                <button type="button" class="btn" id="adddiningbtn">Add</button>
-                <button type="button" class="btn cancel" onclick="closeForm4()">Close</button>
-            </div>
-        </div>
-
-        <div>
-            <ul class="flex-container">
-                <li class="flex-item">
-
-                    <div id="basic">
-                        <h3 id="header1">Basic</h3>
-                        <button id="addbutton" type="button" class="open-button" onclick="openForm1()">Add</button>
-                    </div>
-                </li>
-                <li class="flex-item">
-                    <div id="family">
-                        <h3 id="header2">Family features</h3>
-                        <button id="addbutton" type="button" class="open-button" onclick="openForm2()">Add</button>
-                    </div>
-                </li>
-                <li class="flex-item">
-                    <div id="facility">
-                        <h3 id="header3">Facility</h3>
-                        <button id="addbutton" type="button" class="open-button" onclick="openForm3()">Add</button>
-                    </div>
-                </li>
-                <li class="flex-item">
-                    <div id="dining">
-                        <h3 id="header4">Dining</h3>
-                        <button id="addbutton" type="button" class="open-button" onclick="openForm4()">Add</button>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <input type="submit" onclick="Submit()" value="Create" />
-    </form>
     <style>
         * {
             box-sizing: border-box;
@@ -199,13 +619,15 @@
 
         /* Button used to open the contact form - fixed at the bottom of the page */
         .open-button {
-            color: white;
+            background-color: #555;
+            color: gray;
             padding: 16px 20px;
             border: none;
             cursor: pointer;
             bottom: 23px;
             right: 28px;
             width: 95%;
+            margin: 5px 0px;
         }
 
         /* The popup form - hidden by default */
@@ -215,15 +637,15 @@
             bottom: 0;
             right: 15px;
             z-index: 999;
-            top: 35%;
-            left: 35%;
+            top: 50%;
+            left: 40%;
             margin-top: -50px;
             margin-left: -50px;
         }
 
         /* Add styles to the form container */
         .form-container {
-            border: 3px solid #f1f1f1;
+            border: 3px solid black;
             max-width: 300px;
             height: 450px;
             padding: 10px;
@@ -248,13 +670,15 @@
             /* Set a style for the submit/login button */
             .form-container .btn {
                 background-color: #4CAF50;
-                color: white;
+                color: gray;
                 padding: 16px 20px;
                 border: none;
                 cursor: pointer;
                 width: 100%;
                 margin-bottom: 10px;
             }
+
+
 
             /* Add a red background color to the cancel button */
             .form-container .cancel {
@@ -263,10 +687,8 @@
 
             /* Add some hover effects to buttons */
             .form-container .btn:hover, .open-button:hover {
-                opacity: 1;
+                color: wheat;
             }
-
-
     </style>
 
     <script>
@@ -327,9 +749,8 @@
     <script>
         var loadFile = function (event) {
             var files = event.target.files;
-            $('.img').remove();
             for (var i = 0; i < files.length; i++) {
-                $("#imageUpload").after('<img class="img" id="output[' + i + ']"/>');
+                $("#br").after('<img class="img" id="output[' + i + ']"/>');
                 var output = document.getElementById('output[' + i + ']');
                 output.src = URL.createObjectURL(event.target.files[i]);
             }
@@ -449,12 +870,21 @@
 
     <style>
         .img {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
+            border: solid 2px;
+            margin: 0px 5px;
         }
     </style>
 
     <style>
+
+        #datesmaindiv {
+            margin: 15px 0px;
+            border: 1px solid wheat;
+            padding: 5px 5px;
+            width: 475px;
+        }
 
         .amenity {
             background: black;
@@ -470,10 +900,13 @@
 
 
         .flex-container {
-            background: black;
+            background: linear-gradient(90deg, rgba(16,16,16,0.5) 14%, rgba(40,36,110,0.5) 50%, rgba(16,16,16,0.5) 82%);
             padding: 0 15px;
-            margin: 0;
+            padding-bottom: 15px;
+            padding-top: 3px;
+            height: auto;
             list-style: none;
+            border: solid 2px;
             display: -webkit-box;
             display: -moz-box;
             display: -ms-flexbox;
@@ -489,10 +922,11 @@
         .flex-item {
             position: relative;
             flex: 1;
-            background: tomato;
+            background: wheat;
             padding: 5px;
+            border: solid 2px;
             width: 200px;
-            height: 450px;
+            height: auto;
             margin-top: 10px;
             font-weight: bold;
             font-size: 15px;

@@ -405,6 +405,17 @@
                     </div>
                 }
             </div>
+            <select id="selectedvalue" name="tajp">
+                @if (apartment.type == 0)
+                {
+                <option selected value="apartment">Apartment</option>
+                }
+                else
+
+                {
+                <option selected value="room">Room</option>
+                }
+            </select>
             <br />
             <div id="wrapper">
                 <div class="numbers">
@@ -742,7 +753,7 @@
     </script>
     <script>
         jQuery.validator.addMethod("lettersonly", function (value, element) {
-            return this.optional(element) || /^[a-z]+$/i.test(value);
+            return this.optional(element) || /^[a-zA-Z\s]*$/i.test(value);
         }, "Letters only please");
 
         jQuery.extend(jQuery.validator.messages, {

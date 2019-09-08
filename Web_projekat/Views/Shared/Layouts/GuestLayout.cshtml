@@ -12,6 +12,7 @@
                 <h1>@Html.ActionLink("MySite", "Index", "Home", null, new { @style = "color:red;" })</h1>
             </div>  
             <ul class="navigation">
+                <li><a>@Html.ActionLink("Your Profile", "UserChangeData", "UserOperations")</a></li>
                 <li><a>@Html.ActionLink("Log Out", "Logout", "UserOperations")</a></li>
             </ul>
         </div>
@@ -55,7 +56,7 @@
             border-collapse: separate;
             font-weight: 400;
             position: absolute;
-            top: 25%;
+            top: 15%;
             left: 15%;
             right: 15%;
             margin: 0 auto;

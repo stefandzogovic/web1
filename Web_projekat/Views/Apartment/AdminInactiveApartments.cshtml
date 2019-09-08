@@ -13,6 +13,8 @@
     <ul class="flex-container">
         @foreach (Apartment ap in u.apartments)
         {
+            if (!ap.IsDeleted)
+            {
             <li class="flex-item">
                 <div>
                     @{
@@ -45,10 +47,15 @@
                                 <input class="button" type="submit" value="Change" />
                             </form>
                         </div>
+                        <form method="post" action="~/Apartment/AdminDeleteApartment">
+                            <input hidden name="id" value="@ap.ApartmentId" />
+                            <input class="button" type="submit" value="Delete" />
+                        </form>
                     }
                 </div>
             </li>
-        }
+                            }
+                        }
     </ul>
     }
 

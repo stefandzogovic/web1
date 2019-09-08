@@ -210,6 +210,7 @@
     <Content Include="Views\Apartment\AdminChangeAmenities.cshtml" />
     <Content Include="Views\UserOperations\FailedLogin.cshtml" />
     <Content Include="Views\UserOperations\FailedRegister.cshtml" />
+    <Content Include="Views\Apartment\ViewApartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

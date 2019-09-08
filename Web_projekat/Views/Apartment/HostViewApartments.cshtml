@@ -31,6 +31,9 @@
     <div class="bg-image"></div>
 
     <div class="wrapper">
+        <form action="~/Apartment/HostAddApartment">
+        <button onclick="~/Apartment/HostAddApartment">Add apartment</button>
+        </form>
         <ul class="flex-container0">
 
             @foreach (Apartment ap in user.apartments)
@@ -83,7 +86,7 @@
 
             @foreach (Apartment ap in user.apartments)
             {
-                if (!ap.active)
+                if (!ap.active && !ap.IsDeleted)
                 {
                     <li class="flex-item" id="@ap.ApartmentId" onclick="clickFunc(this.id)">
                         <form action="~/Apartment/ChangeApartment" method="post">
@@ -128,8 +131,6 @@
             }
         </ul>
     </div>
-
-    <a href="~/Apartment/HostAddApartment">Add apartment</a>
 
     <script>
         function clickFunc(id) {
@@ -272,8 +273,8 @@
         button, input[type=submit] {
             cursor: pointer;
             width: 200px;
-            margin-top: 25px;
-            margin-left: 60px;
+            margin-top: -20px;
+            margin-bottom: 10px;
             border-radius: 18px;
             font-size: 25px;
             background: rgb(16,16,16);
@@ -282,6 +283,7 @@
             border: none;
             box-sizing: border-box;
             padding: 5px;
+            color: gray;
             left: 15%;
             transition-duration: 0.4s;
         }

@@ -45,7 +45,7 @@ namespace Web_projekat.Controllers
         #region Add Apartment
         [HttpPost]
         public ActionResult AddApartment(Apartment apartment, Dictionary<string, string> list, List<HttpPostedFileBase> imageUpload, List<string> amenitybasic,
-            List<string> amenityfamily, List<string> amenityfacility, List<string> amenitydining, Location location, Address address)
+            List<string> amenityfamily, List<string> amenityfacility, string tajp ,List<string> amenitydining, Location location, Address address)
         {
             User sc = (User)Session["user"];
 
@@ -54,9 +54,17 @@ namespace Web_projekat.Controllers
             Location loc = new Location();
             Address ad = new Address();
             ap.amenities = new List<Amenity>();
+            if (tajp == "room")
+            {
+                ap.type = Models.Type.Room;
+            }
+            else
+            {
+                ap.type = Models.Type.Apartment;
+
+            }
             ap.User = dal.usersdb.FirstOrDefault(g => g.username == sc.username);
             ap.UserId = dal.usersdb.FirstOrDefault(g => g.username == sc.username).UserId;
-            ap.type = Models.Type.Apartment;
             ap.number_of_guests = apartment.number_of_guests;
             ap.Times = new DateTimeCollection();
             ap.number_of_rooms = apartment.number_of_rooms;
@@ -180,25 +188,17 @@ namespace Web_projekat.Controllers
 
             foreach (User u in dal.usersdb.ToDictionary(x => x.username, x => x).Values)
             {
-                User user = new User();
-                user = u;
-                user.apartments = new List<Apartment>();
+                u.apartments = dal.apartmentsdb.Select(x => x).Where(x => x.UserId == u.UserId).ToList();
 
-                foreach (Apartment ap in dal.apartmentsdb.ToDictionary(x => x.ApartmentId, x => x).Values)
+                foreach(Apartment ap in u.apartments)
                 {
-                    Apartment apartment = new Apartment();
-                    apartment = ap;
-                    apartment.images = new List<Photo>();
-
+                    ap.images = dal.photosdb.Select(x => x).Where(x => x.ApartmentId == ap.ApartmentId).ToList();
+                    ap.amenities = dal.amenitiesdb.Select(x => x).Where(x => x.ApartmentId == ap.ApartmentId).ToList();
                 }
 
-                foreach (Photo ph in dal.photosdb.ToDictionary(x => x.PhotoId, x => x).Values)
-                {
-                    Photo photo = new Photo();
-                    photo = ph;
-                }
 
-                lista.Add(user);
+
+                lista.Add(u);
             }
 
             ViewBag.lista = lista;
@@ -253,7 +253,7 @@ namespace Web_projekat.Controllers
 
         [HttpPost]
         public ActionResult Change(Apartment apartment, Dictionary<string, string> list, List<HttpPostedFileBase> imageUpload, List<string> amenitybasic,
-            List<string> amenityfamily, List<string> amenityfacility, List<string> amenitydining, int apartmentId, List<string> imageUpload1, Location location, Address address)
+            List<string> amenityfamily, string tajp, List<string> amenityfacility, List<string> amenitydining, int apartmentId, List<string> imageUpload1, Location location, Address address)
         {
             User sc = (User)Session["user"];
 
@@ -268,6 +268,15 @@ namespace Web_projekat.Controllers
 
                 if (temp.ApartmentId == apartment.ApartmentId)
                  {
+                    if (tajp == "room")
+                    {
+                        temp.type = Models.Type.Room;
+                    }
+                    else
+                    {
+                        temp.type = Models.Type.Apartment;
+
+                    }
 
                     foreach (KeyValuePair<string, string> tempdates in list)
                     {
@@ -576,6 +585,40 @@ namespace Web_projekat.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult AdminDeleteApartment(int id)
+        {
+            Apartment ap = dal.apartmentsdb.Select(x => x).Where(x => x.ApartmentId == id).Single();
+            ap.IsDeleted = true;
+            List<Photo> photo = dal.photosdb.Select(x => x).Where(x => x.ApartmentId == id).ToList();
+            foreach(Photo ph in photo)
+            {
+                ph.IsDeleted = true;
+            }
+            List<Amenity> amenity = dal.amenitiesdb.Select(x => x).Where(x => x.ApartmentId == id).ToList();
+            foreach(Amenity am in amenity)
+            {
+                am.IsDeleted = true;
+            }
+
+            Location loc = dal.locationsdb.Select(x => x).Where(x => x.Apartment.ApartmentId == id).Single();
+            loc.IsDeleted = true;
+            Address addr = dal.addresses.Select(x => x).Where(x => x.Location.LocationId == loc.LocationId).Single();
+            addr.IsDeleted = true;
+            dal.SaveChanges();
+            return RedirectToAction("AdminInactiveApartments");
+        }
+        
+        [HttpPost]
+        public ActionResult ViewApartment(int apartmentid)
+        {
+            return View();
+        }
+
+
+
+
     }
 
 }

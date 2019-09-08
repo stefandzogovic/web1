@@ -8,8 +8,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,800' rel='stylesheet'>
 </head>
-<body  ng-app>
-    <div>
+<body ng-app>
+    @{
+        Layout = null;
+    }
+    <div class="header">
+        <div class="innerheader">
+            <div class="logo_container">
+                <h1>@Html.ActionLink("MySite", "Index", "Home", null, new { @class = "klasa1" })</h1>
+            </div>
+
+            <ul class="navigation">
+                <li>@Html.ActionLink("Log in", "Login", "UserOperations", null, new { @class = "klasa" })</li>
+                <li><a>@Html.ActionLink("Sign up", "Register", "UserOperations")</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="divara">
         <form name="form" method="post" action="~/UserOperations/LoginCheck" novalidate>
             <input type="text" placeholder="Enter Username" name="username" ng-required="true" ng-model="user.username" />
             <p ng-show="form.username.$invalid && form.username.$touched">Enter a valid username.</p>
@@ -20,5 +35,243 @@
             <input type="submit" value="Login" class="btn btn-primary" ng-disabled="form.$invalid" />
         </form>
     </div>
+
+    <div class="bg-image"></div>
+
+    <style>
+        .klasa1 {
+            color: wheat;
+            transition: 0.4s;
+        }
+
+            .klasa1:hover {
+                color: red;
+                font-size: 40px;
+            }
+
+        .navigation li .klasa {
+            font-size: x-large;
+            color: red;
+        }
+
+        .disableButton {
+            background: #eee;
+            color: #444;
+        }
+
+        .name {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        .divara {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        * {
+            font-family: sans-serif;
+        }
+
+
+        input[type=text], input[type=password], input[type=email] {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 15px;
+            color: wheat;
+            padding: 15px 5px;
+        }
+
+
+        input[type=radio] {
+            padding: 12px 5px;
+            margin: 5px;
+            margin-top: 15px;
+            color: wheat;
+            background-color: black;
+        }
+
+        button, input[type=submit] {
+            cursor: pointer;
+            width: 200px;
+            margin-top: 25px;
+            margin-left: 60px;
+            border-radius: 18px;
+            font-size: 25px;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            outline: none;
+            border: none;
+            box-sizing: border-box;
+            padding: 5px;
+            left: 15%;
+            transition-duration: 0.4s;
+        }
+
+            button:hover, input[type=submit]:hover {
+                background-color: gray;
+                color: wheat;
+                border: 1px solid wheat;
+            }
+
+        .rad {
+            font-weight: 400;
+            text-align: center;
+            margin: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        select {
+            width: 30%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            font-weight: 100;
+            font-size: 16px;
+            border-bottom: 1px solid white;
+            margin: 5px;
+            color: white;
+            background-color: black;
+            padding: 9px 5px;
+        }
+
+        .selq {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: black;
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 6px;
+            color: gray;
+            padding: 12px 5px;
+        }
+    </style>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat';
+        }
+
+        .bg-image {
+            background-image: url(https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ixPdSl7.SV8A/v1/1200x-1.jpg);
+            background-size: 100%;
+            /* The image used */
+            /* Add the blur effect */
+            filter: blur(5px);
+            /* Full height */
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .navigation li:last-child {
+            padding-right: 0;
+        }
+
+
+
+        .navigation li a {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            color: wheat;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+
+
+
+            .navigation li a:hover {
+                font-size: x-large;
+                color: red;
+            }
+
+        .navigation li {
+            height: 100%;
+            display: table;
+            float: left;
+            padding: 0px 20px;
+        }
+
+
+        .navigation {
+            float: right;
+            height: 100%;
+        }
+
+
+        .innerheader {
+            width: 70%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+        }
+
+        .header {
+            width: 100%;
+            height: 80px;
+            display: block;
+            background-color: #101010;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .logo_container {
+            height: 100%;
+            display: table;
+            float: left;
+        }
+
+            .logo_container h1 {
+                height: 100%;
+                display: table-cell;
+                vertical-align: middle;
+                font-size: 32px;
+            }
+    </style>
 </body>
 </html>

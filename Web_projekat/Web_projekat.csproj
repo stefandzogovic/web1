@@ -198,9 +198,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\UserOperations\Register.cshtml" />
     <Content Include="Views\UserOperations\Login.cshtml" />
-    <Content Include="Views\Home\Layouts\AdminLayout.cshtml" />
-    <Content Include="Views\Home\Layouts\HostLayout.cshtml" />
-    <Content Include="Views\Home\Layouts\GuestLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\AdminLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\HostLayout.cshtml" />
+    <Content Include="Views\Shared\Layouts\GuestLayout.cshtml" />
     <Content Include="Views\UserOperations\AdminViewUsers.cshtml" />
     <Content Include="Views\UserOperations\UserChangeData.cshtml" />
     <Content Include="Views\Apartment\HostViewApartments.cshtml" />
@@ -208,6 +208,8 @@
     <Content Include="Views\Apartment\AdminInactiveApartments.cshtml" />
     <Content Include="Views\Apartment\ChangeApartment.cshtml" />
     <Content Include="Views\Apartment\AdminChangeAmenities.cshtml" />
+    <Content Include="Views\UserOperations\FailedLogin.cshtml" />
+    <Content Include="Views\UserOperations\FailedRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

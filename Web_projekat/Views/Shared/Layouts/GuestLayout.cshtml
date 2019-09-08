@@ -10,11 +10,9 @@
         <div class="innerheader">
             <div class="logo_container">
                 <h1>@Html.ActionLink("MySite", "Index", "Home", null, new { @style = "color:red;" })</h1>
-            </div>
-
+            </div>  
             <ul class="navigation">
-                <li>@Html.ActionLink("Log in", "Login", "UserOperations")</li>
-                <li><a>@Html.ActionLink("Sign up", "Register", "UserOperations")</a></li>
+                <li><a>@Html.ActionLink("Log Out", "Logout", "UserOperations")</a></li>
             </ul>
         </div>
     </div>
@@ -23,8 +21,8 @@
 
     <div class="container body-content">
         @RenderBody()
-
     </div>
+
     <style>
         .navigation li .klasa {
             font-size: x-large;
@@ -57,7 +55,7 @@
             border-collapse: separate;
             font-weight: 400;
             position: absolute;
-            top: 15%;
+            top: 25%;
             left: 15%;
             right: 15%;
             margin: 0 auto;

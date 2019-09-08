@@ -1,29 +1,29 @@
 ﻿@using Web_projekat.Models.User;
 @using Web_projekat.Models;
 
-@{
-    ViewBag.Title = "Home Page";
-    Layout = "Layouts/GuestLayout.cshtml";
-
-}
-
-
-
 @if (Session["user"] != null)
 {
-    switch (ViewBag.user.role)
+    User u = (User)Session["user"];
+    switch (u.role)
     {
         case Role.Admin:
-            Layout = "Layouts/AdminLayout.cshtml";
+            Layout = "~/Views/Shared/Layouts/AdminLayout.cshtml";
             break;
         case Role.Guest:
-            Layout = "Layouts/GuestLayout.cshtml";
+            Layout = "~/Views/Shared/Layouts/GuestLayout.cshtml";
             break;
         case Role.Host:
-            Layout = "Layouts/HostLayout.cshtml";
+            Layout = "~/Views/Shared/Layouts/HostLayout.cshtml";
             break;
     }
 }
+else
+
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
 
 
 <html>
@@ -44,12 +44,8 @@
         </h3>
         <br />
     }
-    else
-    {
-        <a href="~/UserOperations/Register">Register</a>
-        <a href="~/UserOperations/Login">Log in</a>
 
-    }
+
 
     @if ((string)Session["dropdown"] == "sortasc")
     {
@@ -81,12 +77,29 @@
             {
                 <li class="flex-item">
                     <div>
-                        @{ var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
-                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                            <img id="img" src="@imgSrc" />
+                        <p>@ap.User.username</p>
+
+                        @{ if (ap.images != null)
+                            {
+                                if (ap.images.Count != 0)
+                                {
+                                    foreach (Photo photoz in ap.images)
+                                    {
+                                        if (photoz.IsDeleted == false)
+                                        {
+                                            var base64 = Convert.ToBase64String(photoz.ImageBytes);
+                                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                            <img id="img" src="@imgSrc" />
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
                             <div id="object">
                                 <p>@ap.type for sale.</p>
                                 <p>@ap.price_per_night $</p>
+                                <p>@ap.Location.Address.city</p>
+                                <p>@ap.Location.Address.street @ap.Location.Address.number</p>
                                 <input hidden name="id" value="@ap.ApartmentId" />
                             </div>
                         }
@@ -97,16 +110,11 @@
     </ul>
 
 
-    @if (Session["user"] != null)
-    {
-        <a href="~/userOperations/Logout">Logout</a>
-    }
-
-
 
     <style>
 
         #img {
+            border: solid 1px black;
             width: 100%;
             height: 30%;
         }
@@ -129,6 +137,7 @@
             }
 
         .flex-item {
+            border: solid 1px black;
             background: tomato;
             padding: 5px;
             width: 200px;

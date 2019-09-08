@@ -41,9 +41,11 @@ namespace Web_projekat.Controllers
             List<Apartment> lista = new List<Apartment>();
 
 
-            foreach (Apartment ap in dal.apartmentsdb.ToDictionary(x => x.ApartmentId, x => x).Values)
+            foreach (Apartment ap in dal.apartmentsdb.Select(x => x).ToList())
             {
+
                 Apartment apartment = new Apartment();
+                apartment.User = dal.usersdb.Select(x => x).Where(x => x.UserId == ap.UserId).Single();
                 apartment = ap;
                 apartment.images = new List<Photo>();
 

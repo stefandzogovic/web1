@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,800' rel='stylesheet'>
+
 </head>
 <body>
     <div class="header">
@@ -13,8 +14,10 @@
             </div>
 
             <ul class="navigation">
-                <li>@Html.ActionLink("Log in", "Login", "UserOperations")</li>
-                <li><a>@Html.ActionLink("Sign up", "Register", "UserOperations")</a></li>
+                <li>@Html.ActionLink("Users", "AdminViewUsers", "UserOperations")</li>
+                <li>@Html.ActionLink("Inactive Apartments", "AdminInactiveApartments", "Apartment")</li>
+                <li><a>@Html.ActionLink("Amenities", "AdminChangeAmenities", "Apartment")</a></li>
+                <li><a>@Html.ActionLink("Log Out", "Logout", "UserOperations")</a></li>
             </ul>
         </div>
     </div>
@@ -23,8 +26,8 @@
 
     <div class="container body-content">
         @RenderBody()
-
     </div>
+
     <style>
         .navigation li .klasa {
             font-size: x-large;
@@ -126,7 +129,7 @@
         }
 
         select {
-            width: 30%;
+            width: 25%;
             border-radius: 10px;
             box-sizing: border-box;
             border: none;

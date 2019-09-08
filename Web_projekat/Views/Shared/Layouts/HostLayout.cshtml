@@ -11,10 +11,10 @@
             <div class="logo_container">
                 <h1>@Html.ActionLink("MySite", "Index", "Home", null, new { @style = "color:red;" })</h1>
             </div>
-
             <ul class="navigation">
-                <li>@Html.ActionLink("Log in", "Login", "UserOperations")</li>
-                <li><a>@Html.ActionLink("Sign up", "Register", "UserOperations")</a></li>
+                <li><a>@Html.ActionLink("Your Profile", "UserChangeData", "UserOperations", new { area = "" }, new { @class = "navbar-brand" })</a></li>
+                <li><a>@Html.ActionLink("Apartments", "HostViewApartments", "Apartment", new { area = "" }, new { @class = "navbar-brand" })</a></li>
+                <li><a>@Html.ActionLink("Log Out", "Logout", "UserOperations")</a></li>
             </ul>
         </div>
     </div>
@@ -23,8 +23,8 @@
 
     <div class="container body-content">
         @RenderBody()
-
     </div>
+
     <style>
         .navigation li .klasa {
             font-size: x-large;

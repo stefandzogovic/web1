@@ -5,12 +5,18 @@
 
 <html lang="en">
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,800' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <link rel="stylesheet" href="~/Scripts/dropzone/dropzone.css" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/dropzone/dropzone.js"></script>
     <script>
         $(function () {
@@ -25,7 +31,8 @@
 
 
 <body>
-    @{ 
+    @{
+        Layout = null;
         int basiccnt = 0;
         int familycnt = 0;
         int facilitycnt = 0;
@@ -51,486 +58,820 @@
                 diningcnt++;
             }
         }
-            <input id="basiccnt" value=@basiccnt hidden />
-            <input id="familycnt" value=@familycnt hidden />
-            <input id="facilitycnt" value=@facilitycnt hidden />
-            <input id="diningcnt" value=@diningcnt hidden />
+        <input id="basiccnt" value=@basiccnt hidden />
+        <input id="familycnt" value=@familycnt hidden />
+        <input id="facilitycnt" value=@facilitycnt hidden />
+        <input id="diningcnt" value=@diningcnt hidden />
+    }
+        <div class="header">
+            <div class="innerheader">
+                <div class="logo_container">
+                    <h1>@Html.ActionLink("MySite", "Index", "Home", null, new { @style = "color:#F5DEB3;" })</h1>
+                </div>
+
+                <ul class="navigation">
+                    <li>@Html.ActionLink("Users", "AdminViewUsers", "UserOperations")</li>
+                    <li>@Html.ActionLink("Inactive Apartments", "AdminInactiveApartments", "Apartment")</li>
+                    <li><a>@Html.ActionLink("Amenities", "AdminChangeAmenities", "Apartment", null, new { @class = "klasa" })</a></li>
+                    <li><a>@Html.ActionLink("Log Out", "Logout", "UserOperations")</a></li>
+
+                </ul>
+            </div>
+        </div>
+    <div class="bg-image"></div>
+    <style>
+        .navigation li .klasa {
+            font-size: x-large;
+            color: red;
         }
 
-            <form id="my-form" method="post" enctype="multipart/form-data" action="~/Apartment/AdminChangeAmenities">
+        .disableButton {
+            background: #eee;
+            color: #444;
+        }
 
-                <br />
+        .name {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
 
-                <div>
-                    <ul class="flex-container">
-                        <li class="flex-item" id="flexbasic">
+        .container {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
 
-                            <div id="basic">
-                                <h3 id="header1">Basic</h3>
-                                <button id="addbasicbutton" type="button" class="open-button">Add</button>
-                            </div>
-                            @{
-                                int z = 0;
-                            }
+        * {
+            font-family: sans-serif;
+        }
 
-                            @foreach (AvailableAmenities a in ViewBag.lista)
-                            {
 
-                                if (a.type == 1)
-                                {
-                                    <div id="containerbasic@(z)"><input type="text" value=@a.name.Replace(' ', '\xa0') id="amenitybasic" class="amenitybasic" name="amenitybasic[@(z)]" /><button type="button" class="buttton" id="amenitybasic@(z)btn">Delete</button></div>
-                                    z++;
-                                }
+        input[type=text], input[type=password], input[type=email] {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            color: wheat;
+            padding: 11px 5px;
+        }
 
-                            }
-                        </li>
-                        <li class="flex-item" id="flexfamily">
-                            <div id="family">
-                                <h3 id="header2">Family features</h3>
-                                <button id="addfamilybutton" type="button" class="open-button">Add</button>
-                            </div>
-                            @{
-                                z = 0;
-                            }
-                            @foreach (AvailableAmenities a in ViewBag.lista)
-                            {
-                                if (a.type == 2)
-                                {
-                                    <div id="containerfamily@(z)"><input type="text" value=@a.name.Replace(' ', '\xa0') id="amenityfamily" class="amenityfamily" name="amenityfamily[@(z)]" /><button type="button" class="buttton" id="amenityfamily@(z)btn">Delete</button></div>
-                                    z++;
-                                }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
 
-                            }
-                        </li>
-                        <li class="flex-item" id="flexfacility">
-                            <div id="facility">
-                                <h3 id="header3">Facility</h3>
-                                <button id="addfacilitybutton" type="button" class="open-button">Add</button>
-                            </div>
-                            @{
-                                z = 0;
-                            }
-                            @foreach (AvailableAmenities a in ViewBag.lista)
-                            {
-                                if (a.type == 3)
-                                {
-                                    <div id="containerfacility@(z)"><input type="text" value=@a.name.Replace(' ', '\xa0') id="amenityfacility" class="amenityfacility" name="amenityfacility[@(z)]" /><button type="button" class="buttton" id="amenityfacility@(z)btn">Delete</button></div>
-                                    z++;
-                                }
+        span {
+            font-size: 25px;
+        }
 
-                            }
-                        </li>
-                        <li class="flex-item" id="flexdining">
-                            <div id="dining">
-                                <h3 id="header4">Dining</h3>
-                                <button id="adddiningbutton" type="button" class="open-button">Add</button>
-                            </div>
-                            @{
-                                z = 0;
-                            }
-                            @foreach (AvailableAmenities a in ViewBag.lista)
-                            {
-                                if (a.type == 4)
-                                {
-                                    <div id="containerdining@(z)"><input type="text" value=@a.name.Replace(' ', '\xa0') id="amenitydining" class="amenitydining" name="amenitydining[@(z)]" /><button type="button" class="buttton" id="amenitydining@(z)btn">Delete</button></div>
-                                    z++;
-                                }
+        input[type=number] {
+            -moz-appearance: textfield;
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            color: wheat;
+            padding: 11px 5px;
+        }
 
-                            }
-                        </li>
-                    </ul>
-                </div>
+
+        input[type=radio] {
+            padding: 12px 5px;
+            margin: 5px;
+            margin-top: 15px;
+            color: wheat;
+            background-color: black;
+        }
+
+        input[type=submit], button, .imageupload {
+            cursor: pointer;
+            width: 150px;
+            border-radius: 18px;
+            font-size: 25px;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            outline: none;
+            color: gray;
+            margin-bottom: 5px;
+            border: none;
+            box-sizing: border-box;
+            transition-duration: 0.4s;
+        }
+
+
+            button:hover, input[type=submit]:hover, .imageupload:hover {
+                background-color: gray;
+                color: wheat;
+                border: 1px solid wheat;
+            }
+
+        .rad {
+            font-weight: 400;
+            text-align: center;
+            margin: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        select {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: solid 1px black;
+            outline: none;
+            font-weight: 100;
+            font-size: 16px;
+            border-bottom: 1px solid white;
+            margin: 5px;
+            color: black;
+            background-color: black;
+            padding: 12px 5px;
+        }
+
+        .selq {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: black;
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 6px;
+            color: gray;
+            padding: 12px 5px;
+        }
+    </style>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat';
+        }
+
+        .numbers {
+            float: left;
+            border: 1px solid wheat;
+            height: 100%;
+            margin-right: 15px;
+            margin-left: 15px;
+            width: 300px;
+            margin-top: 19px;
+        }
+
+        .numberss {
+            float: left;
+            border: 1px solid wheat;
+            margin-right: 15px;
+            width: 300px;
+            height: 100%;
+        }
+
+        .numbersss {
+            float: left;
+            border: 1px solid wheat;
+            width: 300px;
+            height: 100%;
+        }
+
+        #wrapper {
+            width: 960px;
+            border: 1px solid black;
+            overflow: hidden; /* will contain if #first is longer than #second */
+        }
+
+        .bg-image {
+            background-image: url(https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ixPdSl7.SV8A/v1/1200x-1.jpg);
+            background-size: 100% 100%;
+            /* The image used */
+            /* Add the blur effect */
+            filter: blur(5px);
+            /* Full height */
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .navigation li:last-child {
+            padding-right: 0;
+        }
+
+
+
+        .navigation li a {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            color: wheat;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+
+
+
+            .navigation li a:hover {
+                font-size: x-large;
+                color: red;
+            }
+
+        .navigation li {
+            height: 100%;
+            display: table;
+            float: left;
+            padding: 0px 20px;
+        }
+
+
+        .navigation {
+            float: right;
+            height: 100%;
+        }
+
+        .error {
+            color: red;
+        }
+
+
+        .innerheader {
+            width: 70%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+        }
+
+        .header {
+            width: 100%;
+            height: 80px;
+            display: block;
+            background-color: #101010;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .logo_container {
+            height: 100%;
+            display: table;
+            float: left;
+        }
+
+            .logo_container h1 {
+                height: 100%;
+                display: table-cell;
+                vertical-align: middle;
+                font-size: 32px;
+            }
+    </style>
+    <form id="my-form" method="post" enctype="multipart/form-data" action="~/Apartment/AdminChangeAmenities">
+
+        <br />
+
+        <div>
+            <ul class="flex-container">
+                <li class="flex-item" id="flexbasic">
+
+                    <div id="basic">
+                        <h3 id="header1">Basic</h3>
+                        <button id="addbasicbutton" type="button" class="open-button">Add</button>
+                    </div>
+                    @{
+                        int z = 0;
+                    }
+
+                    @foreach (AvailableAmenities a in ViewBag.lista)
+                    {
+
+                        if (a.type == 1)
+                        {
+                            <div id="containerbasic@(z)"><input type="text" value=@a.name.Replace(' ', '\xa0') id="amenitybasic" class="amenitybasic" name="amenitybasic[@(z)]" /><button type="button" class="buttton" id="amenitybasic@(z)btn">Delete</button></div>
+                            z++;
+                        }
+
+                    }
+                </li>
+                <li class="flex-item" id="flexfamily">
+                    <div id="family">
+                        <h3 id="header2">Family features</h3>
+                        <button id="addfamilybutton" type="button" class="open-button">Add</button>
+                    </div>
+                    @{
+                        z = 0;
+                    }
+                    @foreach (AvailableAmenities a in ViewBag.lista)
+                    {
+                        if (a.type == 2)
+                        {
+                            <div id="containerfamily@(z)"><input type="text" value=@a.name.Replace(' ', '\xa0') id="amenityfamily" class="amenityfamily" name="amenityfamily[@(z)]" /><button type="button" class="buttton" id="amenityfamily@(z)btn">Delete</button></div>
+                            z++;
+                        }
+
+                    }
+                </li>
+                <li class="flex-item" id="flexfacility">
+                    <div id="facility">
+                        <h3 id="header3">Facility</h3>
+                        <button id="addfacilitybutton" type="button" class="open-button">Add</button>
+                    </div>
+                    @{
+                        z = 0;
+                    }
+                    @foreach (AvailableAmenities a in ViewBag.lista)
+                    {
+                        if (a.type == 3)
+                        {
+                            <div id="containerfacility@(z)"><input type="text" value=@a.name.Replace(' ', '\xa0') id="amenityfacility" class="amenityfacility" name="amenityfacility[@(z)]" /><button type="button" class="buttton" id="amenityfacility@(z)btn">Delete</button></div>
+                            z++;
+                        }
+
+                    }
+                </li>
+                <li class="flex-item" id="flexdining">
+                    <div id="dining">
+                        <h3 id="header4">Dining</h3>
+                        <button id="adddiningbutton" type="button" class="open-button">Add</button>
+                    </div>
+                    @{
+                        z = 0;
+                    }
+                    @foreach (AvailableAmenities a in ViewBag.lista)
+                    {
+                        if (a.type == 4)
+                        {
+                            <div id="containerdining@(z)"><input type="text" value=@a.name.Replace(' ', '\xa0') id="amenitydining" class="amenitydining" name="amenitydining[@(z)]" /><button type="button" class="buttton" id="amenitydining@(z)btn">Delete</button></div>
+                            z++;
+                        }
+
+                    }
+                </li>
+
+            </ul>
+            <div class="submitara">
                 <input type="submit" onclick="Submit()" value="Change" />
-            </form>
-            <style>
-                * {
-                    box-sizing: border-box;
+            </div>
+        </div>
+    </form>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .submitara
+        {
+            text-align: center;
+            margin-top: -20px;
+        }
+
+        /* Button used to open the contact form - fixed at the bottom of the page */
+        .open-button {
+            background-color: #555;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+            bottom: 23px;
+            right: 28px;
+            width: 95%;
+        }
+
+        /* The popup form - hidden by default */
+        .form-popup {
+            display: none;
+            position: absolute;
+            bottom: 0;
+            right: 15px;
+            z-index: 999;
+            top: 35%;
+            left: 35%;
+            margin-top: -50px;
+            margin-left: -50px;
+        }
+
+        /* Add styles to the form container */
+        .form-container {
+            border: 3px solid #f1f1f1;
+            max-width: 300px;
+            height: 450px;
+            padding: 10px;
+            background-color: white;
+        }
+
+            /* Full-width input fields */
+            .form-container input[type=text], .form-container select {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #f1f1f1;
+            }
+
+                /* When the inputs get focus, do something */
+                .form-container input[type=text]:focus, .form-container input[type=password]:focus, .form-container select:focus {
+                    background-color: #ddd;
+                    outline: none;
                 }
 
-                /* Button used to open the contact form - fixed at the bottom of the page */
-                .open-button {
-                    background-color: #555;
-                    color: white;
-                    padding: 16px 20px;
-                    border: none;
-                    cursor: pointer;
-                    opacity: 0.8;
-                    bottom: 23px;
-                    right: 28px;
-                    width: 95%;
+            /* Set a style for the submit/login button */
+            .form-container .btn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                margin-bottom: 10px;
+                opacity: 0.8;
+            }
+
+            /* Add a red background color to the cancel button */
+            .form-container .cancel {
+                background-color: red;
+            }
+
+            /* Add some hover effects to buttons */
+            .form-container .btn:hover, .open-button:hover {
+                opacity: 1;
+            }
+    </style>
+
+
+    <script>
+        function AjaxPost(formData) {
+            var ajaxConfig = {
+                type: "POST",
+                url: "/Apartment/AddApartment",
+                data: new FormData(formData),
+                success: function (result) {
+                    alert(result);
+                    window.location.href = "/Apartment/AddApartment";
                 }
+            }
+            if ($(formData).attr('enctype') == "multipart/form-data") {
+                ajaxConfig["contentType"] = false;
+                ajaxConfig["processData"] = false;
+            }
+            $.ajax(ajaxConfig);
+            return false;
+        }
+    </script>
 
-                /* The popup form - hidden by default */
-                .form-popup {
-                    display: none;
-                    position: absolute;
-                    bottom: 0;
-                    right: 15px;
-                    z-index: 999;
-                    top: 35%;
-                    left: 35%;
-                    margin-top: -50px;
-                    margin-left: -50px;
-                }
+    <script>
+        var loadFile = function (event) {
+            $('.img').remove();
+            var files = event.target.files;
+            for (var i = 0; i < files.length; i++) {
+                $("#br").after('<img class="img" id="output[' + i + ']"/>');
+                var output = document.getElementById('output[' + i + ']');
+                output.src = URL.createObjectURL(event.target.files[i]);
+            }
+        };
+    </script>
 
-                /* Add styles to the form container */
-                .form-container {
-                    border: 3px solid #f1f1f1;
-                    max-width: 300px;
-                    height: 450px;
-                    padding: 10px;
-                    background-color: white;
-                }
+    <script>
 
-                    /* Full-width input fields */
-                    .form-container input[type=text], .form-container select {
-                        width: 100%;
-                        padding: 15px;
-                        margin: 5px 0 22px 0;
-                        border: none;
-                        background: #f1f1f1;
-                    }
+        function loadImage(path, target) {
 
-                        /* When the inputs get focus, do something */
-                        .form-container input[type=text]:focus, .form-container input[type=password]:focus, .form-container select:focus {
-                            background-color: #ddd;
-                            outline: none;
-                        }
+            $('<img src="' + path + '">').load(function () {
+                $(this).appendTo(target);
+            });
+        }
+    </script>
 
-                    /* Set a style for the submit/login button */
-                    .form-container .btn {
-                        background-color: #4CAF50;
-                        color: white;
-                        padding: 16px 20px;
-                        border: none;
-                        cursor: pointer;
-                        width: 100%;
-                        margin-bottom: 10px;
-                        opacity: 0.8;
-                    }
-
-                    /* Add a red background color to the cancel button */
-                    .form-container .cancel {
-                        background-color: red;
-                    }
-
-                    /* Add some hover effects to buttons */
-                    .form-container .btn:hover, .open-button:hover {
-                        opacity: 1;
-                    }
-            </style>
+    <script>
+        $(document).ready(function () {
+            $('input[class="img"]').prop('disabled', true);
+            var x = 0;
+            $('#selectedvalue' + x + '').one('change', function () {
+                var asd = $("#selectedvalue option:selected").val().replace(/\_/g, '\xa0');
+                x++;
+                $('.add').append('<br/><select id = "selectedvalue' + x + '"><option value="Home">' + asd + '</option><option value="Home">' + asd + '</option>select>');
+            });
+        });
+    </script>
 
 
-            <script>
-                function AjaxPost(formData) {
-                    var ajaxConfig = {
-                        type: "POST",
-                        url: "/Apartment/AddApartment",
-                        data: new FormData(formData),
-                        success: function (result) {
-                            alert(result);
-                            window.location.href = "/Apartment/AddApartment";
-                        }
-                    }
-                    if ($(formData).attr('enctype') == "multipart/form-data") {
-                        ajaxConfig["contentType"] = false;
-                        ajaxConfig["processData"] = false;
-                    }
-                    $.ajax(ajaxConfig);
-                    return false;
-                }
-            </script>
-
-            <script>
-                var loadFile = function (event) {
-                    $('.img').remove();
-                    var files = event.target.files;
-                    for (var i = 0; i < files.length; i++) {
-                        $("#br").after('<img class="img" id="output[' + i + ']"/>');
-                        var output = document.getElementById('output[' + i + ']');
-                        output.src = URL.createObjectURL(event.target.files[i]);
-                    }
-                };
-            </script>
-
-            <script>
-
-                function loadImage(path, target) {
-
-                    $('<img src="' + path + '">').load(function () {
-                        $(this).appendTo(target);
-                    });
-                }
-            </script>
-
-            <script>
-                $(document).ready(function () {
-                    $('input[class="img"]').prop('disabled', true);
-                    var x = 0;
-                    $('#selectedvalue' + x + '').one('change', function () {
-                        var asd = $("#selectedvalue option:selected").val().replace(/\_/g, '\xa0');
-                        x++;
-                        $('.add').append('<br/><select id = "selectedvalue' + x + '"><option value="Home">' + asd + '</option><option value="Home">' + asd + '</option>select>');
-                    });
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#basiccnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#amenitybasic' + i + 'btn').on("click", function () {
+                    var o = $(this).parent().find('#amenitybasic').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluebasic').append('<option value="' + o + '">' + o + '</option>');
                 });
-            </script>
+            }
+        });
+    </script>
 
-
-            <script>
-                $(document).ready(function () {
-                    var cnt = $('#basiccnt').val();
-                    var i;
-                    for (i = 0; i <= cnt; i++) {
-                        $('#amenitybasic' + i + 'btn').on("click", function () {
-                            var o = $(this).parent().find('#amenitybasic').val();
-                            $(this).parent().remove();
-                            $('#selectedvaluebasic').append('<option value="' + o + '">' + o + '</option>');
-                        });
-                    }
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#familycnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#amenityfamily' + i + 'btn').on("click", function () {
+                    var o = $(this).parent().find('#amenityfamily').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefamily').append('<option value="' + o + '">' + o + '</option>');
                 });
-            </script>
+            }
+        });
+    </script>
 
-            <script>
-                $(document).ready(function () {
-                    var cnt = $('#familycnt').val();
-                    var i;
-                    for (i = 0; i <= cnt; i++) {
-                        $('#amenityfamily' + i + 'btn').on("click", function () {
-                            var o = $(this).parent().find('#amenityfamily').val();
-                            $(this).parent().remove();
-                            $('#selectedvaluefamily').append('<option value="' + o + '">' + o + '</option>');
-                        });
-                    }
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#facilitycnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#amenityfacility' + i + 'btn').on("click", function () {
+                    var o = $(this).parent().find('#amenityfacility').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefacility').append('<option value="' + o + '">' + o + '</option>');
                 });
-            </script>
+            }
+        });
+    </script>
 
-            <script>
-                $(document).ready(function () {
-                    var cnt = $('#facilitycnt').val();
-                    var i;
-                    for (i = 0; i <= cnt; i++) {
-                        $('#amenityfacility' + i + 'btn').on("click", function () {
-                            var o = $(this).parent().find('#amenityfacility').val();
-                            $(this).parent().remove();
-                            $('#selectedvaluefacility').append('<option value="' + o + '">' + o + '</option>');
-                        });
-                    }
+    <script>
+        $(document).ready(function () {
+            var cnt = $('#diningcnt').val();
+            var i;
+            for (i = 0; i <= cnt; i++) {
+                $('#amenitydining' + i + 'btn').on("click", function () {
+                    var o = $(this).parent().find('#amenitydining').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluedining').append('<option value="' + o + '">' + o + '</option>');
                 });
-            </script>
+            }
+        });
+    </script>
 
-            <script>
-                $(document).ready(function () {
-                    var cnt = $('#diningcnt').val();
-                    var i;
-                    for (i = 0; i <= cnt; i++) {
-                        $('#amenitydining' + i + 'btn').on("click", function () {
-                            var o = $(this).parent().find('#amenitydining').val();
-                            $(this).parent().remove();
-                            $('#selectedvaluedining').append('<option value="' + o + '">' + o + '</option>');
-                        });
-                    }
+
+    <script>
+        $(document).ready(function () {
+            $('#addbasicbutton').click(function () {
+                var lista = [];
+                $('#flexbasic > div').each(function () {
+                    lista[lista.length] = $(this).attr('id');
                 });
-            </script>
-
-
-            <script>
-                $(document).ready(function () {
-                    $('#addbasicbutton').click(function () {
-                        var lista = [];
-                        $('#flexbasic > div').each(function () {
-                            lista[lista.length] = $(this).attr('id');
-                        });
-                        alert(lista);
-                        var i = 0;
-                        var z;
-                        var bul = 1;
-                        for (i; i < lista.length; i++) {
-                            if (jQuery.inArray("containerbasic" + i + "", lista) !== -1) {
-                            }
-                            else {
-                                z = i;
-                                break;
-                            }
-                            z = i + 1;
-                        }
-                        $('#header1').parent().after('<div id = "containerbasic' + z + '"><input type="text"  id = "amenitybasic"  class="amenitybasic" name= "amenitybasic[' + z + ']"/><button type="button" class = "buttton" id="amenitybasic[' + z + ']btn">Delete</button></div>');
-                        $('#selectedvaluebasic option:selected').remove();
-                        $('#containerbasic' + z + ' .buttton').on("click", function () {
-                            var o = $(this).parent().find('#amenitybasic').val();
-                            $(this).parent().remove();
-                            $('#selectedvaluebasic').append('<option value="' + o + '">' + o + '</option>');
-                        });
-                    });
-                });
-            </script>
-
-            <script>
-                function Submit() {
-                    var els = document.getElementsByClassName('amenitybasic');
-                    for (var i = 0; i < els.length; i++) {
-                        $(els[i]).attr('name', 'amenitybasic[' + i + ']');
+                alert(lista);
+                var i = 0;
+                var z;
+                var bul = 1;
+                for (i; i < lista.length; i++) {
+                    if (jQuery.inArray("containerbasic" + i + "", lista) !== -1) {
                     }
-                    els = document.getElementsByClassName('amenityfamily');
-                    for (var i = 0; i < els.length; i++) {
-                        $(els[i]).attr('name', 'amenityfamily[' + i + ']');
+                    else {
+                        z = i;
+                        break;
                     }
-                    els = document.getElementsByClassName('amenityfacility');
-                    for (var i = 0; i < els.length; i++) {
-                        $(els[i]).attr('name', 'amenityfacility[' + i + ']');
-                    }
-                    els = document.getElementsByClassName('amenitydining');
-                    for (var i = 0; i < els.length; i++) {
-                        $(els[i]).attr('name', 'amenitydining[' + i + ']');
-                    }
-                    return true;
+                    z = i + 1;
                 }
-            </script>
-
-            <script>
-                $(document).ready(function () {
-                    $('#addfamilybutton').click(function () {
-                        var lista = [];
-                        $('#flexfamily > div').each(function () {
-                            lista[lista.length] = $(this).attr('id');
-                        });
-                        alert(lista);
-                        var i = 0;
-                        var z;
-                        var bul = 1;
-                        for (i; i < lista.length; i++) {
-                            if (jQuery.inArray("containerfamily" + i + "", lista) !== -1) {
-                            }
-                            else {
-                                z = i;
-                                break;
-                            }
-                            z = i + 1;
-                        }
-                        $('#header2').parent().after('<div id = "containerfamily' + z + '"><input type="text"  id = "amenityfamily"  class="amenityfamily" name= "amenityfamily[' + z + ']"/><button type="button" class = "buttton" id="amenityfamily[' + z + ']btn">Delete</button></div>');
-                        $('#selectedvaluefamily option:selected').remove();
-                        $('#containerfamily' + z + ' .buttton').on("click", function () {
-                            var o = $(this).parent().find('#amenityfamily').val();
-                            $(this).parent().remove();
-                            $('#selectedvaluefamily').append('<option value="' + o + '">' + o + '</option>');
-                        });
-                    });
+                $('#header1').parent().after('<div id = "containerbasic' + z + '"><input type="text"  id = "amenitybasic"  class="amenitybasic" name= "amenitybasic[' + z + ']"/><button type="button" class = "buttton" id="amenitybasic[' + z + ']btn">Delete</button></div>');
+                $('#selectedvaluebasic option:selected').remove();
+                $('#containerbasic' + z + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenitybasic').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluebasic').append('<option value="' + o + '">' + o + '</option>');
                 });
-            </script>
+            });
+        });
+    </script>
 
-            <script>
-                $(document).ready(function () {
-                    $('#addfacilitybutton').click(function () {
-                        var lista = [];
-                        $('#flexfacility > div').each(function () {
-                            lista[lista.length] = $(this).attr('id');
-                        });
-                        alert(lista);
-                        var i = 0;
-                        var z;
-                        var bul = 1;
-                        for (i; i < lista.length; i++) {
-                            if (jQuery.inArray("containerfacility" + i + "", lista) !== -1) {
-                            }
-                            else {
-                                z = i;
-                                break;
-                            }
-                            z = i + 1;
-                        }
-                        $('#header3').parent().after('<div id = "containerfacility' + z + '"><input type="text" id = "amenityfacility" class="amenityfacility" name= "amenityfacility[' + z + ']"/><button type="button" class = "buttton" id="amenityfacility[' + z + ']btn">Delete</button></div>');
-                        $('#selectedvaluefacility option:selected').remove();
-                        $('#containerfacility' + z + ' .buttton').on("click", function () {
-                            var o = $(this).parent().find('#amenityfacility').val();
-                            $(this).parent().remove();
-                            $('#selectedvaluefacility').append('<option value="' + o + '">' + o + '</option>');
-                        });
-                    });
+    <script>
+        function Submit() {
+            var els = document.getElementsByClassName('amenitybasic');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenitybasic[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenityfamily');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenityfamily[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenityfacility');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenityfacility[' + i + ']');
+            }
+            els = document.getElementsByClassName('amenitydining');
+            for (var i = 0; i < els.length; i++) {
+                $(els[i]).attr('name', 'amenitydining[' + i + ']');
+            }
+            return true;
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#addfamilybutton').click(function () {
+                var lista = [];
+                $('#flexfamily > div').each(function () {
+                    lista[lista.length] = $(this).attr('id');
                 });
-            </script>
-
-            <script>
-                $(document).ready(function () {
-                    $('#adddiningbutton').click(function () {
-                        var lista = [];
-                        $('#flexdining > div').each(function () {
-                            lista[lista.length] = $(this).attr('id');
-                        });
-                        alert(lista);
-                        var i = 0;
-                        var z;
-                        var bul = 1;
-                        for (i; i < lista.length; i++) {
-                            if (jQuery.inArray("containerdining" + i + "", lista) !== -1) {
-                            }
-                            else {
-                                z = i;
-                                break;
-                            }
-                            z = i + 1;
-                        }
-                        $('#header4').parent().after('<div id = "containerdining' + z + '"><input type="text"  id = "amenitydining"  class="amenitydining" name= "amenitydining[' + z + ']"/><button type="button" class = "buttton" id="amenitydining[' + z + ']btn">Delete</button></div>');
-                        $('#selectedvaluedining option:selected').remove();
-                        $('#containerdining' + z + ' .buttton').on("click", function () {
-                            var o = $(this).parent().find('#amenitydining').val();
-                            $(this).parent().remove();
-                            $('#selectedvaluedining').append('<option value="' + o + '">' + o + '</option>');
-                        });
-                    });
-                });
-            </script>
-
-            <style>
-                .img {
-                    width: 100px;
-                    height: 100px;
-                }
-            </style>
-
-            <style>
-
-                .amenity {
-                    background: black;
-                    border: none;
-                    text-align: center;
-                    color: blue;
-                }
-
-                #image {
-                    width: 100%;
-                    height: 30%;
-                }
-
-
-                .flex-container {
-                    background: black;
-                    padding: 0 15px;
-                    margin: 0;
-                    list-style: none;
-                    display: -webkit-box;
-                    display: -moz-box;
-                    display: -ms-flexbox;
-                    display: -webkit-flex;
-                    display: flex;
-                    -webkit-flex-flow: row wrap;
-                }
-
-                    .flex-container > * + * {
-                        margin-left: 10px;
+                alert(lista);
+                var i = 0;
+                var z;
+                var bul = 1;
+                for (i; i < lista.length; i++) {
+                    if (jQuery.inArray("containerfamily" + i + "", lista) !== -1) {
                     }
-
-                .flex-item {
-                    position: relative;
-                    flex: 1;
-                    background: tomato;
-                    padding: 5px;
-                    width: 200px;
-                    height: 450px;
-                    margin-top: 10px;
-                    font-weight: bold;
-                    font-size: 15px;
-                    text-align: center;
+                    else {
+                        z = i;
+                        break;
+                    }
+                    z = i + 1;
                 }
-            </style>
+                $('#header2').parent().after('<div id = "containerfamily' + z + '"><input type="text"  id = "amenityfamily"  class="amenityfamily" name= "amenityfamily[' + z + ']"/><button type="button" class = "buttton" id="amenityfamily[' + z + ']btn">Delete</button></div>');
+                $('#selectedvaluefamily option:selected').remove();
+                $('#containerfamily' + z + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenityfamily').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefamily').append('<option value="' + o + '">' + o + '</option>');
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#addfacilitybutton').click(function () {
+                var lista = [];
+                $('#flexfacility > div').each(function () {
+                    lista[lista.length] = $(this).attr('id');
+                });
+                alert(lista);
+                var i = 0;
+                var z;
+                var bul = 1;
+                for (i; i < lista.length; i++) {
+                    if (jQuery.inArray("containerfacility" + i + "", lista) !== -1) {
+                    }
+                    else {
+                        z = i;
+                        break;
+                    }
+                    z = i + 1;
+                }
+                $('#header3').parent().after('<div id = "containerfacility' + z + '"><input type="text" id = "amenityfacility" class="amenityfacility" name= "amenityfacility[' + z + ']"/><button type="button" class = "buttton" id="amenityfacility[' + z + ']btn">Delete</button></div>');
+                $('#selectedvaluefacility option:selected').remove();
+                $('#containerfacility' + z + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenityfacility').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluefacility').append('<option value="' + o + '">' + o + '</option>');
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#adddiningbutton').click(function () {
+                var lista = [];
+                $('#flexdining > div').each(function () {
+                    lista[lista.length] = $(this).attr('id');
+                });
+                alert(lista);
+                var i = 0;
+                var z;
+                var bul = 1;
+                for (i; i < lista.length; i++) {
+                    if (jQuery.inArray("containerdining" + i + "", lista) !== -1) {
+                    }
+                    else {
+                        z = i;
+                        break;
+                    }
+                    z = i + 1;
+                }
+                $('#header4').parent().after('<div id = "containerdining' + z + '"><input type="text"  id = "amenitydining"  class="amenitydining" name= "amenitydining[' + z + ']"/><button type="button" class = "buttton" id="amenitydining[' + z + ']btn">Delete</button></div>');
+                $('#selectedvaluedining option:selected').remove();
+                $('#containerdining' + z + ' .buttton').on("click", function () {
+                    var o = $(this).parent().find('#amenitydining').val();
+                    $(this).parent().remove();
+                    $('#selectedvaluedining').append('<option value="' + o + '">' + o + '</option>');
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .img {
+            width: 150px;
+            height: 150px;
+            border: solid 2px;
+            margin: 0px 5px;
+        }
+    </style>
+
+    <style>
+
+        #datesmaindiv {
+            margin: 15px 0px;
+            border: 1px solid wheat;
+            padding: 5px 5px;
+            width: 480px;
+        }
+
+        .amenity {
+            background: black;
+            border: none;
+            text-align: center;
+            color: blue;
+        }
+
+        #image {
+            width: 100%;
+            height: 30%;
+        }
+
+
+        .flex-container {
+            background: linear-gradient(90deg, rgba(16,16,16,0.5) 14%, rgba(40,36,110,0.5) 50%, rgba(16,16,16,0.5) 82%);
+            padding: 0 15px;
+            position: absolute;
+            padding-bottom: 15px;
+            padding-top: 3px;
+            height: auto;
+            width: 100%;
+            list-style: none;
+            border: solid 2px;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-flow: row wrap;
+            + text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+            .flex-container > * + * {
+                margin-left: 10px;
+            }
+
+        .flex-item {
+            position: relative;
+            flex: 1;
+            background: wheat;
+            padding: 5px;
+            border: solid 2px;
+            width: 200px;
+            height: auto;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
+        }
+    </style>
 
 
 </body>

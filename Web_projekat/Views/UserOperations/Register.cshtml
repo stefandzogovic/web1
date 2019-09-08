@@ -1,35 +1,51 @@
-﻿
-@{
-    ViewBag.Title = "Register";
-}
-
-
-<html lang="en">
+﻿<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,800' rel='stylesheet'>
     <script src="~/Scripts/angular.min.js"></script>
-
 </head>
 <body ng-app>
-    <div>
-        {{user}}
-        <form name="form" method="post" action="~/UserOperations/Registerr" novalidate>
-            <input type="text" placeholder="Enter Name" name="name" ng-required="true" ng-model="user.name" />
-            <p ng-show="form.name.$invalid && form.name.$touched">Enter a valid name.</p>
-            <input type="text" placeholder="Enter Surname" name="surname" ng-required="true" ng-model="user.surname" />
-            <p ng-show="form.surname.$invalid && form.surname.$touched">Enter a valid surname.</p>
-            <input type="text" placeholder="Enter Username" name="username" ng-required="true" ng-model="user.username" />
-            <p ng-show="form.username.$invalid && form.username.$touched">Enter a valid username.</p>
-            <input type="password" placeholder="Enter Password" name="password" ng-required="true" ng-minlength="6" ng-maxlength="20" ng-model="user.paswword" />
-            <p ng-show="form.password.$invalid && form.password.$touched">Required.</p>
-            <p ng-show="form.password.$dirty && form.password.$error.minlength">Too short.</p>
-            <p ng-show="form.password.$invalid && form.password.$error.maxlength">Too long.</p>
-            <input type="email" placeholder="e-mail" name="email" ng-required="true" ng-model="user.email" />
-            <p ng-show="form.email.$invalid && form.email.$dirty">Enter a valid email.</p>
-            <input type="submit" value="Register" class="btn btn-primary" ng-disabled="form.$invalid" />
-        </form>
+    @{ 
+        Layout = null;
+    }
+    <div class="header">
+        <div class="innerheader">
+            <div class="logo_container">
+                <h1>@Html.ActionLink("MySite", "Index", "Home", null, new { @style = "color:wheat;" })</h1>
+            </div>
 
+            <ul class="navigation">
+                <li>@Html.ActionLink("Log in", "Login", "UserOperations")</li>
+                <li><a>@Html.ActionLink("Sign up", "Register", "UserOperations", null, new { @class = "klasa" })</a></li> 
+            </ul>
+        </div>
+    </div>
+    <div class="bg-image"></div>
+
+    <h1 class="name">
+        Register
+    </h1>
+
+    <div class="container body-content">
+        <div>
+            <form name="form" method="post" action="~/UserOperations/Registerr" novalidate>
+                <input type="text" autocomplete="off" placeholder="Enter Name" name="name" ng-required="true" ng-model="user.name" />
+                <p style="color: red" ng-show="form.name.$invalid && form.name.$touched">Enter a valid name.</p>
+                <input type="text" autocomplete="off" placeholder="Enter Surname" name="surname" ng-required="true" ng-model="user.surname" />
+                <p style="color: red" ng-show="form.surname.$invalid && form.surname.$touched">Enter a valid surname.</p>
+                <input autocomplete="off" type="text" placeholder="Enter Username" name="username" ng-required="true" ng-model="user.username" />
+                <p style="color: red" ng-show="form.username.$invalid && form.username.$touched">Enter a valid username.</p>
+                <input autocomplete="off" type="password" placeholder="Enter Password" name="password" ng-required="true" ng-minlength="6" ng-maxlength="20" ng-model="user.pasword" />
+                <p style="color: red" ng-show="form.password.$invalid && form.password.$touched">Required.</p>
+                <p style="color: red" ng-show="form.password.$dirty && form.password.$error.minlength">Too short.</p>
+                <p style="color: red" ng-show="form.password.$invalid && form.password.$error.maxlength">Too long.</p>
+                <input autocomplete="off" type="email" placeholder="e-mail" name="email" ng-required="true" ng-model="user.email" />
+                <p style="color: red" ng-show="form.email.$invalid && form.email.$dirty">Enter a valid email.</p>
+                <input autocomplete="off" type="submit" value="Register" class="btn btn-primary" ng-disabled="form.$invalid" />
+            </form>
+        </div>
         <!-- <div ng-controller="CalculatorController">
                   {{a}} {{b}}
                   <p> Number 1 <input type="number" ng-change="AddNumbers()" ng-model="a"></p>
@@ -51,5 +67,226 @@
                 }]);
         </script>
     !-->
+    <style>
+        .navigation li .klasa {
+            font-size: x-large;
+            color: red;
+        }
+        .disableButton {
+            background: #eee;
+            color: #444;
+        }
+        .name {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+        .container {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 25%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+        * {
+            font-family: sans-serif;
+        }
+
+
+        input[type=text], input[type=password], input[type=email] {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 15px;
+            color: wheat;
+            padding: 15px 5px;
+        }
+        
+
+        input[type=radio] {
+            padding: 12px 5px;
+            margin: 5px;
+            margin-top: 15px;
+            color: wheat;
+            background-color: black;
+        }
+
+        button, input[type=submit] {
+            cursor: pointer;
+            width: 200px;
+            margin-top: 25px;
+            margin-left: 60px;
+            border-radius: 18px;
+            font-size: 25px;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            outline: none;
+            border: none;
+            box-sizing: border-box;
+            padding: 5px;
+            left: 15%;
+            transition-duration: 0.4s;
+        }
+
+            button:hover, input[type=submit]:hover {
+                background-color: gray;
+                color: wheat;
+                border: 1px solid wheat;
+            }
+
+        .rad {
+            font-weight: 400;
+            text-align: center;
+            margin: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        select {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            font-weight: 100;
+            font-size: 16px;
+            border-bottom: 1px solid white;
+            margin: 5px;
+            color: white;
+            background-color: black;
+            padding: 12px 5px;
+        }
+
+        .selq {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: black;
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 6px;
+            color: gray;
+            padding: 12px 5px;
+        }
+    </style>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat';
+        }
+
+        .bg-image {
+            background-image: url(https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ixPdSl7.SV8A/v1/1200x-1.jpg);
+            background-size: 100%;
+            /* The image used */
+            /* Add the blur effect */
+            filter: blur(5px);
+            /* Full height */
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .navigation li:last-child {
+            padding-right: 0;
+        }
+
+
+
+        .navigation li a {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            color: wheat;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+
+
+
+            .navigation li a:hover {
+                font-size: x-large;
+                color: red;
+            }
+
+        .navigation li {
+            height: 100%;
+            display: table;
+            float: left;
+            padding: 0px 20px;
+        }
+
+
+        .navigation {
+            float: right;
+            height: 100%;
+        }
+
+
+        .innerheader {
+            width: 70%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+        }
+
+        .header {
+            width: 100%;
+            height: 80px;
+            display: block;
+            background-color: #101010;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .logo_container {
+            height: 100%;
+            display: table;
+            float: left;
+        }
+
+            .logo_container h1 {
+                height: 100%;
+                display: table-cell;
+                vertical-align: middle;
+                font-size: 32px;
+            }
+    </style>
 </body>
 </html>

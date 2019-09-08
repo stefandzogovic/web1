@@ -2,93 +2,132 @@
 @using Web_projekat.Models;
 
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,800' rel='stylesheet'>
 </head>
 <body>
     @{
+        Layout = null;
         User user = (User)Session["user"];
 
     }
 
-    <p>Active</p>
-    <ul class="flex-container">
+    <div class="header">
+        <div class="innerheader">
+            <div class="logo_container">
+                <h1>@Html.ActionLink("MySite", "Index", "Home", null, new { @style = "color:wheat;" })</h1>
+            </div>
 
-        @foreach (Apartment ap in user.apartments)
-        {
-            if (ap.active)
+            <ul class="navigation">
+                <li><a>@Html.ActionLink("Your Profile", "UserChangeData", "UserOperations")</a></li>
+                <li><a>@Html.ActionLink("Apartments", "HostViewApartments", "Apartment", new { area = "" }, new { @class = "klasa" })</a></li>
+                <li><a>@Html.ActionLink("Log Out", "Logout", "UserOperations")</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="bg-image"></div>
+
+    <div class="wrapper">
+        <ul class="flex-container0">
+
+            @foreach (Apartment ap in user.apartments)
             {
-                <li class="flex-item" id="@ap.ApartmentId" onclick="clickFunc(this.id)">
-                    <form action="~/Apartment/ChangeApartment" method="post">
-                        @{ var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
-                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                            <img id="img" src="@imgSrc" />
-                            <div>
-                                <p>@ap.type for sale.</p>
-                                @if (!ap.active)
+                if (ap.active)
+                {
+                    <li class="flex-item" id="@ap.ApartmentId" onclick="clickFunc(this.id)">
+                        <form action="~/Apartment/ChangeApartment" method="post">
+                            @{
+                                if (ap.images != null)
                                 {
-                                    <p>Not active, waiting for administrator to review.</p>
+                                    if (ap.images.Count != 0)
+                                    {
+                                        foreach (Photo photoz in ap.images)
+                                        {
+                                            if (photoz.IsDeleted == false)
+                                            {
+                                                var base64 = Convert.ToBase64String(photoz.ImageBytes);
+                                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                                <img id="img" src="@imgSrc" />
+                                                break;
+                                            }
+                                        }
+                                    }
                                 }
-                                else
-                                {
-                                    <p>Active</p>
-                                }
+                                <div>
+                                    <p>@ap.type for sale.</p>
+                                    @if (!ap.active)
+                                    {
+                                        <p>Not active, waiting for administrator to review.</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Active</p>
+                                    }
 
-                            </div>
-                            <input hidden type="number" name="apartmentid" value="@ap.ApartmentId" />
-                            <input hidden type="number" name="userid" value="@user.UserId" />
-                            <input hidden type="submit" id="submitbtn_@ap.ApartmentId" />
-                        }
-                    </form>
-                </li>
-            }
-        }
-    </ul>
-
-    <p>Inactive</p>
-    <ul class="flex-container">
-
-        @foreach (Apartment ap in user.apartments)
-        {
-            if (!ap.active)
-            {
-                <li class="flex-item" id="@ap.ApartmentId" onclick="clickFunc(this.id)">
-                    <form action="~/Apartment/ChangeApartment" method="post">
-
-                        @{
-                            if (ap.images != null)
-                            {
-                                if (ap.images.Count != 0)
-                                {
-                                    var base64 = Convert.ToBase64String(@ap.images[0].ImageBytes);
-                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                    <img id="img" src="@imgSrc" />
-                                }
+                                </div>
+                                <input hidden type="number" name="apartmentid" value="@ap.ApartmentId" />
+                                <input hidden type="number" name="userid" value="@user.UserId" />
+                                <input hidden type="submit" id="submitbtn_@ap.ApartmentId" />
                             }
-                            <div>
-                                <p>@ap.type for sale.</p>
-                                @if (!ap.active)
-                                {
-                                    <p>Not active, waiting for administrator to review.</p>
-                                }
-                                else
-                                {
-                                    <p>Active</p>
-                                }
-
-                            </div>
-                            <input hidden type="number" name="apartmentid" value="@ap.ApartmentId" />
-                            <input hidden type="number" name="userid" value="@user.UserId" />
-                            <input hidden type="submit" id="submitbtn_@ap.ApartmentId" />
-                        }
-
-                    </form>
-                </li>
+                        </form>
+                    </li>
+                }
             }
-        }
-    </ul>
+        </ul>
 
+
+        <ul class="flex-container1">
+
+            @foreach (Apartment ap in user.apartments)
+            {
+                if (!ap.active)
+                {
+                    <li class="flex-item" id="@ap.ApartmentId" onclick="clickFunc(this.id)">
+                        <form action="~/Apartment/ChangeApartment" method="post">
+
+                            @{
+                                if (ap.images != null)
+                                {
+                                    if (ap.images.Count != 0)
+                                    {
+                                        foreach (Photo photoz in ap.images)
+                                        {
+                                            if (photoz.IsDeleted == false)
+                                            {
+                                                var base64 = Convert.ToBase64String(photoz.ImageBytes);
+                                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                                <img id="img" src="@imgSrc" />
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                <div>
+                                    <p>@ap.type for sale.</p>
+                                    @if (!ap.active)
+                                    {
+                                        <p>Not active, waiting for administrator to review.</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Active</p>
+                                    }
+
+                                </div>
+                                <input hidden type="number" name="apartmentid" value="@ap.ApartmentId" />
+                                <input hidden type="number" name="userid" value="@user.UserId" />
+                                <input hidden type="submit" id="submitbtn_@ap.ApartmentId" />
+                            }
+
+                        </form>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
 
     <a href="~/Apartment/HostAddApartment">Add apartment</a>
 
@@ -97,7 +136,6 @@
             document.getElementById("submitbtn_" + id).click();
         }
     </script>
-
     <style>
 
 
@@ -107,10 +145,15 @@
         }
 
 
-        .flex-container {
+        .flex-container0, .flex-container1 {
+            background: linear-gradient(90deg, rgba(16,16,16,0.5) 14%, rgba(40,36,110,0.5) 50%, rgba(16,16,16,0.5) 82%);
             padding: 0 15px;
-            margin: 0;
+            padding-bottom: 15px;
+            padding-top: 3px;
+            height: auto;
+            width: 100%;
             list-style: none;
+            border: solid 2px;
             display: -webkit-box;
             display: -moz-box;
             display: -ms-flexbox;
@@ -119,11 +162,13 @@
             -webkit-flex-flow: row wrap;
         }
 
-            .flex-container > * + * {
-                margin-left: 10px;
-            }
+        .flex-container > * + * {
+            margin-left: 10px;
+        }
 
         .flex-item {
+            transition: 0.4s;
+            border: solid 1px black;
             background: tomato;
             padding: 5px;
             width: 200px;
@@ -134,7 +179,251 @@
             font-size: 15px;
             text-align: center;
         }
+
+            .flex-item:hover {
+                height: 550px;
+                width: 250px;
+                border: solid 3px black;
+            }
     </style>
 
+
+    <style>
+        .flex-container1 > * + * {
+            margin-left: 10px;
+        }
+
+        .flex-container0 > * + * {
+            margin-left: 10px;
+        }
+
+        .navigation li .klasa {
+            font-size: x-large;
+            color: red;
+        }
+
+        .disableButton {
+            background: #eee;
+            color: #444;
+        }
+
+        .name {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+
+        .wrapper {
+            text-align: left;
+            width: 70%;
+            margin: 10% auto 0;
+            border-collapse: separate;
+            font-weight: 400;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+
+
+
+        * {
+            font-family: sans-serif;
+        }
+
+
+        input[type=text], input[type=password], input[type=email] {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 15px;
+            color: wheat;
+            padding: 15px 5px;
+        }
+
+
+        input[type=radio] {
+            padding: 12px 5px;
+            margin: 5px;
+            margin-top: 15px;
+            color: wheat;
+            background-color: black;
+        }
+
+        button, input[type=submit] {
+            cursor: pointer;
+            width: 200px;
+            margin-top: 25px;
+            margin-left: 60px;
+            border-radius: 18px;
+            font-size: 25px;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+            outline: none;
+            border: none;
+            box-sizing: border-box;
+            padding: 5px;
+            left: 15%;
+            transition-duration: 0.4s;
+        }
+
+            button:hover, input[type=submit]:hover {
+                background-color: gray;
+                color: wheat;
+                border: 1px solid wheat;
+            }
+
+        .rad {
+            font-weight: 400;
+            text-align: center;
+            margin: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        select {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            font-weight: 100;
+            font-size: 16px;
+            border-bottom: 1px solid white;
+            margin: 5px;
+            color: white;
+            background-color: black;
+            padding: 12px 5px;
+        }
+
+        .selq {
+            width: 100%;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: black;
+            border: none;
+            font-weight: 500;
+            font-size: 16px;
+            outline: none;
+            border-bottom: 1px solid white;
+            margin: 6px;
+            color: gray;
+            padding: 12px 5px;
+        }
+    </style>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat';
+        }
+
+        .bg-image {
+            background-image: url(https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ixPdSl7.SV8A/v1/1200x-1.jpg);
+            background-size: 100%;
+            /* The image used */
+            /* Add the blur effect */
+            filter: blur(5px);
+            /* Full height */
+            height: 140%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .navigation li:last-child {
+            padding-right: 0;
+        }
+
+
+
+        .navigation li a {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            color: wheat;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+
+
+
+            .navigation li a:hover {
+                font-size: x-large;
+                color: red;
+            }
+
+        .navigation li {
+            height: 100%;
+            display: table;
+            float: left;
+            padding: 0px 20px;
+        }
+
+
+        .navigation {
+            float: right;
+            height: 100%;
+        }
+
+
+        .innerheader {
+            width: 70%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+            background: rgb(16,16,16);
+            background: linear-gradient(90deg, rgba(16,16,16,1) 14%, rgba(40,36,110,1) 50%, rgba(16,16,16,1) 82%);
+        }
+
+        .header {
+            width: 100%;
+            height: 80px;
+            display: block;
+            background-color: #101010;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .logo_container {
+            height: 100%;
+            display: table;
+            float: left;
+        }
+
+            .logo_container h1 {
+                height: 100%;
+                display: table-cell;
+                vertical-align: middle;
+                font-size: 32px;
+            }
+    </style>
 </body>
 </html>

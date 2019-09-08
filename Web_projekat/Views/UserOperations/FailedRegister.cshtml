@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "FailedLogin";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,800' rel='stylesheet'>
+    <script src="~/Scripts/angular.min.js"></script>
+</head>
+<body>
+    <h2 class="h2">User with the username @ViewBag.username exists , please try registering again!</h2>
+    <script>
+        window.setTimeout(function () {
+            window.location.href = 'Register';
+        }, 2300);
+    </script>
+    <style>
+        .h2 {
+            font-family: 'Montserrat';
+            font-size: 40px;
+        }
+    </style>
+</body>
+</html>

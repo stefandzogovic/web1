@@ -1,0 +1,33 @@
+﻿#img {
+    width: 100%;
+    height: 30%;
+}
+
+
+.flex-container {
+    padding: 0 15px;
+    margin: 0;
+    list-style: none;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+}
+
+    .flex-container > * + * {
+        margin-left: 10px;
+    }
+
+.flex-item {
+    background: black;
+    padding: 5px;
+    width: 200px;
+    height: 450px;
+    margin-top: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+}

@@ -253,7 +253,7 @@ namespace Web_projekat.Controllers
 
         [HttpPost]
         public ActionResult Change(Apartment apartment, Dictionary<string, string> list, List<HttpPostedFileBase> imageUpload, List<string> amenitybasic,
-            List<string> amenityfamily, List<string> amenityfacility, List<string> amenitydining, int apartmentId, List<string> imageUpload1)
+            List<string> amenityfamily, List<string> amenityfacility, List<string> amenitydining, int apartmentId, List<string> imageUpload1, Location location, Address address)
         {
             User sc = (User)Session["user"];
 
@@ -267,7 +267,7 @@ namespace Web_projekat.Controllers
   
 
                 if (temp.ApartmentId == apartment.ApartmentId)
-                {
+                 {
 
                     foreach (KeyValuePair<string, string> tempdates in list)
                     {
@@ -283,6 +283,14 @@ namespace Web_projekat.Controllers
                     temp.number_of_rooms = apartment.number_of_rooms;
 
                     temp.price_per_night = apartment.price_per_night;
+
+                    temp.Location.latitude = location.latitude;
+                    temp.Location.longitude = location.longitude;
+                    temp.Location.Address.city = address.city;
+                    temp.Location.Address.number = address.number;
+                    temp.Location.Address.postal_code = address.postal_code;
+                    temp.Location.Address.street = address.street;
+           
                 }
 
                 if (amenitybasic != null)
@@ -418,7 +426,10 @@ namespace Web_projekat.Controllers
 
                 if (imageUpload[0] != null)
                 {
-                    temp.images.Clear();
+                    foreach(Photo im in temp.images)
+                    {
+                        im.IsDeleted = true;
+                    }
 
                     foreach (HttpPostedFileBase image in imageUpload)
                     {
@@ -432,10 +443,6 @@ namespace Web_projekat.Controllers
                 }
             }
 
-
-
-
-            sc = sc;
 
             dal.SaveChanges();
 

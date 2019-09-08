@@ -25,9 +25,33 @@ namespace Web_projekat.Controllers
             return View();
         }
 
+        public ActionResult FailedRegister()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Registerr(User user)
         {
+
+            bool exist = false;
+            Dictionary<string, User> tempdict = dal.usersdb.ToDictionary(x => x.username, x => x);
+
+            foreach(User tempuser in tempdict.Values)
+            {
+                if(tempuser.username == user.username)
+                {
+                    exist = true;
+                    ViewBag.username = tempuser.username;
+                    break;
+                }
+            }
+
+            if(exist)
+            {
+                return View("FailedRegister");
+            }
+
             User sc = new User();
             sc.apartments = new List<Models.Apartment>();
 
@@ -42,7 +66,7 @@ namespace Web_projekat.Controllers
             sc.sex = user.sex;
             sc.role = user.role;
 
-            Session["user"] = sc;
+            Session["user"] = sc;   
 
             
             
@@ -92,6 +116,11 @@ namespace Web_projekat.Controllers
                 }
             }
 
+            if(!login)
+            {
+              return RedirectToAction("FailedLogin");
+            }
+
             ViewBag.users = dal.usersdb.ToList();
 
 
@@ -127,10 +156,14 @@ namespace Web_projekat.Controllers
 
         }
 
+        public ActionResult FailedLogin()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult AdminChangeRole(User user, string role)
         {
-
 
             dal.usersdb.ToDictionary(x => x.username, x => x)[user.username].role = user.role;
             dal.SaveChanges();
@@ -156,7 +189,6 @@ namespace Web_projekat.Controllers
             dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].password = u.password;
             dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].sex = u.sex;
             dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].username = u.username;
-            dal.usersdb.ToDictionary(x => x.username, x => x)[sc.username].role = u.role;
 
             dal.SaveChanges();
 
@@ -170,7 +202,7 @@ namespace Web_projekat.Controllers
 
             Session["user"] = temp;
 
-            return View("UserChangeData");
+            return Redirect(Url.Content("~/"));
         }
 
         public ActionResult LogOut()
